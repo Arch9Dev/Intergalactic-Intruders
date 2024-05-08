@@ -22,7 +22,7 @@ BUTTON_BORDER_WIDTH = 2
 
 
 # Fonts
-FONT = pygame.font.Font(None, 36)
+FONT = pygame.font.Font("Intergalactic-Intruders\Font\gunmetl.ttf", 36)
 TITLE_FONT = pygame.font.Font(None, 48)
 
 
