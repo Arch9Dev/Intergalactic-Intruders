@@ -3,7 +3,7 @@ import tutorial
 import settings
 import game
 import constants
-
+import game_test
 
 def main_menu():
     pygame.init()
@@ -20,7 +20,8 @@ def main_menu():
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.collidepoint(event.pos):
-                    game.show_game()  # Open game screen
+                    #game.show_game()  # Open game screen
+                    game_test.test()
                 elif tutorial_button.collidepoint(event.pos):
                     tutorial.show_tutorial()  # Open tutorial screen
                 elif settings_button.collidepoint(event.pos):
