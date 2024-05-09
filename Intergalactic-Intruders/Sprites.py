@@ -1,21 +1,31 @@
-from typing import Any
 import pygame
+from PIL import Image, ImageSequence
 
-def load_image(name):
-    image = pygame.image.load(name)
-    return image
+def loadGIF(filename):
+    pilImage = Image.open(filename)
+    AnimationFrames = []
+    for Frames in ImageSequence.Iterator(pilImage):
+        Frames = Frames.convert('RGBA')
+        pygameImage = pygame.image.fromstring(
+            Frames.tobytes(), Frames.size, Frames.mode).convert_alpha()
+        AnimationFrames.append(pygameImage)
+    return AnimationFrames
 
-class PlayerSprites(pygame.sprite.Sprite):
-    def __init__(self):
-        super(PlayerSprites, self).__init__()
-        self.Player_Frames = []
-        for i in range(9) :
-            self.Player_Frames.append(load_image(f"Intergalactic-Intruders\images\PlayerShip\sprite_{i}.png"))
-        self.index = 0
-        self.Player_Frames = self.Player_Frames[self.index]
-        self.rect = pygame.Rect(5,5, 32,32)
-   
-    def  update(self):
-        self.index += 1
-        self.index = 0 if self.index >= 8  else   self.index
-        self.Player_Frames = self.Player_Frames[self.index]
+class AnimatedSpriteObject(pygame.sprite.Sprite):
+    def __init__(self, x, bottom, images):
+        pygame.sprite.Sprite.__init__(self)
+        self.images = images
+        self.image = self.images[0]
+        self.rect = self.image.get_rect(midbottom = (x, bottom))
+        self.image_index = 0
+    def update(self):
+        self.image_index += 1
+        self.image = self.images[self.image_index % len(self.images)]
+        
+
+
+def AnimatedSpriteGroup(SpriteFileName,PosX,PosY):
+ SpriteGIFFrameList = loadGIF(SpriteFileName)
+ animated_sprite = AnimatedSpriteObject(PosX,PosY,SpriteGIFFrameList)
+ return (pygame.sprite.Group(animated_sprite))
+
