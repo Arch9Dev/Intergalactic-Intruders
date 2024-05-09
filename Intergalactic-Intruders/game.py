@@ -1,5 +1,7 @@
 import pygame
 import constants
+import levels
+import timetrial
 
 def show_game():
     pygame.init()
@@ -15,7 +17,11 @@ def show_game():
                 pygame.quit()
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if constants.BACK_BUTTON.collidepoint(event.pos):
+                if levels_button.collidepoint(event.pos):
+                    levels.show_levels()
+                elif timetrial_button.collidepoint(event.pos):
+                    timetrial.show_timetrial()
+                elif constants.BACK_BUTTON.collidepoint(event.pos):
                     return  # Return to main menu when the "Back" button is clicked
 
         screen.fill(constants.PURPLE)
