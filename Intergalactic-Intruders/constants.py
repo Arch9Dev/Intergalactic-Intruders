@@ -6,12 +6,15 @@ import os
 pygame.init()
 
 
-# Colors
+# Colours
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY = (200, 200, 200)
 PURPLE = (213, 0, 255)
 RED = (255, 0, 0)
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
 
 # Button dimensions

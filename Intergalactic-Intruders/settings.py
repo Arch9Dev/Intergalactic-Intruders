@@ -6,9 +6,7 @@ import controls
 
 def show_settings():
     pygame.init()
-    screen_width = 800
-    screen_height = 600
-    screen = pygame.display.set_mode((screen_width, screen_height))
+    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     pygame.display.set_caption("Settings")
 
     settings_running = True
@@ -31,13 +29,13 @@ def show_settings():
 
         # Render title
         title_text = constants.TITLE_FONT.render("SETTINGS", True, constants.BLACK)
-        title_rect = title_text.get_rect(center=(screen_width // 2, 50))
+        title_rect = title_text.get_rect(center=(constants.SCREEN_WIDTH // 2, 50))
         screen.blit(title_text, title_rect)
 
         # Render buttons
-        audio_button = pygame.Rect((screen_width - constants.BUTTON_WIDTH) // 2, 200, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
-        display_button = pygame.Rect((screen_width - constants.BUTTON_WIDTH) // 2, 200 + constants.BUTTON_HEIGHT + constants.BUTTON_GAP, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
-        controls_button = pygame.Rect((screen_width - constants.BUTTON_WIDTH) // 2, 200 + 2 * (constants.BUTTON_HEIGHT + constants.BUTTON_GAP), constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
+        audio_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 200, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
+        display_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 200 + constants.BUTTON_HEIGHT + constants.BUTTON_GAP, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
+        controls_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 200 + 2 * (constants.BUTTON_HEIGHT + constants.BUTTON_GAP), constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
 
         constants.draw_button(screen, audio_button.x, audio_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "Audio")
         constants.draw_button(screen, display_button.x, display_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "Display")
