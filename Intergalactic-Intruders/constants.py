@@ -1,5 +1,5 @@
 import pygame
-import os
+import images
 
 
 # Initialize Pygame
@@ -30,9 +30,7 @@ TITLE_FONT = pygame.font.Font(None, 48)
 
 
 # Load title image
-TITLE_IMAGE = pygame.image.load(os.path.join("Intergalactic-Intruders", "images", "title.png"))
-TITLE_IMAGE = pygame.transform.scale(TITLE_IMAGE, (600, 600))
-
+TITLE_IMAGE = images.load_title_image()
 
 # Game text
 GAME_TEXT = [
