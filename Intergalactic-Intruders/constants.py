@@ -66,6 +66,16 @@ CONTROLS_TEXT = [
     "CONTROLS SETTINGS PAGE PLACE HOLDER"
 ]
 
+# Levels text
+LEVELS_TEXT = [
+    "LEVELS PLACE HOLDER"
+]
+
+
+# Time Trial Text
+TIMETRIAL_TEXT = [
+    "TIME TRIAL PLACE HOLDER"
+]
 
 # Back button
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
