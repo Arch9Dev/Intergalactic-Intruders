@@ -4,9 +4,7 @@ import constants
 
 def show_timetrial():
     pygame.init()
-    screen_width = 800
-    screen_height = 600
-    screen = pygame.display.set_mode((screen_width, screen_height))
+    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     pygame.display.set_caption("Time Trial")
 
     tutorials_running = True
@@ -25,7 +23,7 @@ def show_timetrial():
         y_offset = 50
         for line in constants.TIMETRIAL_TEXT:
             text_surface = constants.FONT.render(line, True, constants.BLACK)
-            text_rect = text_surface.get_rect(center=(screen_width // 2, y_offset))
+            text_rect = text_surface.get_rect(center=(constants.SCREEN_WIDTH // 2, y_offset))
             screen.blit(text_surface, text_rect)
             y_offset += 30
 
