@@ -25,9 +25,16 @@ def show_game():
         screen.fill(constants.PURPLE)
 
         # Render game content
+        
+        # Render title image
+        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
+        screen.blit(constants.TITLE_IMAGE, title_rect)
+
+        
+        
         # Render buttons
         levels_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
-        timetrial_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300 + 2 * (constants.BUTTON_HEIGHT + constants.BUTTON_GAP), constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
+        timetrial_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300 + 1 * (constants.BUTTON_HEIGHT + constants.BUTTON_GAP), constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
 
         constants.draw_button(screen, levels_button.x, levels_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "LEVELS")
         constants.draw_button(screen, timetrial_button.x, timetrial_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "TIME TRIAL")

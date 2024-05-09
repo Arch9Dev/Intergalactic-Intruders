@@ -1,6 +1,6 @@
 import pygame
 import constants
-
+import difficulty
 
 
 def show_levels():
@@ -15,6 +15,9 @@ def show_levels():
                 pygame.quit()
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                if level1.collidepoint(event.pos):
+                    difficulty.show_difficulty()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 if constants.BACK_BUTTON.collidepoint(event.pos):
                     return  # Return to settings page when the "Back" button is clicked
 
@@ -27,6 +30,14 @@ def show_levels():
             text_rect = text_surface.get_rect(center=(constants.SCREEN_WIDTH // 2, y_offset))
             screen.blit(text_surface, text_rect)
             y_offset += 30
+            
+            
+        # Render level placeholder
+        # Render buttons
+        level1 = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
+
+        constants.draw_button(screen, level1.x, level1.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "LEVEL1")
+
 
         # Render back button with border
         pygame.draw.rect(screen, constants.RED, constants.BACK_BUTTON)
