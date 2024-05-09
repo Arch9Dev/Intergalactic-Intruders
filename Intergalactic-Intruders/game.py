@@ -5,9 +5,7 @@ import timetrial
 
 def show_game():
     pygame.init()
-    screen_width = 800
-    screen_height = 600
-    screen = pygame.display.set_mode((screen_width, screen_height))
+    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     pygame.display.set_caption("Game")
 
     game_running = True
@@ -28,8 +26,8 @@ def show_game():
 
         # Render game content
         # Render buttons
-        levels_button = pygame.Rect((screen_width - constants.BUTTON_WIDTH) // 2, 300, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
-        timetrial_button = pygame.Rect((screen_width - constants.BUTTON_WIDTH) // 2, 300 + 2 * (constants.BUTTON_HEIGHT + constants.BUTTON_GAP), constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
+        levels_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
+        timetrial_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300 + 2 * (constants.BUTTON_HEIGHT + constants.BUTTON_GAP), constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
 
         constants.draw_button(screen, levels_button.x, levels_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "LEVELS")
         constants.draw_button(screen, timetrial_button.x, timetrial_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "TIME TRIAL")
