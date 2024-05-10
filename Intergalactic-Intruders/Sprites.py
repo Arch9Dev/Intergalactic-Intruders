@@ -12,15 +12,17 @@ def loadGIF(filename):
     return AnimationFrames
 
 class AnimatedSpriteObject(pygame.sprite.Sprite):
-    def __init__(self, x, bottom, images):
+    def __init__(self, X, Y, images):
         pygame.sprite.Sprite.__init__(self)
         self.images = images
         self.image = self.images[0]
-        self.rect = self.image.get_rect(midbottom = (x, bottom))
+        self.rect = self.image.get_rect(midbottom = (X, -Y))
         self.image_index = 0
-    def update(self):
+    def update(self, PosX, PosY):
         self.image_index += 1
         self.image = self.images[self.image_index % len(self.images)]
+        self.rect.x = PosX
+        self.rect.y = -PosY
         
 
 
