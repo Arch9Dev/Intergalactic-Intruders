@@ -12,7 +12,7 @@ def main_menu():
     screen = pygame.display.set_mode((screen_width, screen_height))
     pygame.display.set_caption("Main Menu")
 
-
+    pygame.key.set_repeat(100)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
