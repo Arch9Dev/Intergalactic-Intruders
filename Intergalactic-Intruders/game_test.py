@@ -43,7 +43,7 @@ def test():
       screen.fill((127, 192, 255))
       Player.draw(screen)
 
-      print(f"Pos x = {PosX} /n y = {PosY} ")
+     # print(f"Pos x = {PosX} /n y = {PosY} ")
       pygame.display.flip()
 
      
