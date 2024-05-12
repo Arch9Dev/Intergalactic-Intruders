@@ -1,9 +1,11 @@
 import pygame
 import constants
 
-def show_tutorial():
+
+def show_timetrial():
+    pygame.init()
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-    pygame.display.set_caption("TUTORIAL")
+    pygame.display.set_caption("TIME TRIAL")
 
     tutorials_running = True
     while tutorials_running:
@@ -13,14 +15,14 @@ def show_tutorial():
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if constants.BACK_BUTTON.collidepoint(event.pos):
-                    pygame.display.set_caption("MAIN MENU")
+                    pygame.display.set_caption("PLAY")
                     return  # Return to settings page when the "Back" button is clicked
 
         screen.fill(constants.PURPLE)
 
         # Render display content
         y_offset = 50
-        for line in constants.TUTORIAL_TEXT:
+        for line in constants.TIMETRIAL_TEXT:
             text_surface = constants.FONT.render(line, True, constants.BLACK)
             text_rect = text_surface.get_rect(center=(constants.SCREEN_WIDTH // 2, y_offset))
             screen.blit(text_surface, text_rect)
