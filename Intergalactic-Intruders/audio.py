@@ -3,9 +3,7 @@ import constants
 
 def show_audio():
     pygame.init()
-    screen_width = 800
-    screen_height = 600
-    screen = pygame.display.set_mode((screen_width, screen_height))
+    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     pygame.display.set_caption("Audio Settings")
 
     audio_running = True
@@ -16,6 +14,7 @@ def show_audio():
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if constants.BACK_BUTTON.collidepoint(event.pos):
+                    pygame.display.set_caption("SETTINGS")
                     return  # Return to settings page when the "Back" button is clicked
 
         screen.fill(constants.PURPLE)
@@ -24,14 +23,14 @@ def show_audio():
         y_offset = 50
         for line in constants.AUDIO_TEXT:
             text_surface = constants.FONT.render(line, True, constants.BLACK)
-            text_rect = text_surface.get_rect(center=(screen_width // 2, y_offset))
+            text_rect = text_surface.get_rect(center=(constants.SCREEN_WIDTH // 2, y_offset))
             screen.blit(text_surface, text_rect)
             y_offset += 30
 
         # Render back button with border
         pygame.draw.rect(screen, constants.RED, constants.BACK_BUTTON)
         pygame.draw.rect(screen, constants.BLACK, constants.BACK_BUTTON, 2)  # Draw border
-        back_text = constants.FONT.render("Back", True, constants.BLACK)
+        back_text = constants.FONT.render("BACK", True, constants.BLACK)
         screen.blit(back_text, (constants.BACK_BUTTON.x + 20, constants.BACK_BUTTON.y + 10))
 
         pygame.display.update()

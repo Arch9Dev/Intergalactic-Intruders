@@ -1,17 +1,21 @@
 import pygame
-import os
+import images
 
 
 # Initialize Pygame
 pygame.init()
 
 
-# Colors
+# Colours
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY = (200, 200, 200)
 PURPLE = (213, 0, 255)
 RED = (255, 0, 0)
+
+# SCREEN
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
 
 # Button dimensions
@@ -27,9 +31,7 @@ TITLE_FONT = pygame.font.Font(None, 48)
 
 
 # Load title image
-TITLE_IMAGE = pygame.image.load(os.path.join("Intergalactic-Intruders", "images", "title.png"))
-TITLE_IMAGE = pygame.transform.scale(TITLE_IMAGE, (600, 600))
-
+TITLE_IMAGE = images.load_title_image()
 
 # Game text
 GAME_TEXT = [
@@ -66,6 +68,16 @@ CONTROLS_TEXT = [
     "CONTROLS SETTINGS PAGE PLACE HOLDER"
 ]
 
+# Levels text
+LEVELS_TEXT = [
+    "LEVELS PLACE HOLDER"
+]
+
+
+# Time Trial Text
+TIMETRIAL_TEXT = [
+    "TIME TRIAL PLACE HOLDER"
+]
 
 # Back button
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
