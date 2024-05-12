@@ -7,7 +7,7 @@ import controls
 def show_settings():
     pygame.init()
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-    pygame.display.set_caption("Settings")
+    pygame.display.set_caption("SETTINGS")
 
     settings_running = True
     while settings_running:
@@ -23,6 +23,7 @@ def show_settings():
                 elif controls_button.collidepoint(event.pos):
                     controls.show_controls()  # Open controls settings
                 elif constants.BACK_BUTTON.collidepoint(event.pos):
+                    pygame.display.set_caption("MAIN MENU")
                     return  # Return to main menu when the "Back" button is clicked
 
         screen.fill(constants.PURPLE)

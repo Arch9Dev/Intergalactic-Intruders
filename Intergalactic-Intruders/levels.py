@@ -6,7 +6,7 @@ import difficulty
 def show_levels():
     pygame.init()
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-    pygame.display.set_caption("Levels")
+    pygame.display.set_caption("LEVELS")
 
     tutorials_running = True
     while tutorials_running:
@@ -18,6 +18,7 @@ def show_levels():
                 if level1.collidepoint(event.pos):
                     difficulty.show_difficulty()
                 elif constants.BACK_BUTTON.collidepoint(event.pos):
+                    pygame.display.set_caption("PLAY")
                     return
             
             
