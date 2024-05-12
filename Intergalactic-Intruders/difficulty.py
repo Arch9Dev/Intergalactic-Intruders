@@ -30,4 +30,11 @@ def show_difficulty():
         constants.draw_button(screen, medium_button.x, medium_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "MEDIUM")
         constants.draw_button(screen, hard_button.x, hard_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "HARD")
         
+        
+        # Render back button with border
+        pygame.draw.rect(screen, constants.RED, constants.BACK_BUTTON)
+        pygame.draw.rect(screen, constants.BLACK, constants.BACK_BUTTON, 2)  # Draw border
+        back_text = constants.FONT.render("BACK", True, constants.BLACK)
+        screen.blit(back_text, (constants.BACK_BUTTON.x + 20, constants.BACK_BUTTON.y + 10))
+        
         pygame.display.update()
