@@ -21,19 +21,28 @@ def test():
       for event in pygame.event.get():
          if event.type == pygame.KEYDOWN:
                if event.key == pygame.K_LEFT:
-                  PosX  = (PosX -1)  if  PosX  >= 0 else  800  
+                  PosX  = (PosX -1)  
                if event.key == pygame.K_RIGHT:
-                  PosX  = (PosX +1)  if  PosX  <= 800 else 0  
+                  PosX  = (PosX +1) 
                if event.key == pygame.K_UP:
-                  PosY  =1  if  PosY  >= 0 else  -600 
+                  PosY  = (PosY +1)  
                if event.key == pygame.K_DOWN:
-                  PosY  =1  if  PosY  >= -600 else 0     
+                  PosY  = (PosY -1)  
          if event.type == pygame.QUIT:
                pygame.quit()
                quit()
+      if PosX <0:
+         PosX = 800
+      if PosX >800:
+         PosX = 0
+      if PosY <-600:
+         PosY = 0
+      if PosY >0:
+         PosY = -600
       Player.update(PosX,PosY) 
       screen.fill((127, 192, 255))
       Player.draw(screen)
+
       print(f"Pos x = {PosX} /n y = {PosY} ")
       pygame.display.flip()
 
