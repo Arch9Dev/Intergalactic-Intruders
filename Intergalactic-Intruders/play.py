@@ -6,10 +6,10 @@ import timetrial
 def show_game():
     pygame.init()
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-    pygame.display.set_caption("Game")
+    pygame.display.set_caption("PLAY")
 
-    game_running = True
-    while game_running:
+    play_running = True
+    while play_running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -20,7 +20,8 @@ def show_game():
                 elif timetrial_button.collidepoint(event.pos):
                     timetrial.show_timetrial()
                 elif constants.BACK_BUTTON.collidepoint(event.pos):
-                    return  # Return to main menu when the "Back" button is clicked
+                    pygame.display.set_caption("MAIN MENU")
+                    return 
 
         screen.fill(constants.PURPLE)
 

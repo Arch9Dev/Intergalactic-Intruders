@@ -5,7 +5,7 @@ import constants
 def show_difficulty():
     pygame.init()
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-    pygame.display.set_caption("Difficulty")
+    pygame.display.set_caption("DIFFICULTY")
     
     difficulty_running = True
     while difficulty_running:
@@ -15,7 +15,8 @@ def show_difficulty():
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if constants.BACK_BUTTON.collidepoint(event.pos):
-                    return  # Return to settings page when the "Back" button is clicked
+                    pygame.display.set_caption("LEVELS")
+                    return
 
         screen.fill(constants.PURPLE)
         

@@ -14,6 +14,7 @@ def show_audio():
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if constants.BACK_BUTTON.collidepoint(event.pos):
+                    pygame.display.set_caption("SETTINGS")
                     return  # Return to settings page when the "Back" button is clicked
 
         screen.fill(constants.PURPLE)

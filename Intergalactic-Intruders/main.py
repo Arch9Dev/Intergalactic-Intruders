@@ -1,24 +1,32 @@
 import pygame
 import tutorial
 import settings
-import game
+import play
 import constants
 
 
 def main_menu():
+    # Initialize Pygame
     pygame.init()
+    
+    # Create the main menu screen
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-    pygame.display.set_caption("Main Menu")
+    pygame.display.set_caption("MAIN MENU")
 
 
+
+    # Main loop for the main menu
     while True:
+        # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                # Quit the game if the close button is clicked
                 pygame.quit()
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                # Check if any button is clicked
                 if play_button.collidepoint(event.pos):
-                    game.show_game()  # Open game screen
+                    play.show_game()  # OPEN PLAY SCREEN
                 elif tutorial_button.collidepoint(event.pos):
                     tutorial.show_tutorial()  # Open tutorial screen
                 elif settings_button.collidepoint(event.pos):

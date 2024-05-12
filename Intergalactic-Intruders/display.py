@@ -4,7 +4,7 @@ import constants
 def show_display():
     pygame.init()
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-    pygame.display.set_caption("Display Settings")
+    pygame.display.set_caption("DISPLAY")
 
     display_running = True
     while display_running:
@@ -14,6 +14,7 @@ def show_display():
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if constants.BACK_BUTTON.collidepoint(event.pos):
+                    pygame.display.set_caption("SETTINGS")
                     return  # Return to settings page when the "Back" button is clicked
 
         screen.fill(constants.PURPLE)

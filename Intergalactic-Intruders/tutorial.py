@@ -3,7 +3,7 @@ import constants
 
 def show_tutorial():
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-    pygame.display.set_caption("Tutorials")
+    pygame.display.set_caption("TUTORIAL")
 
     tutorials_running = True
     while tutorials_running:
@@ -13,6 +13,7 @@ def show_tutorial():
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if constants.BACK_BUTTON.collidepoint(event.pos):
+                    pygame.display.set_caption("MAIN MENU")
                     return  # Return to settings page when the "Back" button is clicked
 
         screen.fill(constants.PURPLE)
