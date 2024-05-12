@@ -23,6 +23,9 @@ def main_menu():
                     tutorial.show_tutorial()  # Open tutorial screen
                 elif settings_button.collidepoint(event.pos):
                     settings.show_settings()  # Open settings screen
+                elif quit_button.collidepoint(event.pos):
+                    pygame.quit
+                    quit()
 
 
         screen.fill(constants.PURPLE)
@@ -37,12 +40,12 @@ def main_menu():
         play_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
         tutorial_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300 + constants.BUTTON_HEIGHT + constants.BUTTON_GAP, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
         settings_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300 + 2 * (constants.BUTTON_HEIGHT + constants.BUTTON_GAP), constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
-
+        quit_button = pygame.Rect(constants.SCREEN_WIDTH - constants.BUTTON_WIDTH - 20, constants.SCREEN_HEIGHT - constants.BUTTON_HEIGHT - 20, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
 
         constants.draw_button(screen, play_button.x, play_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "PLAY")
         constants.draw_button(screen, tutorial_button.x, tutorial_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "TUTORIAL")
         constants.draw_button(screen, settings_button.x, settings_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "SETTINGS")
-
+        constants.draw_button(screen, quit_button.x, quit_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "QUIT")
 
         pygame.display.update()
 
