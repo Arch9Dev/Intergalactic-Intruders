@@ -26,7 +26,7 @@ def main_menu():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 # Check if any button is clicked
                 if play_button.collidepoint(event.pos):
-                    play.show_game()  # OPEN PLAY SCREEN
+                    play.show_play()  # OPEN PLAY SCREEN
                 elif tutorial_button.collidepoint(event.pos):
                     tutorial.show_tutorial()  # Open tutorial screen
                 elif settings_button.collidepoint(event.pos):

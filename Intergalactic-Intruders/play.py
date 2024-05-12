@@ -3,7 +3,7 @@ import constants
 import levels
 import timetrial
 
-def show_game():
+def show_play():
     pygame.init()
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     pygame.display.set_caption("PLAY")

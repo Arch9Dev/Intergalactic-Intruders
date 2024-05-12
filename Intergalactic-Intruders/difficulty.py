@@ -1,6 +1,6 @@
 import pygame
 import constants
-
+import gameplay
 
 def show_difficulty():
     pygame.init()
@@ -14,7 +14,13 @@ def show_difficulty():
                 pygame.quit()
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if constants.BACK_BUTTON.collidepoint(event.pos):
+                if easy_button.collidepoint(event.pos):
+                    gameplay.show_gameplay()  # Call show_gameplay() when Easy is selected
+                if medium_button.collidepoint(event.pos):
+                    gameplay.show_gameplay()  # Call show_gameplay() when Medium is selected
+                if hard_button.collidepoint(event.pos):
+                    gameplay.show_gameplay()  # Call show_gameplay() when Hard is selected
+                elif constants.BACK_BUTTON.collidepoint(event.pos):
                     pygame.display.set_caption("LEVELS")
                     return
 
@@ -25,12 +31,9 @@ def show_difficulty():
         medium_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300 + 1 * (constants.BUTTON_HEIGHT + constants.BUTTON_GAP), constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
         hard_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300 + 2 * (constants.BUTTON_HEIGHT + constants.BUTTON_GAP), constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
         
-        
-        
         constants.draw_button(screen, easy_button.x, easy_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "EASY")
         constants.draw_button(screen, medium_button.x, medium_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "MEDIUM")
         constants.draw_button(screen, hard_button.x, hard_button.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "HARD")
-        
         
         # Render back button with border
         pygame.draw.rect(screen, constants.RED, constants.BACK_BUTTON)
