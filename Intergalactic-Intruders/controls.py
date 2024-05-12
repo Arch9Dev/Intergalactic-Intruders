@@ -4,7 +4,7 @@ import constants
 def show_controls():
     pygame.init()
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-    pygame.display.set_caption("Controls Settings")
+    pygame.display.set_caption("CONTROLS")
 
     controls_running = True
     while controls_running:
@@ -14,6 +14,7 @@ def show_controls():
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if constants.BACK_BUTTON.collidepoint(event.pos):
+                    pygame.display.set_caption("SETTINGS")
                     return  # Return to settings page when the "Back" button is clicked
 
         screen.fill(constants.PURPLE)
@@ -29,7 +30,7 @@ def show_controls():
         # Render back button with border
         pygame.draw.rect(screen, constants.RED, constants.BACK_BUTTON)
         pygame.draw.rect(screen, constants.BLACK, constants.BACK_BUTTON, 2)  # Draw border
-        back_text = constants.FONT.render("Back", True, constants.BLACK)
+        back_text = constants.FONT.render("BACK", True, constants.BLACK)
         screen.blit(back_text, (constants.BACK_BUTTON.x + 20, constants.BACK_BUTTON.y + 10))
 
         pygame.display.update()
