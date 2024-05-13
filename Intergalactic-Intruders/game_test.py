@@ -1,21 +1,32 @@
 import pygame
 import constants
 import Sprites
+import Colours
 
 def test():
+   #ViewPort
    pygame.init()
    screen_width = 800
    screen_height = 600
    screen = pygame.display.set_mode((screen_width, screen_height))
    pygame.display.set_caption("Main Menu")
+   screen.fill((127, 192, 255))
 
-
+   #Code
    clock = pygame.time.Clock()
    pygame.key.set_repeat(10)
+   buttons = []
+  #Button_Palette = Colours.Blue_Buttons
+  
+   test_Button = constants.Button(screen,"Testing",100,100, 200,100,Colours.Blue_Buttons())
+   buttons.append[test_Button]
    
+   #Animating Sprites
    Player = Sprites.AnimatedSpriteGroup("Intergalactic-Intruders\Test.gif",screen_width//2,screen_height//2)
    PosX = 0
    PosY = 0
+
+ 
    while True:
       clock.tick(24)
       for event in pygame.event.get():
@@ -40,7 +51,6 @@ def test():
       if PosY >0:
          PosY = -600
       Player.update(PosX,PosY) 
-      screen.fill((127, 192, 255))
       Player.draw(screen)
 
      # print(f"Pos x = {PosX} /n y = {PosY} ")
