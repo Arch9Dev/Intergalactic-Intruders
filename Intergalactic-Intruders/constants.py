@@ -82,6 +82,18 @@ TIMETRIAL_TEXT = [
 # Back button
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
+# Slider positions and sizes
+SLIDER_WIDTH = 200
+SLIDER_HEIGHT = 10
+
+MAIN_VOLUME_SLIDER_POS = (SCREEN_WIDTH // 2, 200)
+MUSIC_SLIDER_POS = (SCREEN_WIDTH // 2, 300)
+SOUND_EFFECTS_SLIDER_POS = (SCREEN_WIDTH // 2, 400)
+
+
+
+def draw_circle(screen, colour, position, radius):
+    pygame.draw.circle(screen, colour, position, radius)
 
 def draw_button(screen, x, y, width, height, text):
     pygame.draw.rect(screen, RED, (x, y, width, height))
