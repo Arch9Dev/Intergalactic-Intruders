@@ -96,19 +96,21 @@ class Button:
     def draw(self):
         screen = self.screen
         Text_Colour = self.Colour_Palette["Text_Colour"]["Normal"]
-        Hover_Text_Colour = self.Colour_Palette.Get_Hover_Text_Colour()
-        Back_Colour = self.Colour_Palette.Get_Back_Colour()
-        Hover_BackColour = self.Colour_Palette.Get_Hover_Back_Colour()
-        Border_Colour = self.Colour_Palette.Get_Border_Colour()
+        Hover_Text_Colour =  self.Colour_Palette["Text_Colour"]["Hover"]
+        Back_Colour = self.Colour_Palette["Background_Colour"]["Normal"]
+        Hover_Back_Colour = self.Colour_Palette["Background_Colour"]["Hover"]
+        Border_Colour = self.Colour_Palette["Border_Colour"]["Normal"]
+        Hover_Border_Colour = self.Colour_Palette["Border_Colour"]["Hover"]
         if self.hovered :
-            pygame.draw.rect(screen, Hover_BackColour, self.rect)
-            text_surface = FONT.render(self.Text, True, Hover_Text_Colour)
+            pygame.draw.rect(screen, Hover_Back_Colour.value, self.rect)
+            text_surface = FONT.render(self.Text, True, Hover_Text_Colour.value)
+            pygame.draw.lines(screen, Hover_Border_Colour.value, True, self.border_coords, self.border_thickness)
         else:
-            pygame.draw.rect(screen, Back_Colour, self.rect)
-            text_surface = FONT.render(self.Text, True, Text_Colour)
+            pygame.draw.rect(screen, Back_Colour.value, self.rect)
+            text_surface = FONT.render(self.Text, True, Text_Colour.value)
+            pygame.draw.lines(screen, Border_Colour.value, True, self.border_coords, self.border_thickness)
         
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
-        pygame.draw.lines(screen, Border_Colour, True, self.border_coords, self.border_thickness)
         screen.blit(text_surface, text_rect)
 
         

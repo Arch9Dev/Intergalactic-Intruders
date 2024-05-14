@@ -59,7 +59,7 @@ def test():
 
       for constants.Button in buttons :
          constants.Button.hovered = constants.Button.rect.collidepoint(Mouse_pos)
-         print("Hit")
+      
       for constants.Button in buttons :
          constants.Button.draw()
      # print(f"Pos x = {PosX} /n y = {PosY} ")
