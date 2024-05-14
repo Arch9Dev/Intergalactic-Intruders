@@ -84,18 +84,18 @@ BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
 class Button:
    
-    def __init__(self,screen, Button_Text, x, y, width, height,  Colour_Palette = Colours.Button_Colours):
+    def __init__(self,screen, Button_Text, x, y, width, height,  Colour_Palette = Colours.Colour_Palettes):
         self.x, self.y, self.width, self.height = x, y, width, height
         self.border_coords = ((x, y), (x+width, y), (x+width, y+height), (x, y+height))
         self.border_thickness = 3
         self.screen = screen
         self.hovered = False
-        self.Colour_Palette = Colour_Palette 
+        self.Colour_Palette = Colour_Palette
         self.Text = Button_Text
         self.rect = pygame.Rect( x, y, width, height) 
     def draw(self):
         screen = self.screen
-        Text_Colour = self.Colour_Palette.Get_Text_Colour()
+        Text_Colour = self.Colour_Palette["Text_Colour"]["Normal"]
         Hover_Text_Colour = self.Colour_Palette.Get_Hover_Text_Colour()
         Back_Colour = self.Colour_Palette.Get_Back_Colour()
         Hover_BackColour = self.Colour_Palette.Get_Hover_Back_Colour()
