@@ -19,7 +19,12 @@ Colour_Palettes ={
     "Blue_Buttons" : {
         "Text_Colour" : {"Normal" : SetColours.BLACK , "Hover" : SetColours.WHITE}, 
         "Background_Colour" :  {"Normal" : SetColours.Blue_Dark , "Hover" : SetColours.Blue_Light},
-        "Border_Colour" : {"Normal" : SetColours.BLACK , "Hover" : SetColours.WHITE}}
+        "Border_Colour" : {"Normal" : SetColours.BLACK , "Hover" : SetColours.WHITE}},
+    "Timer" :{
+        "Text_Colour" : SetColours.WHITE  ,  
+        "Background_Colour" :  SetColours.Blue_Light,
+        "Border_Colour" : SetColours.BLACK
+    }
 }
 
 

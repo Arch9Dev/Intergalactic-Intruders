@@ -27,6 +27,8 @@ BUTTON_BORDER_WIDTH = 2
 
 
 # Fonts
+def FontResizable(FontSize):
+    return pygame.font.Font("Intergalactic-Intruders\Font\immermann.ttf", FontSize)
 FONT = pygame.font.Font("Intergalactic-Intruders\Font\immermann.ttf", 36)
 TITLE_FONT = pygame.font.Font(None, 48)
 
@@ -115,4 +117,28 @@ class Button:
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         screen.blit(text_surface, text_rect)
 
+class timer:
+    def __init__(self,screen,Time, x, y, width, height,FontSize  ):
+        self.x, self.y, self.width, self.height = x, y, width, height
+        self.border_coords = ((x, y), (x+width, y), (x+width, y+height), (x, y+height))
+        self.border_thickness = 3
+        self.screen = screen
+        self.hovered = False
+        self.Colour_Palette = Colours.Colour_Palettes["Timer"]
+        self.Text = Time 
+        self.fontsize = FontSize 
+        self.rect = pygame.Rect( x, y, width, height) 
+            
+    def draw(self):
+        screen = self.screen
+        Text_Colour = self.Colour_Palette["Text_Colour"]
+        Back_Colour = self.Colour_Palette["Background_Colour"]
+        Border_Colour = self.Colour_Palette["Border_Colour"]
+
+        pygame.draw.rect(screen, Back_Colour.value, self.rect)
+        text_surface = FontResizable(self.fontsize).render(self.Text, True, Text_Colour.value)
+        pygame.draw.lines(screen, Border_Colour.value, True, self.border_coords, self.border_thickness)
+    
+        text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+        screen.blit(text_surface, text_rect)
         

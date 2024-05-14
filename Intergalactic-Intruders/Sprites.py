@@ -18,11 +18,13 @@ class AnimatedSpriteObject(pygame.sprite.Sprite):
         self.image = self.images[0]
         self.rect = self.image.get_rect(midbottom = (X, -Y))
         self.image_index = 0
-    def update(self, PosX, PosY):
+    def draw(self):
         self.image_index += 1
         self.image = self.images[self.image_index % len(self.images)]
+    def update(self, PosX, PosY):
         self.rect.x = PosX
         self.rect.y = -PosY
+
         
 
 
