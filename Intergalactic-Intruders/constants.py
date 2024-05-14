@@ -1,3 +1,4 @@
+from typing import Any
 import pygame
 import images
 import Colours
@@ -83,7 +84,7 @@ TIMETRIAL_TEXT = [
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
 class Button:
-   
+
     def __init__(self,screen, Button_Text, x, y, width, height,  Colour_Palette = Colours.Colour_Palettes):
         self.x, self.y, self.width, self.height = x, y, width, height
         self.border_coords = ((x, y), (x+width, y), (x+width, y+height), (x, y+height))
@@ -93,6 +94,7 @@ class Button:
         self.Colour_Palette = Colour_Palette
         self.Text = Button_Text
         self.rect = pygame.Rect( x, y, width, height) 
+        
     def draw(self):
         screen = self.screen
         Text_Colour = self.Colour_Palette["Text_Colour"]["Normal"]
@@ -114,17 +116,3 @@ class Button:
         screen.blit(text_surface, text_rect)
 
         
-
-def draw_button(screen, x, y, width, height, text, Background = None):
-    if Background != None:
-        pygame.draw.rect(screen, Background, (x, y, width, height))
-        pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
-        text_surface = FONT.render(text, True, BLACK)
-        text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
-        screen.blit(text_surface, text_rect)
-    else:
-        pygame.draw.rect(screen, RED, (x, y, width, height))
-        pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
-        text_surface = FONT.render(text, True, BLACK)
-        text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
-        screen.blit(text_surface, text_rect)
