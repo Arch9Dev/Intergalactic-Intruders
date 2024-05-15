@@ -3,7 +3,7 @@ import tutorial
 import settings
 import play
 import constants
-
+import audio
 
 def main_menu():
     # Initialize Pygame
@@ -12,8 +12,6 @@ def main_menu():
     # Create the main menu screen
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     pygame.display.set_caption("MAIN MENU")
-
-
 
     # Main loop for the main menu
     while True:
@@ -32,17 +30,14 @@ def main_menu():
                 elif settings_button.collidepoint(event.pos):
                     settings.show_settings()  # Open settings screen
                 elif quit_button.collidepoint(event.pos):
-                    pygame.quit
+                    pygame.quit()
                     quit()
 
-
         screen.fill(constants.PURPLE)
-
 
         # Render title image
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
-
 
         # Render buttons
         play_button = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
