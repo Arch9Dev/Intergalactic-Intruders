@@ -28,10 +28,19 @@ BUTTON_BORDER_WIDTH = 2
 # Fonts
 FONT = pygame.font.Font(None, 36)
 TITLE_FONT = pygame.font.Font(None, 48)
+def load_xolonium_font(font_size):
+    # Load the custom font
+    xolonium_font_path = "Intergalactic-Intruders/Fonts/Xolonium.ttf"
+    xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
+    return xolonium_font
 
 
 # Load title image
 TITLE_IMAGE = images.load_title_image()
+
+
+# Load tutorial image
+TUTORIAL_IMAGE = images.load_tutorial_image()
 
 # Game text
 GAME_TEXT = [
@@ -47,7 +56,19 @@ SETTINGS_TEXT = [
 
 # Tutorial text
 TUTORIAL_TEXT = [
-    "TUTORIAL PAGE PLACE HOLDER"
+        "                YOUR MISSION IS SIMPLE                        ",
+        "",
+        "DEFEND YOUR BASE FROM THE APPROACHING WAVES OF ALIEN INTRUDERS",
+        "",
+        "USE YOUR SHIP'S LASER BLASTERS TO SHOOT DOWN THE INTRUDERS"
+        "",
+        "BEFORE THEY CAN REACH YOU AND START DESTROYING YOUR DEFENSES",
+        "",
+        "ALONG THE WAY YOU CAN GAIN UPGRADES",
+        "",
+        "WHICH MAY BE HELPFUL IN SUCCEEDING THE MISSION",
+        "",
+        "GOOD LUCK SOLDIER"
 ]
 
 
