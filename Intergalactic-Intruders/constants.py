@@ -42,6 +42,10 @@ TITLE_IMAGE = images.load_title_image()
 # Load tutorial image
 TUTORIAL_IMAGE = images.load_tutorial_image()
 
+
+# Load controls image
+CONTROLS_IMAGE = images.load_controls_image()
+
 # Game text
 GAME_TEXT = [
     "GAME PAGE PLACE HOLDER"

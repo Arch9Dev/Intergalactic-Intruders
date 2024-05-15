@@ -5,7 +5,7 @@ def show_controls():
     pygame.init()
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     pygame.display.set_caption("CONTROLS")
-
+    
     controls_running = True
     while controls_running:
         for event in pygame.event.get():
@@ -19,13 +19,12 @@ def show_controls():
 
         screen.fill(constants.PURPLE)
 
-        # Render controls content
-        y_offset = 50
-        for line in constants.CONTROLS_TEXT:
-            text_surface = constants.FONT.render(line, True, constants.BLACK)
-            text_rect = text_surface.get_rect(center=(constants.SCREEN_WIDTH // 2, y_offset))
-            screen.blit(text_surface, text_rect)
-            y_offset += 30
+
+
+        # Load and render controls image
+        controls_image = constants.CONTROLS_IMAGE
+        controls_image_rect = controls_image.get_rect(center=(constants.SCREEN_WIDTH // 2, constants.SCREEN_HEIGHT // 2))
+        screen.blit(controls_image, controls_image_rect)
 
         # Render back button with border
         pygame.draw.rect(screen, constants.RED, constants.BACK_BUTTON)
