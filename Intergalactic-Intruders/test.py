@@ -1,5 +1,4 @@
 import pygame
-import random
 import math
 
 pygame.init()
@@ -12,8 +11,8 @@ Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
 # Set up the clock
 clock = pygame.time.Clock()
 last_time_check = pygame.time.get_ticks()
-Time_Difficulty = 1.01
-Difficulty = 2  # Adjust this value to change the game speed (1 for normal, >1 for faster, <1 for slower)
+Time_Difficulty = 1
+Difficulty = 1  # Adjust this value to change the game speed (1 for normal, >1 for faster, <1 for slower)
 
 
 # Set up the fonts
@@ -30,13 +29,14 @@ Player_Ychange = 0
 Accuracy = 100
 Hits_Landed = 1
 Shots_Taken = 1
+Frames = 180
 
 InvaderImag = pygame.image.load('Intergalactic-Intruders/images/Player ship (1).gif')
 Invader_X = []
 Invader_Y = []
 Invader_Xchange = []
 Invader_Ychange = 50
-InvaderCount = 8
+InvaderCount = 20
 RowHeight = 50  # Define a fixed row height
 
 spawn_delay = 500  # Delay in milliseconds between invader spawns
@@ -49,9 +49,16 @@ Bullet_Xchange = 0
 Bullet_Ychange = 3
 BulletStaet = "rest"
 
+InvBulletImag = pygame.image.load('Intergalactic-Intruders/images/Player ship (1).gif')
+InvBullet_X = 0
+InvBullet_Y = 500
+InvBullet_Xchange = 0
+InvBullet_Ychange = 1
+InvBulletStaet = "rest"
+
 def isCollision(x1, x2, y1, y2):
     distance = math.sqrt((math.pow(x1 - x2, 2)) + (math.pow(y1 - y2, 2)))
-    return distance <= 50
+    return distance <= 35
 
 def Player(x, y):
     Screen.blit(PlayerImag, (x - 16, y + 10))
@@ -64,12 +71,17 @@ def Bullet(x, y):
     Screen.blit(BulletImag, (x, y))
     BulletStaet = "fire"
 
+def InvaderBullet(x, y):
+    global BulletStaet
+    Screen.blit(BulletImag, (x, y))
+    BulletStaet = "fire"
+
 def show_Score(x, y):
     Score = font.render("Points: " + str(Score_val), True, (255, 255, 255))
     Screen.blit(Score, (x, y))
 
-def show_Difficulty(x, y):
-    Score = font.render("Difficulty: " + str(round(90 * Difficulty * Time_Difficulty)), True, (255, 255, 255))
+def show_Difficulty(x, y, frames):
+    Score = font.render("Difficulty: " + str(round(frames)), True, (255, 255, 255))
     Screen.blit(Score, (x, y))
 
 def show_Acc(x, y):
@@ -85,13 +97,11 @@ Running = True
 while Running:
     Screen.fill((0, 0, 0))
 
-    FPS = 90 * Difficulty * Time_Difficulty
-
     current_time = pygame.time.get_ticks()
     elapsed_time = current_time - last_time_check
 
     if elapsed_time >= 1000:
-        # Increase Time_Difficulty by 0.01 every second
+        # Increase Time_Difficulty by whatever every second
         Time_Difficulty *= 1.005
         last_time_check = current_time  # Update the last time checked
 
@@ -151,8 +161,8 @@ while Running:
         Invader_X[i] += Invader_Xchange[i]
 
         # Check for boundary collisions for individual invaders
-        if Invader_X[i] >= 736:
-            Invader_X[i] = 736
+        if Invader_X[i] >= 768:
+            Invader_X[i] = 768
             Invader_Y[i] += RowHeight
             Invader_Xchange[i] *= -1
         elif Invader_X[i] <= 0:
@@ -169,12 +179,19 @@ while Running:
         Bullet_Y -= Bullet_Ychange
 
     # Check for collisions
+    #DONT TOUCH
+    #IDK HOW IT WORKS
+    #IT JUST DOES
     for i in range(len(Invader_X)):
-        if Invader_Y[i] >= 450:
-            if abs(Player_X - Invader_X[i]) < 80:
-                game_over()
-                Running = False
-                break
+        if abs(Player_Y - Invader_Y[i]) <= 35 and abs(Player_X - Invader_X[i]) <= 35:
+            game_over()
+            Running = False
+            break
+        
+        if Invader_Y[i] >= 554:
+            game_over()
+            Running = False
+            break
 
         collision = isCollision(Bullet_X, Invader_X[i], Bullet_Y, Invader_Y[i])
         if collision:
@@ -186,16 +203,18 @@ while Running:
             Invader_Y.pop(i)
             Invader_Xchange.pop(i)
             break
+    #NOOOOOOOOOOOO TOUCHING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
     # Render player, invaders, and score
     Player(Player_X, Player_Y)
     for i in range(len(Invader_X)):
         Invader(Invader_X[i], Invader_Y[i])
     show_Score(5, 5)
-    show_Difficulty(130, 5)
+    show_Difficulty(130, 5, Frames)
     show_Acc(300,5)
 
+    Frames = 180 * Difficulty * Time_Difficulty
     pygame.display.update()
-    clock.tick(FPS)  # Limit frame rate based on difficulty
+    clock.tick(Frames)  # Limit frame rate based on difficulty
 
 pygame.quit()
