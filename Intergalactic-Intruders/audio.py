@@ -5,17 +5,15 @@ import sounds
 def show_audio():
     pygame.init()
     
-    sounds.Space_Sound.play()
-    
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     pygame.display.set_caption("Audio Settings")
 
     audio_running = True
 
-    # Initial slider values
+    # Initial slider values 
     main_volume_value = sounds.MAIN_VOLUME
-    music_value = 0.0  # Placeholder value
-    sound_effects_value = 0.0  # Placeholder value
+    music_value = sounds.MAIN_VOLUME
+    sound_effects_value = sounds.SOUND_EFFECTS_VOLUME
 
     # Define the radius of the circle
     circle_radius = 10
@@ -61,10 +59,12 @@ def show_audio():
                     music_value = (event.pos[0] - (constants.MUSIC_SLIDER_POS[0] - 100)) / constants.SLIDER_WIDTH
                     music_value = max(0, min(1, music_value))
                     music_circle_pos = (int(constants.MUSIC_SLIDER_POS[0] + music_value * constants.SLIDER_WIDTH - 100), music_circle_pos[1])
+                    sounds.set_music_volume(music_value)
                 elif dragging_sound_effects:
                     sound_effects_value = (event.pos[0] - (constants.SOUND_EFFECTS_SLIDER_POS[0] - 100)) / constants.SLIDER_WIDTH
                     sound_effects_value = max(0, min(1, sound_effects_value))
                     sound_effects_circle_pos = (int(constants.SOUND_EFFECTS_SLIDER_POS[0] + sound_effects_value * constants.SLIDER_WIDTH - 100), sound_effects_circle_pos[1])
+                    sounds.set_sound_effects_volume(sound_effects_value)
 
         screen.fill(constants.PURPLE)
 
@@ -94,7 +94,9 @@ def show_audio():
         # Render white circles on sliders
         main_volume_circle_pos = (constants.MAIN_VOLUME_SLIDER_POS[0] + main_volume_value * constants.SLIDER_WIDTH - 100, constants.MAIN_VOLUME_SLIDER_POS[1] + 50)
         main_volume_circle_rect = pygame.draw.circle(screen, constants.WHITE, main_volume_circle_pos, circle_radius)
+        music_circle_pos = (constants.MUSIC_SLIDER_POS[0] + music_value * constants.SLIDER_WIDTH - 100, constants.MUSIC_SLIDER_POS[1] + 50)
         music_circle_rect = pygame.draw.circle(screen, constants.WHITE, music_circle_pos, circle_radius)
+        sound_effects_circle_pos = (constants.SOUND_EFFECTS_SLIDER_POS[0] + sound_effects_value * constants.SLIDER_WIDTH - 100, constants.SOUND_EFFECTS_SLIDER_POS[1] + 50)
         sound_effects_circle_rect = pygame.draw.circle(screen, constants.WHITE, sound_effects_circle_pos, circle_radius)
 
         # Render gunshot button
