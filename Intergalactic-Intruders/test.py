@@ -1,5 +1,6 @@
 import pygame
 import math
+import random
 
 pygame.init()
 
@@ -31,7 +32,11 @@ Hits_Landed = 1
 Shots_Taken = 1
 Frames = 180
 
-InvaderImag = pygame.image.load('Intergalactic-Intruders/images/Player ship (1).gif')
+InvaderImag1 = pygame.image.load('Intergalactic-Intruders/images/Alion one (1) 1.gif')
+InvaderImag2 = pygame.image.load('Intergalactic-Intruders/images/Alion two (1) 1.gif')
+InvaderImag3 = pygame.image.load('Intergalactic-Intruders/images/Alinon three  (1) 1.gif')
+InvaderImag4 = pygame.image.load('Intergalactic-Intruders/images/Mother Ship 1.gif')
+
 Invader_X = []
 Invader_Y = []
 Invader_Xchange = []
@@ -39,17 +44,19 @@ Invader_Ychange = 50
 InvaderCount = 20
 RowHeight = 50  # Define a fixed row height
 
+Invader_Rangom = []  # Store the rangom values for each invader
+
 spawn_delay = 500  # Delay in milliseconds between invader spawns
 last_spawn_time = pygame.time.get_ticks()
 
-BulletImag = pygame.image.load('Intergalactic-Intruders/images/Player ship (1).gif')
+BulletImag = pygame.image.load('Intergalactic-Intruders/images/PlayerBullet.png')
 Bullet_X = 0
 Bullet_Y = 500
 Bullet_Xchange = 0
 Bullet_Ychange = 3
 BulletStaet = "rest"
 
-InvBulletImag = pygame.image.load('Intergalactic-Intruders/images/Player ship (1).gif')
+InvBulletImag = pygame.image.load('Intergalactic-Intruders/images/InvaderBullet.png')
 InvBullet_X = 0
 InvBullet_Y = 500
 InvBullet_Xchange = 0
@@ -63,8 +70,16 @@ def isCollision(x1, x2, y1, y2):
 def Player(x, y):
     Screen.blit(PlayerImag, (x - 16, y + 10))
 
-def Invader(x, y):
-    Screen.blit(InvaderImag, (x, y))
+def Invader(x, y, rangom):
+    if rangom == 1:
+        Screen.blit(InvaderImag1, (x, y))
+    elif rangom == 2:
+        Screen.blit(InvaderImag2, (x, y))
+    elif rangom == 3:
+        Screen.blit(InvaderImag3, (x, y))
+    elif rangom == 4:
+        Screen.blit(InvaderImag4, (x, y))
+
 
 def Bullet(x, y):
     global BulletStaet
@@ -80,8 +95,8 @@ def show_Score(x, y):
     Score = font.render("Points: " + str(Score_val), True, (255, 255, 255))
     Screen.blit(Score, (x, y))
 
-def show_Difficulty(x, y, frames):
-    Score = font.render("Difficulty: " + str(round(frames)), True, (255, 255, 255))
+def show_Difficulty(x, y, Frames):
+    Score = font.render("Difficulty: " + str(round(Frames)), True, (255, 255, 255))
     Screen.blit(Score, (x, y))
 
 def show_Acc(x, y):
@@ -102,7 +117,10 @@ while Running:
 
     if elapsed_time >= 1000:
         # Increase Time_Difficulty by whatever every second
-        Time_Difficulty *= 1.005
+        if Frames < 300:
+            Time_Difficulty *= 1.005
+        else:
+            Time_Difficulty *= 1.0025
         last_time_check = current_time  # Update the last time checked
 
     #accuracy stuff
@@ -123,7 +141,7 @@ while Running:
                 Player_Ychange = 1.7
             if event.key == pygame.K_SPACE:
                 if BulletStaet == "rest":
-                    Bullet_X = Player_X - 16  # Adjust bullet's X-coordinate to the center of the player
+                    Bullet_X = Player_X - 2.5  # Adjust bullet's X-coordinate to the center of the player
                     Bullet_Y = Player_Y  # Set bullet's Y-coordinate to player's Y-coordinate
                     Bullet(Bullet_X, Bullet_Y)
                     Shots_Taken +=1
@@ -151,15 +169,16 @@ while Running:
     # Spawn invaders with a delay
     current_time = pygame.time.get_ticks()
     if current_time - last_spawn_time > spawn_delay and len(Invader_X) < InvaderCount:
+        rangom = random.randint(1, 4)  # Choose a random image for this invader
         Invader_X.append(0)
         Invader_Y.append(30)
         Invader_Xchange.append(1.2)
-        last_spawn_time = current_time
+        Invader_Rangom.append(rangom)  # Store the rangom value for this invader
+        last_spawn_time = current_time 
 
     # Update invader positions
     for i in range(len(Invader_X)):
         Invader_X[i] += Invader_Xchange[i]
-
         # Check for boundary collisions for individual invaders
         if Invader_X[i] >= 768:
             Invader_X[i] = 768
@@ -170,6 +189,9 @@ while Running:
             Invader_Y[i] += RowHeight
             Invader_Xchange[i] *= -1
 
+        #shooting stuff goes here
+        
+
     # Update bullet position
     if Bullet_Y <= 0:
         Bullet_Y = 600
@@ -179,9 +201,6 @@ while Running:
         Bullet_Y -= Bullet_Ychange
 
     # Check for collisions
-    #DONT TOUCH
-    #IDK HOW IT WORKS
-    #IT JUST DOES
     for i in range(len(Invader_X)):
         if abs(Player_Y - Invader_Y[i]) <= 35 and abs(Player_X - Invader_X[i]) <= 35:
             game_over()
@@ -202,13 +221,13 @@ while Running:
             Invader_X.pop(i)
             Invader_Y.pop(i)
             Invader_Xchange.pop(i)
+            Invader_Rangom.pop(i)
             break
-    #NOOOOOOOOOOOO TOUCHING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
     # Render player, invaders, and score
     Player(Player_X, Player_Y)
     for i in range(len(Invader_X)):
-        Invader(Invader_X[i], Invader_Y[i])
+        Invader(Invader_X[i], Invader_Y[i], Invader_Rangom[i])  # Pass the assigned rangom value
     show_Score(5, 5)
     show_Difficulty(130, 5, Frames)
     show_Acc(300,5)
@@ -218,3 +237,4 @@ while Running:
     clock.tick(Frames)  # Limit frame rate based on difficulty
 
 pygame.quit()
+
