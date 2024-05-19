@@ -160,6 +160,9 @@ def draw_gunshot_button(screen, x, y, width, height, text):
     screen.blit(text_surface, text_rect)
 
 
+# Back button
+BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
+
 class Button:
     def __init__(self, screen, button_text, x, y, width, height, colour_palette):
         self.x, self.y, self.width, self.height = x, y, width, height
