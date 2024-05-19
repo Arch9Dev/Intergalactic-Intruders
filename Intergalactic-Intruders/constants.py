@@ -39,8 +39,8 @@ Colour_Palettes = {
 
 
 # SCREEN
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 896
+SCREEN_HEIGHT = 924
 
 # Button dimensions
 BUTTON_WIDTH = 200
