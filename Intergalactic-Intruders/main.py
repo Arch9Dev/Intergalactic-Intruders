@@ -9,7 +9,7 @@ def main_menu():
     pygame.init()
     
     # Create the main menu screen
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.RESIZABLE)
     pygame.display.set_caption("MAIN MENU")
     
     # Define buttons
@@ -32,7 +32,7 @@ def main_menu():
     
     # Main loop for the main menu
     while MainRunning:
-        screen.fill(constants.BLUE_LIGHT)  # Assuming BLUE_LIGHT is a tuple, e.g., (135, 206, 235)
+        screen.fill(constants.BLUE_LIGHT)
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
 

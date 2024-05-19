@@ -37,16 +37,17 @@ Colour_Palettes = {
 
 
 
+# Screen
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
-# SCREEN
-SCREEN_WIDTH = 896
-SCREEN_HEIGHT = 924
 
 # Button dimensions
 BUTTON_WIDTH = 200
 BUTTON_HEIGHT = 50
 BUTTON_GAP = 20
 BUTTON_BORDER_WIDTH = 2
+
 
 # Fonts
 FONT = pygame.font.Font(None, 36)
@@ -125,7 +126,11 @@ TIMETRIAL_TEXT = [
 ]
 
 # Back button
-BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
+BACK_BUTTON_X = 20
+BACK_BUTTON_Y = 20
+BACK_BUTTON_W = 100
+BACK_BUTTON_H = 40
+
 
 # Slider positions and sizes
 SLIDER_WIDTH = 200
@@ -185,6 +190,8 @@ class Button:
 
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
+        
+        
 
 class Timer:
     def __init__(self, screen, time, x, y, width, height, fontsize):
