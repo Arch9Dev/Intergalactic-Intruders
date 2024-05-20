@@ -30,6 +30,7 @@ Accuracy = 100
 Hits_Landed = 1
 Shots_Taken = 1
 Frames = 180
+Time_trial = 'false'
 
 InvaderImag1 = pygame.image.load('Intergalactic-Intruders/images/Alion one (1) 1.gif')
 InvaderImag2 = pygame.image.load('Intergalactic-Intruders/images/Alion two (1) 1.gif')
@@ -56,15 +57,22 @@ Bullet_Ychange = 3
 BulletStaet = "rest"
 
 InvBulletImag = pygame.image.load('Intergalactic-Intruders/images/InvaderBullet.png')
-InvBullet_X = []
-InvBullet_Y = []
-InvBullet_Xchange = 0
-InvBullet_Ychange = 1
-InvBulletStaet = []
 
-def isCollision(x1, x2, y1, y2):
+# Initialize bullet lists for each invader
+InvBullet_Xchange = 0
+InvBullet_Ychange = 1  # Define InvBullet_Ychange here
+Invader_Bullets = [[] for _ in range(InvaderCount)]
+Bullet_Limit = 10  # Maximum number of bullets each invader can handle
+Fire_rate = 5000
+
+last_shot_times = []  # Track the last shot time for each invader
+
+def isCollision_PlayerBullet(x1, x2, y1, y2):
     distance = math.sqrt((math.pow(x1 - x2, 2)) + (math.pow(y1 - y2, 2)))
-    return distance <= 35
+    return distance <= 33
+def isCollision_InvBullet(x1, x2, y1, y2):
+    distance = math.sqrt((math.pow(x1 - x2, 2)) + (math.pow(y1 - y2, 2)))
+    return distance <= 33
 
 def Player(x, y):
     Screen.blit(PlayerImag, (x - 16, y + 10))
@@ -85,9 +93,7 @@ def Bullet(x, y):
     BulletStaet = "fire"
 
 def InvaderBullet(x, y, i):
-    global InvBulletStaet
     Screen.blit(InvBulletImag, (x, y))
-    InvBulletStaet[i] = "fire"
 
 def show_Score(x, y):
     Score = font.render("Points: " + str(Score_val), True, (255, 255, 255))
@@ -113,13 +119,14 @@ while Running:
     current_time = pygame.time.get_ticks()
     elapsed_time = current_time - last_time_check
 
-    if (elapsed_time >= 1000):
-        # Increase Time_Difficulty by whatever every second
-        if Frames < 300:
-            Time_Difficulty *= 1.005
-        else:
-            Time_Difficulty *= 1.0025
-        last_time_check = current_time  # Update the last time checked
+    if (Time_trial == 'true'):
+        if (elapsed_time >= 1000):
+            # Increase Time_Difficulty by whatever every second
+            if Frames < 300:
+                Time_Difficulty *= 1.005
+            else:
+                Time_Difficulty *= 1.0025
+            last_time_check = current_time  # Update the last time checked
 
     # accuracy stuff
     Accuracy = round((Hits_Landed / Shots_Taken) * 100)
@@ -172,9 +179,9 @@ while Running:
         Invader_Y.append(30)
         Invader_Xchange.append(1.2)
         Invader_Rangom.append(rangom)  # Store the rangom value for this invader
-        InvBullet_X.append(0)  # Initialize bullet X for this invader
-        InvBullet_Y.append(0)  # Initialize bullet Y for this invader
-        InvBulletStaet.append("rest")  # Initialize bullet state for this invader
+        last_shot_times.append(current_time)  # Initialize last shot time for this invader
+        # Initialize bullet lists for each invader
+        Invader_Bullets.append([])
         last_spawn_time = current_time
 
     # Update invader positions
@@ -190,20 +197,24 @@ while Running:
             Invader_Y[i] += RowHeight
             Invader_Xchange[i] *= -1
 
-        # Shooting stuff goes here
-        if pygame.key.get_pressed()[pygame.K_g]:
-            InvBullet_X[i] = Invader_X[i]
-            InvBullet_Y[i] = Invader_Y[i]
-            InvaderBullet(InvBullet_X[i], InvBullet_Y[i], i)
-            # Update bullet position
-        if InvBullet_Y[i] <= 0:
-            InvBullet_Y[i] = 600
-            InvBulletStaet[i] = "rest"
-        if InvBulletStaet[i] == "fire":
-            InvaderBullet(InvBullet_X[i], InvBullet_Y[i], i)
-            InvBullet_Y[i] += InvBullet_Ychange
+    # Inside the loop where invaders fire bullets:
+    for i in range(len(Invader_X)):
+        # Check if invader can fire a bullet
+        if len(Invader_Bullets[i]) < Bullet_Limit:
+            if current_time - last_shot_times[i] >= Fire_rate + random.randint(-Fire_rate/2,Fire_rate):  # 1/1000 seconds
+                Invader_Bullets[i].append([Invader_X[i], Invader_Y[i]])
+                last_shot_times[i] = current_time
 
-    # Update bullet position
+    # Inside the loop where you update invader bullet positions:
+    for i in range(len(Invader_X)):
+        for bullet in Invader_Bullets[i]:
+            InvaderBullet(bullet[0], bullet[1], i)
+            bullet[1] += InvBullet_Ychange
+            if bullet[1] >= 600:  # Check if bullet has reached bottom of the screen
+                Invader_Bullets[i].remove(bullet)
+                print('bullet removed')
+
+    # Update player bullet position
     if Bullet_Y <= 0:
         Bullet_Y = 600
         BulletStaet = "rest"
@@ -213,17 +224,7 @@ while Running:
 
     # Check for collisions
     for i in range(len(Invader_X)):
-        if abs(Player_Y - Invader_Y[i]) <= 35 and abs(Player_X - Invader_X[i]) <= 35:
-            game_over()
-            Running = False
-            break
-
-        if Invader_Y[i] >= 554:
-            game_over()
-            Running = False
-            break
-
-        collision = isCollision(Bullet_X, Invader_X[i], Bullet_Y, Invader_Y[i])
+        collision = isCollision_PlayerBullet(Bullet_X, Invader_X[i], Bullet_Y, Invader_Y[i])
         if collision:
             Hits_Landed += 1
             Score_val += 1
@@ -233,10 +234,15 @@ while Running:
             Invader_Y.pop(i)
             Invader_Xchange.pop(i)
             Invader_Rangom.pop(i)
-            InvBullet_X.pop(i)
-            InvBullet_Y.pop(i)
-            InvBulletStaet.pop(i)
+            last_shot_times.pop(i)
             break
+        for bullet in Invader_Bullets[i]:
+            collision = isCollision_InvBullet(bullet[0], Player_X, bullet[1], Player_Y)
+            if collision:
+                Bullet_Y = 600
+                BulletStaet = "rest"
+                Invader_Bullets[i].remove(bullet)
+                break
 
     # Render player, invaders, and score
     Player(Player_X, Player_Y)
@@ -251,3 +257,4 @@ while Running:
     clock.tick(Frames)  # Limit frame rate based on difficulty
 
 pygame.quit()
+
