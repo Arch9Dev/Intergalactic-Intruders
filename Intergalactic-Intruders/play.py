@@ -18,7 +18,7 @@ def show_play():
     
     
     levels_button = constants.Button(screen, "LEVELS", Button_X, Button_Y, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    timetrial_button = constants.Button(screen, "TUTORIAL", Button_X, levels_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
+    timetrial_button = constants.Button(screen, "TIME TRIAL", Button_X, levels_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
 
 
     Play_Buttons = [levels_button, timetrial_button]
@@ -59,6 +59,7 @@ def show_play():
         screen.blit(constants.TITLE_IMAGE, title_rect)
 
 
-        
-
         pygame.display.update()
+        
+    pygame.quit()
+    quit()
