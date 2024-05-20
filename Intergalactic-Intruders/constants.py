@@ -38,8 +38,8 @@ Colour_Palettes = {
 
 
 # Screen
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1820
+SCREEN_HEIGHT = 1000
 
 
 # Button dimensions
@@ -218,3 +218,10 @@ class Timer:
 
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
+
+
+
+# FULL SCREEN
+
+
+    

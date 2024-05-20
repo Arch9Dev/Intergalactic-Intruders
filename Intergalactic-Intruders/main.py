@@ -3,10 +3,16 @@ import tutorial
 import settings
 import play
 import constants
+import sounds
 
 def main_menu():
     # Initialize Pygame
     pygame.init()
+    
+    # Initialize sound settings
+    sounds.set_main_volume(sounds.get_main_volume())
+    sounds.set_space_sound_volume(sounds.get_space_sound_volume())
+    sounds.set_gunshot_sound_volume(sounds.get_gunshot_sound_volume())
     
     # Create the main menu screen
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.RESIZABLE)
