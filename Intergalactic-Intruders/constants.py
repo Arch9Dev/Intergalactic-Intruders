@@ -1,5 +1,8 @@
 import pygame
 import images
+import settings
+import play
+import main
 
 # Initialize Pygame
 pygame.init()
@@ -58,7 +61,7 @@ def load_xolonium_font(font_size):
     xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
     return xolonium_font
 
-def load_immermann_font(font_size):
+def  Load_Immerman_Font(font_size):
     immermann_font_path = "Intergalactic-Intruders/Fonts/Immerman.tff"
     immerman_font = pygame.font.Font(immermann_font_path, font_size)
     return immerman_font
@@ -194,7 +197,23 @@ class Button:
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
         
-        
+class BackButton(Button):
+    def __init__(self, screen, colour_palette, ReturnPage ):
+        x = BACK_BUTTON.x 
+        y = BACK_BUTTON.y
+        button_text = "BACK"
+        width = BACK_BUTTON.width
+        height = BACK_BUTTON.height
+        self.Returnpage = ReturnPage
+        super().__init__(screen, button_text, x, y, width, height, colour_palette)     
+    def ReturnTo(self):
+        if self.Returnpage == "Main":
+            main.main_menu()
+        elif self.Returnpage == "PLAY":
+            play.show_play()
+        elif self.Returnpage == "SETTINGS":
+            settings.show_settings()
+        pygame.display.set_caption(self.Returnpage)
 
 class Timer:
     def __init__(self, screen, time, x, y, width, height, fontsize):
