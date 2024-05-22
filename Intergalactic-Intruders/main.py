@@ -17,7 +17,7 @@ def main_menu():
     play_button = constants.Button( "PLAY", 0, 0,0,0, constants.Colour_Palettes["Orange_Buttons"])
     tutorial_button = constants.Button( "TUTORIAL", 0,  play_button.rect.y,0,0, constants.Colour_Palettes["Orange_Buttons"])
     settings_button = constants.Button( "SETTINGS", 0, tutorial_button.rect.y,0,0, constants.Colour_Palettes["Orange_Buttons"])
-    quit_button = constants.QuitButton( constants.Colour_Palettes["Orange_Buttons"])
+    quit_button = constants.QuitButton( constants.Colour_Palettes["Red_Buttons"])
     
     Main_Buttons = [play_button, tutorial_button, settings_button, quit_button]
     

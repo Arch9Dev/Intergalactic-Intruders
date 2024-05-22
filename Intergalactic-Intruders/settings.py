@@ -36,7 +36,7 @@ def show_settings():
                 elif Back_Button.rect.collidepoint(event.pos):
                     Back_Button.ReturnTo()
 
-        screen.fill(constants.GREY)
+        screen.fill(constants.BLUE_DARK)
 
         # Render title
         title_text = constants.TITLE_FONT.render("SETTINGS", True, constants.BLACK)

@@ -25,7 +25,7 @@ def show_difficulty():
     
     difficulty_running = True
     while difficulty_running:
-        screen.fill(constants.Alabaster)
+        screen.fill(constants.BLUE_DARK)
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
                

@@ -25,7 +25,7 @@ def show_gameplay():
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
 
-        screen.fill(constants.Alabaster)
+        screen.fill(constants.BLUE_DARK)
         # Placeholder content
         placeholder_text = constants.FONT.render("Gameplay Placeholder", True, constants.BLACK)
         screen.blit(placeholder_text, (constants.SCREEN_WIDTH // 2 - 100, constants.SCREEN_HEIGHT // 2))

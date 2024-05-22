@@ -79,14 +79,15 @@ BUTTON_H = BUTTON_HEIGHT
 # Fonts
 FONT = pygame.font.Font(None, 36)
 TITLE_FONT = pygame.font.Font(None, 48)
+
 def load_xolonium_font(font_size):
     # Load the custom font
-    xolonium_font_path = "Intergalactic-Intruders/Fonts/Xolonium.ttf"
+    xolonium_font_path = "Intergalactic-Intruders\Fonts\Xolonium.ttf"
     xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
     return xolonium_font
 
 def load_immermann_font(font_size):
-    immermann_font_path = "Intergalactic-Intruders/Fonts/Immerman.tff"
+    immermann_font_path = "Intergalactic-Intruders/Fonts/Immermann.ttf"
     immerman_font = pygame.font.Font(immermann_font_path, font_size)
     return immerman_font
 
@@ -188,7 +189,8 @@ BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
 class Button:
     def __init__(self,  button_text,Offset_X,Offset_Y,width_Offset,height_Offset, colour_palette):
-
+        
+        self.Button_Font = load_immermann_font(36)# Stop Changing the Button font 
         self.X = Offset_X  if Offset_X != 0 else  BUTTON_X
         self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else  BUTTON_Y
         self.width = (BUTTON_W + width_Offset)
@@ -216,11 +218,11 @@ class Button:
 
         if self.hovered:
             pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect)
-            text_surface = FONT.render(self.text, True, Hover_Text_Colour)
+            text_surface = self.Button_Font.render(self.text, True, Hover_Text_Colour)
             pygame.draw.lines(self.screen, Hover_Border_Colour, True, self.border_coords, self.border_thickness)
         else:
             pygame.draw.rect(self.screen, Back_Colour, self.rect)
-            text_surface = FONT.render(self.text, True, Text_Colour)
+            text_surface = self.Button_Font.render(self.text, True, Text_Colour)
             pygame.draw.lines(self.screen, Border_Colour, True, self.border_coords, self.border_thickness)
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
