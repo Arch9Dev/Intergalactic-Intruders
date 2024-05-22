@@ -192,10 +192,9 @@ def draw_gunshot_button(screen, x, y, width, height, text):
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
 class Button:
-    def __init__(self,  button_text,Offset_X,Offset_Y,width_Offset,height_Offset, colour_palette):
-
-        self.X = Offset_X  if Offset_X != 0 else  BUTTON_X
-        self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else  BUTTON_Y
+    def __init__(self, button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette):
+        self.X = Offset_X if Offset_X != 0 else BUTTON_X
+        self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else BUTTON_Y
         self.width = (BUTTON_W + width_Offset)
         self.height = (BUTTON_H + height_Offset)
         self.border_thickness = 3
@@ -204,8 +203,8 @@ class Button:
         self.colour_palette = colour_palette
         self.text = button_text
         self.rect = pygame.Rect(self.X, self.Y, self.width, self.height)
-        self.border_radius = 15 
-        
+        self.border_radius = 15
+
     def draw(self):
         Text_Colour = self.colour_palette["Text_Colour"]["Normal"]
         Hover_Text_Colour = self.colour_palette["Text_Colour"]["Hover"]
@@ -215,13 +214,13 @@ class Button:
         Hover_Border_Colour = self.colour_palette["Border_Colour"]["Hover"]
 
         if self.hovered:
-            pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect)
+            pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect, border_radius=self.border_radius)
+            pygame.draw.rect(self.screen, Hover_Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
             text_surface = FONT.render(self.text, True, Hover_Text_Colour)
-            pygame.draw.lines(self.screen, Hover_Border_Colour, True, self.border_coords, self.border_thickness)
         else:
-            pygame.draw.rect(self.screen, Back_Colour, self.rect)
+            pygame.draw.rect(self.screen, Back_Colour, self.rect, border_radius=self.border_radius)
+            pygame.draw.rect(self.screen, Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
             text_surface = FONT.render(self.text, True, Text_Colour)
-            pygame.draw.lines(self.screen, Border_Colour, True, self.border_coords, self.border_thickness)
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
