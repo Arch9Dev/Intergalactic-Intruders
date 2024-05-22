@@ -3,10 +3,10 @@ import tutorial
 import settings
 import play
 import constants
+pygame.init()
 
 def main_menu():
     
-    pygame.init()
 
     # Initialize Pygame
     
@@ -61,7 +61,6 @@ def main_menu():
     pygame.quit()
     quit()
 
-main_menu()
 
-#if __name__ == "__main__":
- #   main_menu()
+if __name__ == "__main__":
+  main_menu()
