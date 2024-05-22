@@ -206,7 +206,7 @@ class Button:
         self.colour_palette = colour_palette
         self.text = button_text
         self.rect = pygame.Rect(self.X, self.Y, self.width, self.height)
-        self.border_radius = 15 
+        self.border_radius = 15
 
     def draw(self):
         Text_Colour = self.colour_palette["Text_Colour"]["Normal"]
@@ -224,7 +224,6 @@ class Button:
             pygame.draw.rect(self.screen, Back_Colour, self.rect, border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
             text_surface = FONT.render(self.text, True, Text_Colour)
-
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
