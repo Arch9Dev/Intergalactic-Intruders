@@ -193,6 +193,7 @@ BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
 class Button:
     def __init__(self, button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette):
+        self.Button_Font = load_immermann_font(36)
         self.X = Offset_X if Offset_X != 0 else BUTTON_X
         self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else BUTTON_Y
         self.width = (BUTTON_W + width_Offset)
@@ -216,11 +217,11 @@ class Button:
         if self.hovered:
             pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect, border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Hover_Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
-            text_surface = FONT.render(self.text, True, Hover_Text_Colour)
+            text_surface = self.Button_Font.render(self.text, True, Hover_Text_Colour)
         else:
             pygame.draw.rect(self.screen, Back_Colour, self.rect, border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
-            text_surface = FONT.render(self.text, True, Text_Colour)
+            text_surface = self.Button_Font.render(self.text, True, Text_Colour)
 
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
