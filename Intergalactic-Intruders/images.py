@@ -15,7 +15,7 @@ def load_title_image():
 def load_tutorial_image():
     tutorial_image_path = os.path.join("Intergalactic-Intruders", "images", "TutorialText.png")
     tutorial_image = pygame.image.load(tutorial_image_path)
-    return pygame.transform.scale(tutorial_image, (500, 500))
+    return pygame.transform.scale(tutorial_image, (500, 500) )
 
 # Load controls image
 def load_controls_image():

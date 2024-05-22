@@ -3,14 +3,20 @@ import constants
 import tutorial
 import settings
 import play
+import constants
+import sounds
 
-
-#fixed
 
 def main_menu():
     # Initialize Pygame
     pygame.init()
 
+    
+    # Initialize sound settings
+    sounds.set_main_volume(sounds.get_main_volume())
+    sounds.set_space_sound_volume(sounds.get_space_sound_volume())
+    sounds.set_gunshot_sound_volume(sounds.get_gunshot_sound_volume())
+    
     # Create the main menu screen
     screen = constants.screen
     pygame.display.set_caption("MAIN MENU")
