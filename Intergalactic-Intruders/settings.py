@@ -6,7 +6,7 @@ import controls
 
 def show_settings():
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = constants.screen
     pygame.display.set_caption("SETTINGS")
     
     Audio_Button = constants.Button("Audio",0,0,0,0,constants.Colour_Palettes["Blue_Buttons"])

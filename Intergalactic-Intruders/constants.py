@@ -6,37 +6,49 @@ from PageList import pagelist
 # Initialize Pygame
 pygame.init()
 
-# Colours
-WHITE = (250, 250, 250)
-BLACK = (26, 26, 42)
-GREY = (200, 200, 200)
-PURPLE = (213, 0, 255)
-RED = (255, 0, 0)
+# SCREEN
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 800
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-Alabaster =(237, 234, 224)
+
+#Colours
+WHITE = (250, 249, 246)
+BLACK = (26, 26, 42)
+GREY = (190, 176, 167)
 RED_DARK = (255, 60, 0)
-RED_LIGHT = (255, 90, 70)
+RED_DARKER = (208, 48, 0)
+RED_LIGHT = (255, 0, 60)
 BLUE_DARK = (0, 60, 255)
-BLUE_LIGHT = (0, 160, 255)
-Green_Dark = (0, 112, 63)
-Green_Light = (10, 251, 0)
+BLUE_LIGHT = (70, 235, 255)
+GREEN_DARK = (66, 190, 28)
+GREEN_LIGHT = (60, 255, 0)
+ORANGE_DARK = (255, 195, 0)
+ORANGE_DARKER = (255, 111, 0)
+ORANGE_LIGHT = (255, 235, 0)
+
 
 
 Colour_Palettes = {
     "Red_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": RED_DARK, "Hover": RED_LIGHT},
-        "Border_Colour": {"Normal": BLACK, "Hover": WHITE}
+        "Border_Colour": {"Normal": RED_DARKER, "Hover": WHITE}
     },
     "Green_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Background_Colour": {"Normal": Green_Dark, "Hover": Green_Light},
+        "Background_Colour": {"Normal": GREEN_DARK, "Hover": GREEN_LIGHT},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE}
     },
     "Blue_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": BLUE_DARK, "Hover": BLUE_LIGHT},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE}
+    },
+    "Orange_Buttons":{
+        "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
+        "Background_Colour": {"Normal": ORANGE_DARK, "Hover": ORANGE_LIGHT},
+        "Border_Colour": {"Normal": ORANGE_DARKER, "Hover": ORANGE_DARK}
     },
     "Timer": {
         "Text_Colour": WHITE,
@@ -47,24 +59,22 @@ Colour_Palettes = {
 
 
 
-# Screen
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
 
 
-# Button Sizes
+
+# Button dimensions
 BUTTON_WIDTH = 200
 BUTTON_HEIGHT = 50
 BUTTON_GAP = 20
 BUTTON_BORDER_WIDTH = 2
 
-Button_X = (SCREEN_WIDTH - BUTTON_WIDTH) // 2
-Button_Y = 300
-Button_Gap = BUTTON_HEIGHT + BUTTON_GAP
-Button_W = BUTTON_WIDTH
-Button_H = BUTTON_HEIGHT
-# Back button
 
+# Back Button
+BUTTON_X = (SCREEN_WIDTH - BUTTON_WIDTH) // 2
+BUTTON_Y = 300
+BUTTON_GAP = BUTTON_HEIGHT + BUTTON_GAP
+BUTTON_W = BUTTON_WIDTH
+BUTTON_H = BUTTON_HEIGHT
 
 # Fonts
 FONT = pygame.font.Font(None, 36)
@@ -75,8 +85,8 @@ def load_xolonium_font(font_size):
     xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
     return xolonium_font
 
-def  Load_Immerman_Font(font_size):
-    immermann_font_path = "Intergalactic-Intruders\Fonts\immermann.ttf"
+def load_immermann_font(font_size):
+    immermann_font_path = "Intergalactic-Intruders/Fonts/Immerman.tff"
     immerman_font = pygame.font.Font(immermann_font_path, font_size)
     return immerman_font
 
@@ -153,23 +163,20 @@ MAIN_VOLUME_SLIDER_POS = (SCREEN_WIDTH // 2, 200)
 MUSIC_SLIDER_POS = (SCREEN_WIDTH // 2, 300)
 SOUND_EFFECTS_SLIDER_POS = (SCREEN_WIDTH // 2, 400)
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
-
 def draw_circle(screen, colour, position, radius):
     pygame.draw.circle(screen, colour, position, radius)
 
 
 
 def draw_button(screen, x, y, width, height, text):
-    pygame.draw.rect(screen, RED, (x, y, width, height))
+    pygame.draw.rect(screen, RED_DARK, (x, y, width, height))
     pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
     text_surface = FONT.render(text, True, BLACK)
     text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
     screen.blit(text_surface, text_rect)
 
 def draw_gunshot_button(screen, x, y, width, height, text):
-    pygame.draw.rect(screen, RED, (x, y, width, height))
+    pygame.draw.rect(screen, RED_DARK, (x, y, width, height))
     pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
     text_surface = FONT.render(text, True, BLACK)
     text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
@@ -182,10 +189,10 @@ BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 class Button:
     def __init__(self,  button_text,Offset_X,Offset_Y,width_Offset,height_Offset, colour_palette):
 
-        self.X = Offset_X  if Offset_X != 0 else  Button_X
-        self.Y = (Offset_Y + Button_Gap) if Offset_Y != 0 else  Button_Y
-        self.width = (Button_W + width_Offset)
-        self.height = (Button_H +  height_Offset)
+        self.X = Offset_X  if Offset_X != 0 else  BUTTON_X
+        self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else  BUTTON_Y
+        self.width = (BUTTON_W + width_Offset)
+        self.height = (BUTTON_H +  height_Offset)
         self.border_coords = (
             (self.X, self.Y), 
             (self.X + self.width, self.Y),
@@ -198,6 +205,7 @@ class Button:
         self.colour_palette = colour_palette
         self.text = button_text
         self.rect = pygame.Rect(self.X, self.Y, self.width, self.height)
+
     def draw(self):
         Text_Colour = self.colour_palette["Text_Colour"]["Normal"]
         Hover_Text_Colour = self.colour_palette["Text_Colour"]["Hover"]
@@ -208,11 +216,11 @@ class Button:
 
         if self.hovered:
             pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect)
-            text_surface = Load_Immerman_Font(36).render(self.text, True, Hover_Text_Colour)
+            text_surface = FONT.render(self.text, True, Hover_Text_Colour)
             pygame.draw.lines(self.screen, Hover_Border_Colour, True, self.border_coords, self.border_thickness)
         else:
             pygame.draw.rect(self.screen, Back_Colour, self.rect)
-            text_surface = Load_Immerman_Font(36).render(self.text, True, Text_Colour)
+            text_surface = FONT.render(self.text, True, Text_Colour)
             pygame.draw.lines(self.screen, Border_Colour, True, self.border_coords, self.border_thickness)
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
@@ -220,9 +228,9 @@ class Button:
 
 class QuitButton(Button):
     def __init__(self, colour_palette):
-        Corner_Offset = 10
+        Corner_Offset = 40
         Offset_X = (SCREEN_WIDTH - (BACK_BUTTON.width + Corner_Offset))
-        Offset_Y = (SCREEN_HEIGHT - (Button_Gap + BACK_BUTTON.height + Corner_Offset))
+        Offset_Y = (SCREEN_HEIGHT - (BUTTON_GAP + BACK_BUTTON.height + Corner_Offset))
         width_Offset = (BACK_BUTTON.width - BUTTON_WIDTH)
         height_Offset =(BACK_BUTTON.height - BUTTON_HEIGHT)
         button_text = "QUIT"
@@ -233,14 +241,14 @@ class QuitButton(Button):
 
 class BackButton(Button):
     def __init__(self,  colour_palette, ReturnPage  ):
-        BB_X = BACK_BUTTON.x
-        BB_Y = BACK_BUTTON.y - Button_Gap
-        BB_W = BACK_BUTTON.width - BUTTON_WIDTH
-        BB_H = BACK_BUTTON.height - BUTTON_HEIGHT
-
+        Corner_Offset = 40
+        Offset_X = (SCREEN_WIDTH - (BACK_BUTTON.width + Corner_Offset))
+        Offset_Y = (SCREEN_HEIGHT - (BUTTON_GAP + BACK_BUTTON.height + Corner_Offset))
+        width_Offset = (BACK_BUTTON.width - BUTTON_WIDTH)
+        height_Offset =(BACK_BUTTON.height - BUTTON_HEIGHT)
         button_text = "BACK"
         self.Returnpage = ReturnPage
-        super().__init__( button_text, BB_X, BB_Y,BB_W,BB_H, colour_palette)     
+        super().__init__(button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette)   
     def ReturnTo(self):
         ReturnTo_pagelist = pagelist(self.Returnpage)
         ReturnTo_pagelist.switching()
@@ -268,3 +276,6 @@ class Timer:
 
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
+
+
+    

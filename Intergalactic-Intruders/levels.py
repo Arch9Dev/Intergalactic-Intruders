@@ -5,14 +5,12 @@ import difficulty
 
 def show_levels():
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = constants.screen
     pygame.display.set_caption("LEVELS")
 
     # Define Buttons:
-
-
-    Level1_Button = constants.Button("LEVEL 1", 0, 0, 0, 0, constants.Colour_Palettes["Blue_Buttons"])
-    Level2_Button = constants.Button("LEVEL 2", 0, Level1_Button.rect.y + constants.Button_Gap, 0, 0, constants.Colour_Palettes["Blue_Buttons"])
+    Level1_Button = constants.Button("LEVEL 1", 0, 0, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
+    Level2_Button = constants.Button("LEVEL 2", 0, Level1_Button.rect.y + constants.BUTTON_GAP, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"PLAY")
 
     Level_Buttons = [Level1_Button, Level2_Button,Back_button]
@@ -21,7 +19,7 @@ def show_levels():
 
     levels_running = True
     while levels_running:
-        screen.fill(constants.Alabaster)
+        screen.fill(constants.BLUE_DARK)
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
         
