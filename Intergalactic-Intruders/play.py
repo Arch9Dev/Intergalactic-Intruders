@@ -10,8 +10,8 @@ def show_play():
     
 
     
-    levels_button = constants.Button("LEVELS", 0, 0, 0, 0, constants.Colour_Palettes["Red_Buttons"])
-    timetrial_button = constants.Button( "TIME TRIAL", 0, levels_button.rect.y + constants.Button_Gap, 0, 0, constants.Colour_Palettes["Red_Buttons"])
+    levels_button = constants.Button("LEVELS", 0, 0, 0, 0, constants.Colour_Palettes["Green_Buttons"])
+    timetrial_button = constants.Button( "TIME TRIAL", 0, levels_button.rect.y + constants.Button_Gap, 0, 0, constants.Colour_Palettes["Green_Buttons"])
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"MAIN")
 
     Play_Buttons = [levels_button, timetrial_button,Back_button]
@@ -21,7 +21,7 @@ def show_play():
 
     while play_running:
         # Render screen
-        screen.fill(constants.BLUE_LIGHT)
+        screen.fill(constants.Alabaster)
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
         
@@ -29,8 +29,8 @@ def show_play():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:
                 MousePos = pygame.mouse.get_pos()
-                for button in Play_Buttons:
-                    button.hovered = button.rect.collidepoint(MousePos)
+                for Buttons in Play_Buttons:
+                    Buttons.hovered = Buttons.rect.collidepoint(MousePos)
                     
             if event.type == pygame.QUIT:
                 play_running = False
@@ -45,8 +45,8 @@ def show_play():
 
                 
         
-        for button in Play_Buttons:
-            button.draw()
+        for Buttons in Play_Buttons:
+            Buttons.draw()
         
 
         # Render title image

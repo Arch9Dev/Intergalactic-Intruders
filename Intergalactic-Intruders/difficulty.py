@@ -9,17 +9,13 @@ def show_difficulty():
     pygame.display.set_caption("DIFFICULTY")
     
     
-    # Define Buttons:
-    Button_X = (constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2
-    Button_Y = 300
-    Button_Gap = constants.BUTTON_HEIGHT + constants.BUTTON_GAP
-    Button_W = constants.BUTTON_WIDTH
-    Button_H = constants.BUTTON_HEIGHT
+
+
     
-    easy_button = constants.Button("EASY", 0, 0, 0, 0, constants.Colour_Palettes["Red_Buttons"])
-    medium_button = constants.Button("MEDIUM", 0, easy_button.rect.y + Button_Gap, 0, 0, constants.Colour_Palettes["Red_Buttons"])
-    hard_button = constants.Button("HARD", 0, medium_button.rect.y + Button_Gap, 0, 0, constants.Colour_Palettes["Red_Buttons"])
-    Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],constants.Pages["MAIN"])
+    easy_button = constants.Button("EASY", 0, 0, 0, 0, constants.Colour_Palettes["Green_Buttons"])
+    medium_button = constants.Button("MEDIUM", 0, easy_button.rect.y , 0, 0, constants.Colour_Palettes["Blue_Buttons"])
+    hard_button = constants.Button("HARD", 0, medium_button.rect.y , 0, 0, constants.Colour_Palettes["Red_Buttons"])
+    Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"levels")
 
     
     Difficulty_Buttons = [easy_button, medium_button, hard_button,Back_button]
@@ -29,7 +25,7 @@ def show_difficulty():
     
     difficulty_running = True
     while difficulty_running:
-        screen.fill(constants.BLUE_LIGHT)
+        screen.fill(constants.Alabaster)
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
                
@@ -49,7 +45,9 @@ def show_difficulty():
                 if medium_button.rect.collidepoint(event.pos):
                     gameplay.show_gameplay() # MEDIUM
                 if hard_button.rect.collidepoint(event.pos):
-                    gameplay.show_gameplay() # HARD                    
+                    gameplay.show_gameplay() # HARD
+                if Back_button.rect.collidepoint(event.pos):
+                    Back_button.ReturnTo()                    
 
 
         

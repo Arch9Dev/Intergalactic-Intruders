@@ -13,17 +13,24 @@ GREY = (200, 200, 200)
 PURPLE = (213, 0, 255)
 RED = (255, 0, 0)
 
+Alabaster =(237, 234, 224)
 RED_DARK = (255, 60, 0)
 RED_LIGHT = (255, 90, 70)
 BLUE_DARK = (0, 60, 255)
 BLUE_LIGHT = (0, 160, 255)
-
+Green_Dark = (0, 112, 63)
+Green_Light = (10, 251, 0)
 
 
 Colour_Palettes = {
     "Red_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": RED_DARK, "Hover": RED_LIGHT},
+        "Border_Colour": {"Normal": BLACK, "Hover": WHITE}
+    },
+    "Green_Buttons": {
+        "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
+        "Background_Colour": {"Normal": Green_Dark, "Hover": Green_Light},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE}
     },
     "Blue_Buttons": {
@@ -69,7 +76,7 @@ def load_xolonium_font(font_size):
     return xolonium_font
 
 def  Load_Immerman_Font(font_size):
-    immermann_font_path = "Intergalactic-Intruders/Fonts/Immerman.tff"
+    immermann_font_path = "Intergalactic-Intruders\Fonts\immermann.ttf"
     immerman_font = pygame.font.Font(immermann_font_path, font_size)
     return immerman_font
 
@@ -171,9 +178,6 @@ def draw_gunshot_button(screen, x, y, width, height, text):
 
 # Back button
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
-Pages = {  "MAIN" : 1 ,"PLAY" : 2,"SETTINGS" :3}
-#Pages = ["MAIN","PLAY","SETTINGS"]
-#button constants., constants., constants., constants.Colour_Palettes["Red_Buttons"])
 
 class Button:
     def __init__(self,  button_text,Offset_X,Offset_Y,width_Offset,height_Offset, colour_palette):
@@ -204,11 +208,11 @@ class Button:
 
         if self.hovered:
             pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect)
-            text_surface = FONT.render(self.text, True, Hover_Text_Colour)
+            text_surface = Load_Immerman_Font(36).render(self.text, True, Hover_Text_Colour)
             pygame.draw.lines(self.screen, Hover_Border_Colour, True, self.border_coords, self.border_thickness)
         else:
             pygame.draw.rect(self.screen, Back_Colour, self.rect)
-            text_surface = FONT.render(self.text, True, Text_Colour)
+            text_surface = Load_Immerman_Font(36).render(self.text, True, Text_Colour)
             pygame.draw.lines(self.screen, Border_Colour, True, self.border_coords, self.border_thickness)
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))

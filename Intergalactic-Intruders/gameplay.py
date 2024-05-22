@@ -1,38 +1,37 @@
 import pygame
 import constants
-
-
 import pygame
 import constants
 
 def show_gameplay():
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = constants.screen
     pygame.display.set_caption("GAMEPLAY")
 
+    Back_button = constants.BackButton(constants.Colour_Palettes["Blue_Buttons"],"levels")
+    Gameplay_buttons =[Back_button]
     running = True
     while running:
         for event in pygame.event.get():
+            if event.type == pygame.MOUSEMOTION:
+                MousePos = pygame.mouse.get_pos()
+                for button in Gameplay_buttons:
+                    button.hovered = button.rect.collidepoint(MousePos)
+                    
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if constants.BACK_BUTTON.collidepoint(event.pos):
-                    pygame.display.set_caption("DIFFICULTY")
-                    return
+                if Back_button.rect.collidepoint(event.pos):
+                    Back_button.ReturnTo()
 
-        screen.fill(constants.PURPLE)
+        screen.fill(constants.Alabaster)
         # Placeholder content
         placeholder_text = constants.FONT.render("Gameplay Placeholder", True, constants.BLACK)
         screen.blit(placeholder_text, (constants.SCREEN_WIDTH // 2 - 100, constants.SCREEN_HEIGHT // 2))
+        Back_button.draw()
 
-
-        # Render back button with border
-        pygame.draw.rect(screen, constants.RED, constants.BACK_BUTTON)
-        pygame.draw.rect(screen, constants.BLACK, constants.BACK_BUTTON, 2)  # Draw border
-        back_text = constants.FONT.render("BACK", True, constants.BLACK)
-        screen.blit(back_text, (constants.BACK_BUTTON.x + 20, constants.BACK_BUTTON.y + 10))
-        
-        
+        for button in Gameplay_buttons:
+            button.draw()
         
         pygame.display.update()

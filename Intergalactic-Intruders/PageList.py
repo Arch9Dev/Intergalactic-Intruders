@@ -2,6 +2,7 @@ from settings import show_settings
 from play import show_play
 from main import main_menu
 from tutorial  import show_tutorial
+from levels import show_levels
 
 
 class pagelist():
@@ -17,6 +18,8 @@ class pagelist():
             show_settings()
         elif self.PageName == "TUTORIAL":
             show_tutorial()
+        elif self.PageName == "LEVELS":
+            show_levels()
       
 
   
