@@ -13,8 +13,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 BACKGROUND_IMAGE = images.load_background_image()
 
-BACKGROUND_IMAGE = images.load_background_image()
-
 
 #Colours
 WHITE = (250, 249, 246)
@@ -199,19 +197,14 @@ class Button:
         self.X = Offset_X  if Offset_X != 0 else  BUTTON_X
         self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else  BUTTON_Y
         self.width = (BUTTON_W + width_Offset)
-        self.height = (BUTTON_H +  height_Offset)
-        self.border_coords = (
-            (self.X, self.Y), 
-            (self.X + self.width, self.Y),
-            (self.X + self.width, self.Y + self.height),
-            (self.X, self.Y + self.height)
-        )
+        self.height = (BUTTON_H + height_Offset)
         self.border_thickness = 3
         self.screen = screen
         self.hovered = False
         self.colour_palette = colour_palette
         self.text = button_text
         self.rect = pygame.Rect(self.X, self.Y, self.width, self.height)
+        self.border_radius = 15 
         
     def draw(self):
         Text_Colour = self.colour_palette["Text_Colour"]["Normal"]

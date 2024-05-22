@@ -13,11 +13,11 @@ def main_menu():
     pygame.display.set_caption("MAIN MENU")
 
     # Buttons
-    play_button = constants.Button("PLAY", 0, 0, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
-    tutorial_button = constants.Button("TUTORIAL", 0, play_button.rect.y, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
-    settings_button = constants.Button("SETTINGS", 0, tutorial_button.rect.y, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
-    quit_button = constants.QuitButton(constants.Colour_Palettes["Orange_Buttons"])
-
+    play_button = constants.Button( "PLAY", 0, 0,0,0, constants.Colour_Palettes["Orange_Buttons"])
+    tutorial_button = constants.Button( "TUTORIAL", 0,  play_button.rect.y,0,0, constants.Colour_Palettes["Orange_Buttons"])
+    settings_button = constants.Button( "SETTINGS", 0, tutorial_button.rect.y,0,0, constants.Colour_Palettes["Orange_Buttons"])
+    quit_button = constants.QuitButton( constants.Colour_Palettes["Orange_Buttons"])
+    
     Main_Buttons = [play_button, tutorial_button, settings_button, quit_button]
 
     pygame.key.set_repeat(100)
@@ -27,7 +27,6 @@ def main_menu():
     while MainRunning:
         # Blit the background image onto the screen
         screen.blit(constants.BACKGROUND_IMAGE, (0, 0))
-
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
 
