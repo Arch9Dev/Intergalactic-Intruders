@@ -4,6 +4,9 @@ import tutorial
 import settings
 import play
 
+
+#fixed
+
 def main_menu():
     # Initialize Pygame
     pygame.init()
