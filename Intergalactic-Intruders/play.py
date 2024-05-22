@@ -8,7 +8,7 @@ def drawGrid():
    WINDOW_WIDTH= constants.SCREEN_WIDTH
    WINDOWHEIGHT = constants.SCREEN_HEIGHT
    blocksize = 20  
-   for x in range(0,WINDOW_WIDTH,blocksize):
+   for x in range(0,blocksize,WINDOW_WIDTH):
         for y in range(0,blocksize, WINDOWHEIGHT):
             rect = pygame.Rect(x, y, blocksize, blocksize)
             pygame.draw.rect(constants.screen, WHITE, rect, 1)  
@@ -37,7 +37,7 @@ def show_play():
         screen.fill(constants.BLUE_LIGHT)
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
-        drawGrid(screen,screen.get_width(),screen.get_height)
+        drawGrid()
         # Event Handling
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:

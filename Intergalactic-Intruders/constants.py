@@ -233,7 +233,7 @@ class BackButton(Button):
         elif self.Returnpage == 3:
            # show_settings()
             pass
-        pygame.display.set_caption(self.Returnpage)
+        pygame.display.set_caption(F"{self.Returnpage}")
 
 class Timer:
     def __init__(self, screen, time, x, y, width, height, fontsize):
