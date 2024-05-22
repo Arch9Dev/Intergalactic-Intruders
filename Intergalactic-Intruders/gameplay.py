@@ -7,9 +7,9 @@ import constants
 
 def show_gameplay():
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+ #   screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     pygame.display.set_caption("GAMEPLAY")
-
+    screen = constants.screen
     running = True
     while running:
         for event in pygame.event.get():

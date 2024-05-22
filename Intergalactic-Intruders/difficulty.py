@@ -17,8 +17,8 @@ def show_difficulty():
     Button_H = constants.BUTTON_HEIGHT
     
     easy_button = constants.Button(screen, "EASY", Button_X, Button_Y, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    medium_button = constants.Button(screen, "MEDIUM", Button_X, easy_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    hard_button = constants.Button(screen, "HARD", Button_X, medium_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
+    medium_button = constants.Button(screen, "MEDIUM", Button_X, easy_button.Y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
+    hard_button = constants.Button(screen, "HARD", Button_X, medium_button.Y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
     
     
     Difficulty_Buttons = [easy_button, medium_button, hard_button]

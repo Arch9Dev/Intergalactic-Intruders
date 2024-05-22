@@ -16,7 +16,7 @@ def show_levels():
     Button_H = constants.BUTTON_HEIGHT
 
     Level1_Button = constants.Button(screen, "LEVEL 1", Button_X, Button_Y, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    Level2_Button = constants.Button(screen, "LEVEL 2", Button_X, Level1_Button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
+    Level2_Button = constants.Button(screen, "LEVEL 2", Button_X, Level1_Button.Y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
 
     Level_Buttons = [Level1_Button, Level2_Button]
     

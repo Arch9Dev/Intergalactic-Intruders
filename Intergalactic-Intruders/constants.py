@@ -1,8 +1,7 @@
 import pygame
 import images
-import settings
-import play
-import main
+
+
 
 # Initialize Pygame
 pygame.init()
@@ -18,6 +17,7 @@ RED_DARK = (255, 60, 0)
 RED_LIGHT = (255, 90, 70)
 BLUE_DARK = (0, 60, 255)
 BLUE_LIGHT = (0, 160, 255)
+
 
 
 Colour_Palettes = {
@@ -45,11 +45,18 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 
-# Button dimensions
+# Button Sizes
 BUTTON_WIDTH = 200
 BUTTON_HEIGHT = 50
 BUTTON_GAP = 20
 BUTTON_BORDER_WIDTH = 2
+
+Button_X = (SCREEN_WIDTH - BUTTON_WIDTH) // 2
+Button_Y = 300
+Button_Gap = BUTTON_HEIGHT + BUTTON_GAP
+Button_W = BUTTON_WIDTH
+Button_H = BUTTON_HEIGHT
+# Back button
 
 
 # Fonts
@@ -128,11 +135,7 @@ TIMETRIAL_TEXT = [
     "TIME TRIAL PLACE HOLDER"
 ]
 
-# Back button
-BACK_BUTTON_X = 20
-BACK_BUTTON_Y = 20
-BACK_BUTTON_W = 100
-BACK_BUTTON_H = 40
+
 
 
 # Slider positions and sizes
@@ -142,6 +145,9 @@ SLIDER_HEIGHT = 10
 MAIN_VOLUME_SLIDER_POS = (SCREEN_WIDTH // 2, 200)
 MUSIC_SLIDER_POS = (SCREEN_WIDTH // 2, 300)
 SOUND_EFFECTS_SLIDER_POS = (SCREEN_WIDTH // 2, 400)
+
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
 
 def draw_circle(screen, colour, position, radius):
     pygame.draw.circle(screen, colour, position, radius)
@@ -165,18 +171,28 @@ def draw_gunshot_button(screen, x, y, width, height, text):
 
 # Back button
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
+Pages = {  "MAIN" : 1 ,"PLAY" : 2,"SETTINGS" :3}
+#Pages = ["MAIN","PLAY","SETTINGS"]
+#button constants., constants., constants., constants.Colour_Palettes["Red_Buttons"])
 
 class Button:
-    def __init__(self, screen, button_text, x, y, width, height, colour_palette):
-        self.x, self.y, self.width, self.height = x, y, width, height
-        self.border_coords = ((x, y), (x + width, y), (x + width, y + height), (x, y + height))
+    def __init__(self, screen, button_text,Offset_X,Offset_Y,width_Offset,height_Offset, colour_palette):
+        self.X = (Offset_X + Button_X)
+        self.Y = (Offset_Y + Button_Y)
+        self.width = (Button_W + width_Offset)
+        self.height = (Button_H +  height_Offset)
+        self.border_coords = (
+            (self.X, self.Y), 
+            (self.X + self.width, self.Y),
+            (self.X + self.width, self.Y + self.height),
+            (self.X, self.Y + self.height)
+        )
         self.border_thickness = 3
         self.screen = screen
         self.hovered = False
         self.colour_palette = colour_palette
         self.text = button_text
-        self.rect = pygame.Rect(x, y, width, height)
-
+        self.rect = pygame.Rect(self.X, self.Y, self.width, self.height)
     def draw(self):
         Text_Colour = self.colour_palette["Text_Colour"]["Normal"]
         Hover_Text_Colour = self.colour_palette["Text_Colour"]["Hover"]
@@ -194,25 +210,29 @@ class Button:
             text_surface = FONT.render(self.text, True, Text_Colour)
             pygame.draw.lines(self.screen, Border_Colour, True, self.border_coords, self.border_thickness)
 
-        text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+        text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
         
 class BackButton(Button):
-    def __init__(self, screen, colour_palette, ReturnPage ):
-        x = BACK_BUTTON.x 
-        y = BACK_BUTTON.y
+    def __init__(self, screen, colour_palette, ReturnPage = Pages ):
+        BB_X = -(Button_X - BACK_BUTTON.x)
+        BB_Y = -(Button_Y - BACK_BUTTON.y) 
+        BB_W = BACK_BUTTON.width - BUTTON_WIDTH
+        BB_Y = BACK_BUTTON.height - BUTTON_HEIGHT
+
         button_text = "BACK"
-        width = BACK_BUTTON.width
-        height = BACK_BUTTON.height
         self.Returnpage = ReturnPage
-        super().__init__(screen, button_text, x, y, width, height, colour_palette)     
+        super().__init__(screen, button_text, BB_X, BB_Y,BB_W,BB_Y, colour_palette)     
     def ReturnTo(self):
-        if self.Returnpage == "Main":
-            main.main_menu()
-        elif self.Returnpage == "PLAY":
-            play.show_play()
-        elif self.Returnpage == "SETTINGS":
-            settings.show_settings()
+        if self.Returnpage == 1:
+           # main_menu()    
+           pass   
+        elif self.Returnpage == 2:
+           # show_play()
+           pass
+        elif self.Returnpage == 3:
+           # show_settings()
+            pass
         pygame.display.set_caption(self.Returnpage)
 
 class Timer:

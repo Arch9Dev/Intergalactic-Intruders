@@ -2,24 +2,30 @@ import pygame
 import constants
 import levels
 import timetrial
-
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+def drawGrid():
+   WINDOW_WIDTH= constants.SCREEN_WIDTH
+   WINDOWHEIGHT = constants.SCREEN_HEIGHT
+   blocksize = 20  
+   for x in range(0,WINDOW_WIDTH,blocksize):
+        for y in range(0,blocksize, WINDOWHEIGHT):
+            rect = pygame.Rect(x, y, blocksize, blocksize)
+            pygame.draw.rect(constants.screen, WHITE, rect, 1)  
 def show_play():
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+   # screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = constants.screen
     pygame.display.set_caption("PLAY")
     
+    pygame.draw.line(screen,constants.BLACK,(0,0),(200,100),1)
     
     # Define Buttons
-    Button_X = (constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2
-    Button_Y = 300
-    Button_Gap = constants.BUTTON_HEIGHT + constants.BUTTON_GAP
-    Button_W = constants.BUTTON_WIDTH
-    Button_H = constants.BUTTON_HEIGHT
     
     
-    levels_button = constants.Button(screen, "LEVELS", Button_X, Button_Y, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    timetrial_button = constants.Button(screen, "TIME TRIAL", Button_X, levels_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    BackButton = constants.BackButton(screen,constants.Colour_Palettes["Red_Buttons"],"MAIN")
+    levels_button = constants.Button(screen, "LEVELS",0,0,0,0, constants.Colour_Palettes["Red_Buttons"])
+    timetrial_button = constants.Button(screen, "TIME TRIAL",0,levels_button.Y,0,0, constants.Colour_Palettes["Red_Buttons"])
+    BackButton = constants.BackButton(screen,constants.Colour_Palettes["Red_Buttons"],"P")
 
     Play_Buttons = [levels_button, timetrial_button,BackButton]
     
@@ -31,7 +37,7 @@ def show_play():
         screen.fill(constants.BLUE_LIGHT)
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
-        
+        drawGrid(screen,screen.get_width(),screen.get_height)
         # Event Handling
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:
@@ -62,6 +68,6 @@ def show_play():
 
 
         pygame.display.update()
-        
-    pygame.quit()
-    quit()
+
+pygame.quit()
+quit()
