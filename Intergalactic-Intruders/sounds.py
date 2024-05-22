@@ -46,3 +46,7 @@ def get_space_sound_volume():
 
 def get_gunshot_sound_volume():
     return sound_effects_volume
+
+
+
+# MORE SOUNDS NEED ADDING
