@@ -2,9 +2,13 @@ import pygame
 import constants
 
 def show_tutorial():
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    pygame.init()
+    screen = constants.screen
     pygame.display.set_caption("TUTORIAL")
     
+
+    Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"main")
+    Tutorial_Buttons =[Back_button]
     xolonium_font = constants.load_xolonium_font(24)
     
     # Get the tutorial text from constants.py
@@ -22,16 +26,24 @@ def show_tutorial():
 
     tutorials_running = True
     while tutorials_running:
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         for event in pygame.event.get():
+            if event.type == pygame.MOUSEMOTION:
+                MousePos = pygame.mouse.get_pos()
+                for button in Tutorial_Buttons:
+                    button.hovered = button.rect.collidepoint(MousePos)
+                    
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if constants.BACK_BUTTON.collidepoint(event.pos):
-                    pygame.display.set_caption("MAIN MENU")
-                    return  # Return to settings page when the "Back" button is clicked
+                if Back_button.rect.collidepoint(event.pos):
+                    Back_button.ReturnTo()
+
                 
-        screen.fill(constants.PURPLE)
+        screen.fill(constants.BLUE_DARK)
+        for button in Tutorial_Buttons:
+            button.draw()
 
         # Render tutorial
         y_offset = starting_y
@@ -42,10 +54,6 @@ def show_tutorial():
             y_offset += line_height
        
         # Render back button with border
-        pygame.draw.rect(screen, constants.RED, constants.BACK_BUTTON)
-        pygame.draw.rect(screen, constants.BLACK, constants.BACK_BUTTON, 2)  # Draw border
-        back_text = constants.FONT.render("BACK", True, constants.BLACK)
-        screen.blit(back_text, (constants.BACK_BUTTON.x + 20, constants.BACK_BUTTON.y + 10))
-
+        
         pygame.display.update()
 
