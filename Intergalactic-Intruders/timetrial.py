@@ -11,6 +11,7 @@ def show_timetrial():
 
     tutorials_running = True
     while tutorials_running:
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -23,8 +24,7 @@ def show_timetrial():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
-        screen.fill(constants.Alabaster)
-
+                    
         for button in TimeTrial_Buttons:
             button.draw()        # Render display content
         y_offset = 50

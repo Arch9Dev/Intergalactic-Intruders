@@ -11,6 +11,8 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+BACKGROUND_IMAGE = images.load_background_image()
+
 
 #Colours
 WHITE = (250, 249, 246)
@@ -20,8 +22,10 @@ RED_DARK = (255, 60, 0)
 RED_DARKER = (208, 48, 0)
 RED_LIGHT = (255, 0, 60)
 BLUE_DARK = (0, 60, 255)
+BLUE_DARKER = (0, 60, 200)
 BLUE_LIGHT = (70, 235, 255)
 GREEN_DARK = (66, 190, 28)
+GREEN_DARKER = (60, 150, 0)
 GREEN_LIGHT = (60, 255, 0)
 ORANGE_DARK = (255, 195, 0)
 ORANGE_DARKER = (255, 111, 0)
@@ -33,17 +37,17 @@ Colour_Palettes = {
     "Red_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": RED_DARK, "Hover": RED_LIGHT},
-        "Border_Colour": {"Normal": RED_DARKER, "Hover": WHITE}
+        "Border_Colour": {"Normal": RED_DARKER, "Hover": RED_DARK}
     },
     "Green_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": GREEN_DARK, "Hover": GREEN_LIGHT},
-        "Border_Colour": {"Normal": BLACK, "Hover": WHITE}
+        "Border_Colour": {"Normal": GREEN_DARKER, "Hover": GREEN_DARK}
     },
     "Blue_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": BLUE_DARK, "Hover": BLUE_LIGHT},
-        "Border_Colour": {"Normal": BLACK, "Hover": WHITE}
+        "Border_Colour": {"Normal": BLUE_DARKER, "Hover": BLUE_DARK}
     },
     "Orange_Buttons":{
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
@@ -79,14 +83,15 @@ BUTTON_H = BUTTON_HEIGHT
 # Fonts
 FONT = pygame.font.Font(None, 36)
 TITLE_FONT = pygame.font.Font(None, 48)
+
 def load_xolonium_font(font_size):
     # Load the custom font
-    xolonium_font_path = "Intergalactic-Intruders/Fonts/Xolonium.ttf"
+    xolonium_font_path = "Intergalactic-Intruders\Fonts\Xolonium.ttf"
     xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
     return xolonium_font
 
 def load_immermann_font(font_size):
-    immermann_font_path = "Intergalactic-Intruders/Fonts/Immerman.tff"
+    immermann_font_path = "Intergalactic-Intruders/Fonts/Immermann.ttf"
     immerman_font = pygame.font.Font(immermann_font_path, font_size)
     return immerman_font
 
@@ -187,24 +192,18 @@ def draw_gunshot_button(screen, x, y, width, height, text):
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
 class Button:
-    def __init__(self,  button_text,Offset_X,Offset_Y,width_Offset,height_Offset, colour_palette):
-
-        self.X = Offset_X  if Offset_X != 0 else  BUTTON_X
-        self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else  BUTTON_Y
+    def __init__(self, button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette):
+        self.X = Offset_X if Offset_X != 0 else BUTTON_X
+        self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else BUTTON_Y
         self.width = (BUTTON_W + width_Offset)
-        self.height = (BUTTON_H +  height_Offset)
-        self.border_coords = (
-            (self.X, self.Y), 
-            (self.X + self.width, self.Y),
-            (self.X + self.width, self.Y + self.height),
-            (self.X, self.Y + self.height)
-        )
+        self.height = (BUTTON_H + height_Offset)
         self.border_thickness = 3
         self.screen = screen
         self.hovered = False
         self.colour_palette = colour_palette
         self.text = button_text
         self.rect = pygame.Rect(self.X, self.Y, self.width, self.height)
+        self.border_radius = 15 
 
     def draw(self):
         Text_Colour = self.colour_palette["Text_Colour"]["Normal"]
@@ -215,13 +214,14 @@ class Button:
         Hover_Border_Colour = self.colour_palette["Border_Colour"]["Hover"]
 
         if self.hovered:
-            pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect)
+            pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect, border_radius=self.border_radius)
+            pygame.draw.rect(self.screen, Hover_Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
             text_surface = FONT.render(self.text, True, Hover_Text_Colour)
-            pygame.draw.lines(self.screen, Hover_Border_Colour, True, self.border_coords, self.border_thickness)
         else:
-            pygame.draw.rect(self.screen, Back_Colour, self.rect)
+            pygame.draw.rect(self.screen, Back_Colour, self.rect, border_radius=self.border_radius)
+            pygame.draw.rect(self.screen, Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
             text_surface = FONT.render(self.text, True, Text_Colour)
-            pygame.draw.lines(self.screen, Border_Colour, True, self.border_coords, self.border_thickness)
+
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
         self.screen.blit(text_surface, text_rect)

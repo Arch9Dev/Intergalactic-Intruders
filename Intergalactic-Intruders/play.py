@@ -11,7 +11,7 @@ def show_play():
 
     
     levels_button = constants.Button("LEVELS", 0, 0, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
-    timetrial_button = constants.Button( "TIME TRIAL", 0, levels_button.rect.y + constants.BUTTON_GAP, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
+    timetrial_button = constants.Button( "TIME TRIAL", 0, levels_button.rect.y + levels_button.height, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"MAIN")
 
     Play_Buttons = [levels_button, timetrial_button,Back_button]
@@ -20,8 +20,7 @@ def show_play():
     play_running = True
 
     while play_running:
-        # Render screen
-        screen.fill(constants.BLUE_DARK)
+        screen.blit(constants.BACKGROUND_IMAGE, (0, 0))
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
         

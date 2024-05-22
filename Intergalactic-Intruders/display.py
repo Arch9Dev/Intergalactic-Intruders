@@ -10,7 +10,7 @@ def show_display():
     Display_Buttons =[Back_button]
     display_running = True
     while display_running:
-       
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
                     
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:
@@ -23,8 +23,6 @@ def show_display():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
-
-        screen.fill(constants.GREY)
         for button in Display_Buttons:
             button.draw()        # Render display content
         y_offset = 50

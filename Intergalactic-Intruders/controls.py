@@ -10,6 +10,7 @@ def show_controls():
     Control_Buttons =[Back_button]
     controls_running = True
     while controls_running:
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:
                 MousePos = pygame.mouse.get_pos()
@@ -22,7 +23,6 @@ def show_controls():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
-        screen.fill(constants.GREY)
         for button in Control_Buttons:
             button.draw()
 
