@@ -5,23 +5,16 @@ import timetrial
 
 def show_play():
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = constants.screen
     pygame.display.set_caption("PLAY")
     
-    
-    # Define Buttons
-    Button_X = (constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2
-    Button_Y = 300
-    Button_Gap = constants.BUTTON_HEIGHT + constants.BUTTON_GAP
-    Button_W = constants.BUTTON_WIDTH
-    Button_H = constants.BUTTON_HEIGHT
-    
-    
-    levels_button = constants.Button(screen, "LEVELS", Button_X, Button_Y, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    timetrial_button = constants.Button(screen, "TIME TRIAL", Button_X, levels_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
 
+    
+    levels_button = constants.Button("LEVELS", 0, 0, 0, 0, constants.Colour_Palettes["Red_Buttons"])
+    timetrial_button = constants.Button( "TIME TRIAL", 0, levels_button.rect.y + constants.Button_Gap, 0, 0, constants.Colour_Palettes["Red_Buttons"])
+    Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"MAIN")
 
-    Play_Buttons = [levels_button, timetrial_button]
+    Play_Buttons = [levels_button, timetrial_button,Back_button]
     
     pygame.key.set_repeat(100)
     play_running = True
@@ -47,6 +40,8 @@ def show_play():
                     levels.show_levels()
                 elif timetrial_button.rect.collidepoint(event.pos):
                     timetrial.show_timetrial()
+                elif Back_button.rect.collidepoint(event.pos):
+                    Back_button.ReturnTo()
 
                 
         

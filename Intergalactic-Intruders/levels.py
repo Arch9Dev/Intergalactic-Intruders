@@ -15,10 +15,11 @@ def show_levels():
     Button_W = constants.BUTTON_WIDTH
     Button_H = constants.BUTTON_HEIGHT
 
-    Level1_Button = constants.Button(screen, "LEVEL 1", Button_X, Button_Y, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    Level2_Button = constants.Button(screen, "LEVEL 2", Button_X, Level1_Button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
+    Level1_Button = constants.Button("LEVEL 1", 0, 0, 0, 0, constants.Colour_Palettes["Red_Buttons"])
+    Level2_Button = constants.Button("LEVEL 2", 0, Level1_Button.rect.y + constants.Button_Gap, 0, 0, constants.Colour_Palettes["Red_Buttons"])
+    Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],constants.Pages["PLAY"])
 
-    Level_Buttons = [Level1_Button, Level2_Button]
+    Level_Buttons = [Level1_Button, Level2_Button,Back_button]
     
     pygame.key.set_repeat(100)
 

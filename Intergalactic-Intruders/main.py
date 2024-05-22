@@ -1,29 +1,23 @@
 import pygame
+import constants
 import tutorial
 import settings
 import play
-import constants
+
 
 def main_menu():
     # Initialize Pygame
     pygame.init()
     
     # Create the main menu screen
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.RESIZABLE)
+    screen = constants.screen
     pygame.display.set_caption("MAIN MENU")
-    
-    # Define buttons
-    Button_X = (constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2
-    Button_Y = 300
-    Button_Gap = constants.BUTTON_HEIGHT + constants.BUTTON_GAP
-    Button_W = constants.BUTTON_WIDTH
-    Button_H = constants.BUTTON_HEIGHT
-    
+
     # Buttons
-    play_button = constants.Button(screen, "PLAY", Button_X, Button_Y, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    tutorial_button = constants.Button(screen, "TUTORIAL", Button_X, play_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    settings_button = constants.Button(screen, "SETTINGS", Button_X, tutorial_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    quit_button = constants.Button(screen, "QUIT", Button_X, settings_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
+    play_button = constants.Button( "PLAY", 0, 0,0,0, constants.Colour_Palettes["Red_Buttons"])
+    tutorial_button = constants.Button( "TUTORIAL", 0,  play_button.rect.y,0,0, constants.Colour_Palettes["Red_Buttons"])
+    settings_button = constants.Button( "SETTINGS", 0, tutorial_button.rect.y,0,0, constants.Colour_Palettes["Red_Buttons"])
+    quit_button = constants.QuitButton( constants.Colour_Palettes["Red_Buttons"])
     
     Main_Buttons = [play_button, tutorial_button, settings_button, quit_button]
     

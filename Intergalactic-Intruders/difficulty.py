@@ -16,12 +16,13 @@ def show_difficulty():
     Button_W = constants.BUTTON_WIDTH
     Button_H = constants.BUTTON_HEIGHT
     
-    easy_button = constants.Button(screen, "EASY", Button_X, Button_Y, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    medium_button = constants.Button(screen, "MEDIUM", Button_X, easy_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    hard_button = constants.Button(screen, "HARD", Button_X, medium_button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
+    easy_button = constants.Button("EASY", 0, 0, 0, 0, constants.Colour_Palettes["Red_Buttons"])
+    medium_button = constants.Button("MEDIUM", 0, easy_button.rect.y + Button_Gap, 0, 0, constants.Colour_Palettes["Red_Buttons"])
+    hard_button = constants.Button("HARD", 0, medium_button.rect.y + Button_Gap, 0, 0, constants.Colour_Palettes["Red_Buttons"])
+    Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],constants.Pages["MAIN"])
+
     
-    
-    Difficulty_Buttons = [easy_button, medium_button, hard_button]
+    Difficulty_Buttons = [easy_button, medium_button, hard_button,Back_button]
     
     pygame.key.set_repeat(100)
     
