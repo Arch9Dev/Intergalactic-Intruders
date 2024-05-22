@@ -26,6 +26,7 @@ def show_tutorial():
 
     tutorials_running = True
     while tutorials_running:
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:
                 MousePos = pygame.mouse.get_pos()

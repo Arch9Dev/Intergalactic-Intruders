@@ -13,7 +13,7 @@ def show_difficulty():
 
     
     easy_button = constants.Button("EASY", 0, 0, 0, 0, constants.Colour_Palettes["Green_Buttons"])
-    medium_button = constants.Button("MEDIUM", 0, easy_button.rect.y , 0, 0, constants.Colour_Palettes["Blue_Buttons"])
+    medium_button = constants.Button("MEDIUM", 0, easy_button.rect.y , 0, 0, constants.Colour_Palettes["Orange_Buttons"])
     hard_button = constants.Button("HARD", 0, medium_button.rect.y , 0, 0, constants.Colour_Palettes["Red_Buttons"])
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"levels")
 
@@ -25,7 +25,7 @@ def show_difficulty():
     
     difficulty_running = True
     while difficulty_running:
-        screen.fill(constants.Alabaster)
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
                

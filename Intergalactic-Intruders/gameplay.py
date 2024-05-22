@@ -8,8 +8,8 @@ def show_gameplay():
     screen = constants.screen
     pygame.display.set_caption("GAMEPLAY")
 
-    Back_button = constants.BackButton(constants.Colour_Palettes["Blue_Buttons"],"levels")
-    Gameplay_buttons =[Back_button]
+    Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"levels")
+    Gameplay_buttons = [Back_button]
     running = True
     while running:
         for event in pygame.event.get():
@@ -25,7 +25,7 @@ def show_gameplay():
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
 
-        screen.fill(constants.Alabaster)
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         # Placeholder content
         placeholder_text = constants.FONT.render("Gameplay Placeholder", True, constants.BLACK)
         screen.blit(placeholder_text, (constants.SCREEN_WIDTH // 2 - 100, constants.SCREEN_HEIGHT // 2))

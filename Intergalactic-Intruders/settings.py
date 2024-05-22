@@ -9,15 +9,16 @@ def show_settings():
     screen = constants.screen
     pygame.display.set_caption("SETTINGS")
     
-    Audio_Button = constants.Button("Audio",0,0,0,0,constants.Colour_Palettes["Blue_Buttons"])
-    Display_Button = constants.Button("Display",0,Audio_Button.rect.y,0,0,constants.Colour_Palettes["Blue_Buttons"])
-    Controls_Button = constants.Button("Controls",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Blue_Buttons"])
+    Audio_Button = constants.Button("Audio",0,0,0,0,constants.Colour_Palettes["Orange_Buttons"])
+    Display_Button = constants.Button("Display",0,Audio_Button.rect.y,0,0,constants.Colour_Palettes["Orange_Buttons"])
+    Controls_Button = constants.Button("Controls",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Orange_Buttons"])
     Back_Button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"Main")
 
     Settings_Buttons = [Audio_Button,Display_Button,Controls_Button,Back_Button]
     settings_running = True
 
     while settings_running:
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -35,8 +36,6 @@ def show_settings():
                     controls.show_controls()  # Open controls settings
                 elif Back_Button.rect.collidepoint(event.pos):
                     Back_Button.ReturnTo()
-
-        screen.fill(constants.GREY)
 
         # Render title
         title_text = constants.TITLE_FONT.render("SETTINGS", True, constants.BLACK)
