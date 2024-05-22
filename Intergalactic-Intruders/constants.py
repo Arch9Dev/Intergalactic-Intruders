@@ -83,14 +83,15 @@ BUTTON_H = BUTTON_HEIGHT
 # Fonts
 FONT = pygame.font.Font(None, 36)
 TITLE_FONT = pygame.font.Font(None, 48)
+
 def load_xolonium_font(font_size):
     # Load the custom font
-    xolonium_font_path = "Intergalactic-Intruders/Fonts/Xolonium.ttf"
+    xolonium_font_path = "Intergalactic-Intruders\Fonts\Xolonium.ttf"
     xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
     return xolonium_font
 
 def load_immermann_font(font_size):
-    immermann_font_path = "Intergalactic-Intruders/Fonts/Immerman.tff"
+    immermann_font_path = "Intergalactic-Intruders/Fonts/Immermann.ttf"
     immerman_font = pygame.font.Font(immermann_font_path, font_size)
     return immerman_font
 
@@ -192,6 +193,7 @@ BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
 class Button:
     def __init__(self, button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette):
+                self.Button_Font = load_immermann_font(36)# Stop Changing the Button font 
         self.X = Offset_X if Offset_X != 0 else BUTTON_X
         self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else BUTTON_Y
         self.width = (BUTTON_W + width_Offset)
