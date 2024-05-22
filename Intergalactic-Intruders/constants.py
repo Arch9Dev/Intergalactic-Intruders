@@ -11,6 +11,10 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+BACKGROUND_IMAGE = images.load_background_image()
+
+BACKGROUND_IMAGE = images.load_background_image()
+
 
 #Colours
 WHITE = (250, 249, 246)
@@ -20,8 +24,10 @@ RED_DARK = (255, 60, 0)
 RED_DARKER = (208, 48, 0)
 RED_LIGHT = (255, 0, 60)
 BLUE_DARK = (0, 60, 255)
+BLUE_DARKER = (0, 60, 200)
 BLUE_LIGHT = (70, 235, 255)
 GREEN_DARK = (66, 190, 28)
+GREEN_DARKER = (60, 150, 0)
 GREEN_LIGHT = (60, 255, 0)
 ORANGE_DARK = (255, 195, 0)
 ORANGE_DARKER = (255, 111, 0)
@@ -33,17 +39,17 @@ Colour_Palettes = {
     "Red_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": RED_DARK, "Hover": RED_LIGHT},
-        "Border_Colour": {"Normal": RED_DARKER, "Hover": WHITE}
+        "Border_Colour": {"Normal": RED_DARKER, "Hover": RED_DARK}
     },
     "Green_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": GREEN_DARK, "Hover": GREEN_LIGHT},
-        "Border_Colour": {"Normal": BLACK, "Hover": WHITE}
+        "Border_Colour": {"Normal": GREEN_DARKER, "Hover": GREEN_DARK}
     },
     "Blue_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": BLUE_DARK, "Hover": BLUE_LIGHT},
-        "Border_Colour": {"Normal": BLACK, "Hover": WHITE}
+        "Border_Colour": {"Normal": BLUE_DARKER, "Hover": BLUE_DARK}
     },
     "Orange_Buttons":{
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
@@ -79,14 +85,15 @@ BUTTON_H = BUTTON_HEIGHT
 # Fonts
 FONT = pygame.font.Font(None, 36)
 TITLE_FONT = pygame.font.Font(None, 48)
+
 def load_xolonium_font(font_size):
     # Load the custom font
-    xolonium_font_path = "Intergalactic-Intruders/Fonts/Xolonium.ttf"
+    xolonium_font_path = "Intergalactic-Intruders\Fonts\Xolonium.ttf"
     xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
     return xolonium_font
 
 def load_immermann_font(font_size):
-    immermann_font_path = "Intergalactic-Intruders/Fonts/Immerman.tff"
+    immermann_font_path = "Intergalactic-Intruders/Fonts/Immermann.ttf"
     immerman_font = pygame.font.Font(immermann_font_path, font_size)
     return immerman_font
 
@@ -205,7 +212,7 @@ class Button:
         self.colour_palette = colour_palette
         self.text = button_text
         self.rect = pygame.Rect(self.X, self.Y, self.width, self.height)
-
+        
     def draw(self):
         Text_Colour = self.colour_palette["Text_Colour"]["Normal"]
         Hover_Text_Colour = self.colour_palette["Text_Colour"]["Hover"]

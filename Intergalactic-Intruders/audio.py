@@ -33,6 +33,7 @@ def show_audio():
     dragging_sound_effects = False
 
     while audio_running:
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -67,7 +68,6 @@ def show_audio():
                     sound_effects_value = max(0, min(1, sound_effects_value))
                     sound_effects_circle_pos = (int(constants.SOUND_EFFECTS_SLIDER_POS[0] + sound_effects_value * constants.SLIDER_WIDTH - 100), sound_effects_circle_pos[1])
 
-        screen.fill(constants.GREY)
 
         # Render audio content
         y_offset = 50
