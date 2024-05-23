@@ -9,6 +9,9 @@ Screen_Width = 800
 Screen_Height = 1000
 Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
 
+# Load the background image
+background_image = pygame.image.load('Intergalactic-Intruders/images/gameback1.png')
+
 # Set up the clock
 clock = pygame.time.Clock()
 last_time_check = pygame.time.get_ticks()
@@ -83,13 +86,13 @@ def Player(x, y):
     Screen.blit(PlayerImag, (x - 16, y + 10))
 
 def Invader(x, y, rangom):
-    if rangom == 1:
+    if (rangom == 1):
         Screen.blit(InvaderImag1, (x, y))
-    elif rangom == 2:
+    elif (rangom == 2):
         Screen.blit(InvaderImag2, (x, y))
-    elif rangom == 3:
+    elif (rangom == 3):
         Screen.blit(InvaderImag3, (x, y))
-    elif rangom == 4:
+    elif (rangom == 4):
         Screen.blit(InvaderImag4, (x, y))
 
 def Bullet(x, y):
@@ -131,7 +134,8 @@ def player_hit():
 Running = True
 if (CoconutImg == 'true'):
     while Running:
-        Screen.fill((0, 0, 0))
+        # Blit the background image
+        Screen.blit(background_image, (0, 0))
 
         current_time = pygame.time.get_ticks()
         elapsed_time = current_time - last_time_check
