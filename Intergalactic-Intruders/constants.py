@@ -63,9 +63,6 @@ Colour_Palettes = {
 
 
 
-# Screen
-SCREEN_WIDTH = 1820
-SCREEN_HEIGHT = 1000
 
 
 

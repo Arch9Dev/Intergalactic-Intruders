@@ -27,4 +27,4 @@ def load_controls_image():
 def load_background_image():
     background_image_path = os.path.join("Intergalactic-Intruders", "images", "background.png")
     background_image = pygame.image.load(background_image_path)
-    return background_image
+    return pygame.transform.scale(background_image, (1000, 800))
