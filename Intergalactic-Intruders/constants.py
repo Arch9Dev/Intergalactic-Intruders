@@ -195,15 +195,24 @@ class Button:
     def __init__(self, button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette):
         self.X = Offset_X if Offset_X != 0 else BUTTON_X
         self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else BUTTON_Y
-        self.width = (BUTTON_W + width_Offset)
-        self.height = (BUTTON_H + height_Offset)
-        self.border_thickness = 3
+        self.width = (BUTTON_WIDTH + width_Offset)
+        self.height = (BUTTON_HEIGHT + height_Offset)
+        self.border_thickness = BUTTON_BORDER_WIDTH
         self.screen = screen
         self.hovered = False
+        self.clicked = False
         self.colour_palette = colour_palette
         self.text = button_text
         self.rect = pygame.Rect(self.X, self.Y, self.width, self.height)
         self.border_radius = 15
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            self.hovered = self.rect.collidepoint(event.pos)
+        elif event.type == pygame.MOUSEBUTTONDOWN and self.hovered:
+            self.clicked = True
+        elif event.type == pygame.MOUSEBUTTONUP and self.clicked:
+            self.clicked = False
 
     def draw(self):
         Text_Colour = self.colour_palette["Text_Colour"]["Normal"]
@@ -213,9 +222,17 @@ class Button:
         Border_Colour = self.colour_palette["Border_Colour"]["Normal"]
         Hover_Border_Colour = self.colour_palette["Border_Colour"]["Hover"]
 
-        if self.hovered:
-            pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect, border_radius=self.border_radius)
-            pygame.draw.rect(self.screen, Hover_Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
+        if self.clicked:
+            adjusted_rect = self.rect.inflate(-5, -5)  # Slightly smaller to indicate press
+            pygame.draw.rect(self.screen, Hover_Back_Colour, adjusted_rect, border_radius=self.border_radius)
+            pygame.draw.rect(self.screen, Hover_Border_Colour, adjusted_rect, self.border_thickness, border_radius=self.border_radius)
+            text_surface = FONT.render(self.text, True, Hover_Text_Colour)
+        elif self.hovered:
+            shadow_rect = self.rect.inflate(10, 10)  # Slightly larger for shadow effect
+            shadow_rect.topleft = (self.rect.left + 5, self.rect.top + 5)
+            pygame.draw.rect(self.screen, (50, 50, 50), shadow_rect, border_radius=self.border_radius)  # Shadow color
+            pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect.inflate(5, 5), border_radius=self.border_radius)
+            pygame.draw.rect(self.screen, Hover_Border_Colour, self.rect.inflate(5, 5), self.border_thickness, border_radius=self.border_radius)
             text_surface = FONT.render(self.text, True, Hover_Text_Colour)
         else:
             pygame.draw.rect(self.screen, Back_Colour, self.rect, border_radius=self.border_radius)
@@ -224,6 +241,7 @@ class Button:
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
+
 
 class QuitButton(Button):
     def __init__(self, colour_palette):
