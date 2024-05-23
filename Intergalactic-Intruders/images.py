@@ -28,3 +28,10 @@ def load_background_image():
     background_image_path = os.path.join("Intergalactic-Intruders", "images", "background.png")
     background_image = pygame.image.load(background_image_path)
     return pygame.transform.scale(background_image, (1000, 800))
+
+
+# Load Game Background
+def load_gameBG_image():
+    gameBG_image_path = os.path.join("Intergalactic-Intruders", "images", "gameback.png")
+    gameBG_image = pygame.image.load(gameBG_image_path)
+    return pygame.transform.scale(gameBG_image, (800, 1000))

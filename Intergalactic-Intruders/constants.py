@@ -13,6 +13,8 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 BACKGROUND_IMAGE = images.load_background_image()
 
+GAMEBG_IMAGE = images.load_gameBG_image()
+
 
 #Colours
 WHITE = (250, 249, 246)
