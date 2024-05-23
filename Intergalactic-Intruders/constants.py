@@ -6,6 +6,9 @@ import images
 pygame.init()
 
 
+BACKGROUND_IMAGE = images.load_background_image()
+
+
 # Colours
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
