@@ -2,6 +2,9 @@ import pygame
 import math
 import random
 
+#GAMEPLAY
+
+
 pygame.init()
 
 # Set up the screen
