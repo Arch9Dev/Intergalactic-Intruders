@@ -6,7 +6,7 @@ pygame.init()
 
 # Set up the screen
 Screen_Width = 800
-Screen_Height = 600
+Screen_Height = 1000
 Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
 
 # Set up the clock
@@ -23,7 +23,7 @@ game_over_font = pygame.font.Font('freesansbold.ttf', 64)
 Score_val = 0
 PlayerImag = pygame.image.load('Intergalactic-Intruders/images/Player ship (1).gif')
 Player_X = 370
-Player_Y = 523
+Player_Y = 923
 Player_Xchange = 0
 Player_Ychange = 0
 Player_Health = 3  # Player's health
@@ -66,7 +66,7 @@ InvBulletImag = pygame.image.load('Intergalactic-Intruders/images/InvaderBullet.
 InvBullet_Xchange = 0
 InvBullet_Ychange = 1  # Define InvBullet_Ychange here
 Invader_Bullets = [[] for _ in range(InvaderCount)]
-Bullet_Limit = 10  # Maximum number of bullets each invader can handle
+Bullet_Limit = 50  # Maximum number of bullets each invader can handle
 Fire_rate = 7500
 
 last_shot_times = []  # Track the last shot time for each invader
@@ -183,10 +183,10 @@ if (CoconutImg == 'true'):
         elif Player_X >= 784:
             Player_X = 784
 
-        if Player_Y <= 434:
-            Player_Y = 434
-        elif Player_Y >= 554:
-            Player_Y = 554
+        if Player_Y <= 834:
+            Player_Y = 834
+        elif Player_Y >= 954:
+            Player_Y = 954
 
         # Spawn invaders with a delay
         current_time = pygame.time.get_ticks()
@@ -230,13 +230,13 @@ if (CoconutImg == 'true'):
             for bullet in Invader_Bullets[i]:
                 InvaderBullet(bullet[0], bullet[1], i)
                 bullet[1] += InvBullet_Ychange
-                if bullet[1] >= 600:  # Check if bullet has reached bottom of the screen
+                if bullet[1] >= 1000:  # Check if bullet has reached bottom of the screen
                     Invader_Bullets[i].remove(bullet)
                     print('bullet removed')
 
         # Update player bullet position
         if Bullet_Y <= 0:
-            Bullet_Y = 600
+            Bullet_Y = 1000
             BulletStaet = "rest"
         if BulletStaet == "fire":
             Bullet(Bullet_X, Bullet_Y)
@@ -248,7 +248,7 @@ if (CoconutImg == 'true'):
             if collision:
                 Hits_Landed += 1
                 Score_val += 1
-                Bullet_Y = 600
+                Bullet_Y = 1000
                 BulletStaet = "rest"
                 Invader_X.pop(i)
                 Invader_Y.pop(i)
