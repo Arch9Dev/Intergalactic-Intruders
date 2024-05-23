@@ -4,6 +4,8 @@ import tutorial
 import settings
 import play
 
+
+#main
 def main_menu():
     # Initialize Pygame
     pygame.init()
@@ -32,27 +34,27 @@ def main_menu():
 
         # Event handling
         for event in pygame.event.get():
-            if event.type == pygame.MOUSEMOTION:
-                MousePos = pygame.mouse.get_pos()
-                for button in Main_Buttons:
-                    button.hovered = button.rect.collidepoint(MousePos)
-                    
             if event.type == pygame.QUIT:
                 MainRunning = False
-                
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if play_button.rect.collidepoint(event.pos):
-                    play.show_play()
-                elif tutorial_button.rect.collidepoint(event.pos):
-                    tutorial.show_tutorial()
-                elif settings_button.rect.collidepoint(event.pos):
-                    settings.show_settings()
-                elif quit_button.rect.collidepoint(event.pos):
-                    MainRunning = False
-        
+            
+            for button in Main_Buttons:
+                button.handle_event(event)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for button in Main_Buttons:
+                    if button.clicked:
+                        if button.text == "PLAY":
+                            play.show_play()
+                        elif button.text == "TUTORIAL":
+                            tutorial.show_tutorial()
+                        elif button.text == "SETTINGS":
+                            settings.show_settings()
+                        elif button.text == "QUIT":
+                            MainRunning = False
+
         for button in Main_Buttons:
             button.draw()
-        
+
         pygame.display.update()
     
     pygame.quit()
