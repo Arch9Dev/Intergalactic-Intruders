@@ -1,12 +1,13 @@
 import pygame
 import math
 import random
+import constants
 
 pygame.init()
 
 # Set up the screen
 Screen_Width = 800
-Screen_Height = 600
+Screen_Height = 1000
 Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
 
 # Set up the clock
