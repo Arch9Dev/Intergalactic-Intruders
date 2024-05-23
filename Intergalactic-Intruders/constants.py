@@ -62,10 +62,6 @@ Colour_Palettes = {
 }
 
 
-
-
-
-
 # Button dimensions
 BUTTON_WIDTH = 200
 BUTTON_HEIGHT = 50
