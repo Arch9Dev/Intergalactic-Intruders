@@ -12,6 +12,9 @@ Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
 # Load the background image
 background_image = pygame.image.load('Intergalactic-Intruders/images/gameback1.png')
 
+# Load the barrier image
+barrier_image = pygame.image.load('Intergalactic-Intruders/images/barrier.png')
+
 # Set up the clock
 clock = pygame.time.Clock()
 last_time_check = pygame.time.get_ticks()
@@ -74,6 +77,21 @@ Fire_rate = 7500
 
 last_shot_times = []  # Track the last shot time for each invader
 
+# Define barriers
+barrier_width = 175
+barrier_height = 100
+barrier_y = 750  # Arbitrary height positioning for the barriers
+barriers = [
+    (68.75, barrier_y),
+    (68.75 + barrier_width + 68.75, barrier_y),
+    (68.75 + 2 * (barrier_width + 68.75), barrier_y)
+]
+
+# Define hitbox sizes
+player_hitbox = (PlayerImag.get_width(), PlayerImag.get_height())
+invader_hitbox = (64, 64)  # Assuming invaders are 64x64 pixels
+bullet_hitbox = (BulletImag.get_width(), BulletImag.get_height())
+
 def isCollision_PlayerBullet(x1, x2, y1, y2):
     distance = math.sqrt((math.pow(x1 - x2, 2)) + (math.pow(y1 - y2, 2)))
     return distance <= 33
@@ -82,17 +100,20 @@ def isCollision_InvBullet(x1, x2, y1, y2):
     distance = math.sqrt((math.pow(x1 - x2, 2)) + (math.pow(y1 - y2, 2)))
     return distance <= 33
 
+def isCollision_Barrier(x1, y1, barrier_rect):
+    return barrier_rect.collidepoint(x1, y1)
+
 def Player(x, y):
     Screen.blit(PlayerImag, (x - 16, y + 10))
 
 def Invader(x, y, rangom):
-    if (rangom == 1):
+    if rangom == 1:
         Screen.blit(InvaderImag1, (x, y))
-    elif (rangom == 2):
+    elif rangom == 2:
         Screen.blit(InvaderImag2, (x, y))
-    elif (rangom == 3):
+    elif rangom == 3:
         Screen.blit(InvaderImag3, (x, y))
-    elif (rangom == 4):
+    elif rangom == 4:
         Screen.blit(InvaderImag4, (x, y))
 
 def Bullet(x, y):
@@ -132,7 +153,7 @@ def player_hit():
 
 # Main game loop
 Running = True
-if (CoconutImg == 'true'):
+if CoconutImg == 'true':
     while Running:
         # Blit the background image
         Screen.blit(background_image, (0, 0))
@@ -140,8 +161,8 @@ if (CoconutImg == 'true'):
         current_time = pygame.time.get_ticks()
         elapsed_time = current_time - last_time_check
 
-        if (Time_trial == 'true'):
-            if (elapsed_time >= 1000):
+        if Time_trial == 'true':
+            if elapsed_time >= 1000:
                 # Increase Time_Difficulty by whatever every second
                 if Frames < 300:
                     Time_Difficulty *= 1.005
@@ -198,14 +219,12 @@ if (CoconutImg == 'true'):
             rangom = random.randint(1, 4)  # Choose a random image for this invader
             Invader_X.append(0)
             Invader_Y.append(30)
-            Invader_Xchange.append(1.2)
-            Invader_Rangom.append(rangom)  # Store the rangom value for this invader
-            last_shot_times.append(current_time + random.randint(-4000, 4000))  # Initialize last shot time for this invader
-            # Initialize bullet lists for each invader
-            Invader_Bullets.append([])
+            Invader_Xchange.append(1.7)
+            Invader_Rangom.append(rangom)
+            last_shot_times.append(current_time)  # Initialize the last shot time for this invader
             last_spawn_time = current_time
             Current_Invaders += 1
-            if (Current_Invaders >= InvaderCount) and Time_trial == 'false':
+            if Current_Invaders >= InvaderCount and Time_trial == 'false':
                 Max_Invaders_YN = 'true'
 
         # Update invader positions
@@ -225,7 +244,7 @@ if (CoconutImg == 'true'):
         for i in range(len(Invader_X)):
             # Check if invader can fire a bullet
             if len(Invader_Bullets[i]) < Bullet_Limit:
-                if current_time - last_shot_times[i] >= Fire_rate + random.randint(-Fire_rate//2, Fire_rate):  # 1/1000 seconds
+                if current_time - last_shot_times[i] >= Fire_rate + random.randint(-Fire_rate//2, Fire_rate):
                     Invader_Bullets[i].append([Invader_X[i], Invader_Y[i]])
                     last_shot_times[i] = current_time
 
@@ -246,7 +265,7 @@ if (CoconutImg == 'true'):
             Bullet(Bullet_X, Bullet_Y)
             Bullet_Y -= Bullet_Ychange
 
-        # Check for collisions
+        # Check for collisions with player bullet
         for i in range(len(Invader_X)):
             collision = isCollision_PlayerBullet(Bullet_X, Invader_X[i], Bullet_Y, Invader_Y[i])
             if collision:
@@ -260,17 +279,42 @@ if (CoconutImg == 'true'):
                 Invader_Rangom.pop(i)
                 last_shot_times.pop(i)
                 break
+
+        # Check for collisions with invader bullets and barriers
+        for i in range(len(Invader_X)):
             for bullet in Invader_Bullets[i]:
-                collision = isCollision_InvBullet(bullet[0], Player_X, bullet[1], Player_Y)
-                if collision:
+                bullet_rect = pygame.Rect(bullet[0], bullet[1], *bullet_hitbox)
+                for barrier in barriers[:]:
+                    barrier_rect = pygame.Rect(barrier[0], barrier[1], barrier_width, barrier_height)
+                    if isCollision_Barrier(bullet[0], bullet[1], barrier_rect):
+                        Invader_Bullets[i].remove(bullet)
+                        break
+
+        # Check for collisions between invaders and barriers
+        for i in range(len(Invader_X)):
+            invader_rect = pygame.Rect(Invader_X[i], Invader_Y[i], *invader_hitbox)
+            for barrier in barriers[:]:
+                barrier_rect = pygame.Rect(barrier[0], barrier[1], barrier_width, barrier_height)
+                if invader_rect.colliderect(barrier_rect):
+                    barriers.remove(barrier)
+                    break
+
+        # Check for collisions with invader bullets and player
+        player_rect = pygame.Rect(Player_X, Player_Y, *player_hitbox)
+        for i in range(len(Invader_X)):
+            for bullet in Invader_Bullets[i][:]:
+                bullet_rect = pygame.Rect(bullet[0], bullet[1], *bullet_hitbox)
+                if bullet_rect.colliderect(player_rect):
                     Invader_Bullets[i].remove(bullet)
                     player_hit()
                     break
 
-        # Render player, invaders, score, and health
+        # Render player, invaders, barriers, score, and health
         Player(Player_X, Player_Y)
         for i in range(len(Invader_X)):
             Invader(Invader_X[i], Invader_Y[i], Invader_Rangom[i])  # Pass the assigned rangom value
+        for barrier in barriers:
+            Screen.blit(barrier_image, barrier)
         show_Score(5, 5)
         show_Difficulty(130, 5, Frames)
         show_Acc(300, 5)
@@ -279,5 +323,4 @@ if (CoconutImg == 'true'):
         Frames = 180 * Difficulty * Time_Difficulty
         pygame.display.update()
         clock.tick(Frames)  # Limit frame rate based on difficulty
-
 pygame.quit()
