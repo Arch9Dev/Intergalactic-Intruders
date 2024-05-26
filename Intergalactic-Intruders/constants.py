@@ -32,28 +32,33 @@ ORANGE_DARKER = (255, 111, 0)
 ORANGE_LIGHT = (255, 235, 0)
 
 GREEN_TEST = (20, 230, 6)
+GREEN_TEST_DARK = (20, 180, 40)
 
 
 Colour_Palettes = {
     "Red_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": RED_DARK, "Hover": RED_LIGHT},
-        "Border_Colour": {"Normal": RED_DARKER, "Hover": RED_DARK}
+        "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
+        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
     },
     "Green_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": GREEN_DARK, "Hover": GREEN_LIGHT},
-        "Border_Colour": {"Normal": GREEN_DARKER, "Hover": GREEN_DARK}
+        "Border_Colour": {"Normal": GREEN_DARKER, "Hover": GREEN_DARK},
+        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
     },
     "Blue_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": BLUE_DARK, "Hover": BLUE_LIGHT},
-        "Border_Colour": {"Normal": BLUE_DARKER, "Hover": BLUE_DARK}
+        "Border_Colour": {"Normal": BLUE_DARKER, "Hover": BLUE_DARK},
+        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
     },
     "Orange_Buttons":{
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Background_Colour": {"Normal": GREEN_TEST, "Hover": ORANGE_LIGHT},
-        "Border_Colour": {"Normal": BLACK, "Hover": ORANGE_DARK}
+        "Background_Colour": {"Normal": GREEN_TEST, "Hover": GREEN_TEST_DARK},
+        "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
+        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
     },
     "Timer": {
         "Text_Colour": WHITE,
@@ -222,6 +227,8 @@ class Button:
         Hover_Back_Colour = self.colour_palette["Background_Colour"]["Hover"]
         Border_Colour = self.colour_palette["Border_Colour"]["Normal"]
         Hover_Border_Colour = self.colour_palette["Border_Colour"]["Hover"]
+        Border_Colour_Two = self.colour_palette["Border_Colour_two"]["Normal"]
+        Hover_Border_Colour_Two = self.colour_palette["Border_Colour_two"]["Hover"]
 
         if self.clicked:
             adjusted_rect = self.rect.inflate(-5, -5)  # Slightly smaller to indicate press
@@ -233,11 +240,15 @@ class Button:
             shadow_rect.topleft = (self.rect.left + 5, self.rect.top + 5)
             pygame.draw.rect(self.screen, (50, 50, 50), shadow_rect, border_radius=self.border_radius)  # Shadow color
             pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect.inflate(5, 5), border_radius=self.border_radius)
-            pygame.draw.rect(self.screen, Hover_Border_Colour, self.rect.inflate(5, 5), self.border_thickness, border_radius=self.border_radius)
+            pygame.draw.rect(self.screen, Hover_Border_Colour_Two, self.rect.inflate(10, 10), self.border_thickness, self.border_radius)
+            pygame.draw.rect(self.screen, Hover_Border_Colour, self.rect.inflate(5, 5), self.border_thickness, self.border_radius)
             text_surface = FONT.render(self.text, True, Hover_Text_Colour)
         else:
             pygame.draw.rect(self.screen, Back_Colour, self.rect, border_radius=self.border_radius)
+            pygame.draw.rect(self.screen, Border_Colour_Two, self.rect.inflate(5,5), self.border_thickness, self.border_radius)
+
             pygame.draw.rect(self.screen, Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
+
             text_surface = FONT.render(self.text, True, Text_Colour)
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
