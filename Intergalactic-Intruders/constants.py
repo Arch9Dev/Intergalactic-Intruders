@@ -31,6 +31,7 @@ ORANGE_DARK = (255, 195, 0)
 ORANGE_DARKER = (255, 111, 0)
 ORANGE_LIGHT = (255, 235, 0)
 
+GREEN_TEST = (20, 230, 6)
 
 
 Colour_Palettes = {
@@ -51,8 +52,8 @@ Colour_Palettes = {
     },
     "Orange_Buttons":{
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Background_Colour": {"Normal": ORANGE_DARK, "Hover": ORANGE_LIGHT},
-        "Border_Colour": {"Normal": ORANGE_DARKER, "Hover": ORANGE_DARK}
+        "Background_Colour": {"Normal": GREEN_TEST, "Hover": ORANGE_LIGHT},
+        "Border_Colour": {"Normal": BLACK, "Hover": ORANGE_DARK}
     },
     "Timer": {
         "Text_Colour": WHITE,
@@ -70,7 +71,7 @@ Colour_Palettes = {
 BUTTON_WIDTH = 200
 BUTTON_HEIGHT = 50
 BUTTON_GAP = 20
-BUTTON_BORDER_WIDTH = 2
+BUTTON_BORDER_WIDTH = 4
 
 
 # Back Button
