@@ -8,7 +8,7 @@ pygame.init()
 Screen_Width = 800
 Screen_Height = 1000
 Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
-background_image = pygame.image.load('Intergalactic-Intruders/images/gameback1.png')
+background_image = pygame.image.load('Intergalactic-Intruders/images/gameback.png')
 
 # Barrier stuff 
 barrier_image = pygame.image.load('Intergalactic-Intruders/images/barrier.png')
@@ -50,6 +50,8 @@ Player_Health = 3
 
 # Player Bullet stuff
 BulletImag = pygame.image.load('Intergalactic-Intruders/images/PlayerBullet.png')
+BulletSize = (10, 20)
+BulletImag = pygame.transform.scale(BulletImag, BulletSize) 
 Bullet_X = 0
 Bullet_Y = 500
 Bullet_Xchange = 0
@@ -58,10 +60,10 @@ BulletStaet = "rest"
 bullet_hitbox = (BulletImag.get_width(), BulletImag.get_height())
 
 # Invader variables
-InvaderImag1 = pygame.image.load('Intergalactic-Intruders/images/Alion one (1) 1.gif')
-InvaderImag2 = pygame.image.load('Intergalactic-Intruders/images/Alion two (1) 1.gif')
-InvaderImag3 = pygame.image.load('Intergalactic-Intruders/images/Alinon three  (1) 1.gif')
-InvaderImag4 = pygame.image.load('Intergalactic-Intruders/images/Mother Ship 1.gif')
+InvaderImag1 = pygame.image.load('Intergalactic-Intruders/images/Alien1.gif')
+InvaderImag2 = pygame.image.load('Intergalactic-Intruders/images/Alien2.gif')
+InvaderImag3 = pygame.image.load('Intergalactic-Intruders/images/Alien3.gif')
+InvaderImag4 = pygame.image.load('Intergalactic-Intruders/images/Alien4.gif')
 Invader_X = []
 Invader_Y = []
 Invader_Xchange = []
@@ -71,10 +73,13 @@ RowHeight = 50
 Invader_Rangom = []
 spawn_delay = 500
 last_spawn_time = pygame.time.get_ticks()
-invader_hitbox = (64, 64)
+invader_hitbox = (InvaderImag1.get_height(), InvaderImag1.get_width())
 
 # Invader Bullet stuff
 InvBulletImag = pygame.image.load('Intergalactic-Intruders/images/InvaderBullet.png')
+InvBulletSize = (10, 20)
+InvBulletImag = pygame.transform.scale(InvBulletImag, BulletSize) 
+Inv_Bullet_Hitbox = (InvBulletImag.get_width(), InvBulletImag.get_height())
 InvBullet_Xchange = 0
 InvBullet_Ychange = 1
 Invader_Bullets = [[] for _ in range(InvaderCount)]
@@ -91,7 +96,9 @@ Powerups needed:
     Player move speed up
     Shield regen
 """
-
+PU_BulletSpeed = 1
+PU_FireStrength= 1
+PU_MoveSpeed = 1
 
 
 # Functions innit
@@ -185,7 +192,7 @@ while Running:
                 Player_Ychange = 1.7
             if event.key == pygame.K_SPACE:
                 if BulletStaet == "rest":
-                    Bullet_X = Player_X - 2.5
+                    Bullet_X = Player_X - (BulletImag.get_width()/2)
                     Bullet_Y = Player_Y
                     Bullet(Bullet_X, Bullet_Y)
                     Shots_Taken += 1
@@ -269,7 +276,7 @@ while Running:
 
     for i in range(len(Invader_X)):
         for bullet in Invader_Bullets[i]:
-            bullet_rect = pygame.Rect(bullet[0], bullet[1], *bullet_hitbox)
+            bullet_rect = pygame.Rect(bullet[0], bullet[1], *Inv_Bullet_Hitbox)
             for barrier in barriers[:]:
                 barrier_rect = pygame.Rect(barrier[0], barrier[1], barrier_width, barrier_height)
                 if isCollision_Barrier(bullet[0], bullet[1], barrier_rect):
@@ -287,7 +294,7 @@ while Running:
     player_rect = pygame.Rect(Player_X, Player_Y, *player_hitbox)
     for i in range(len(Invader_X)):
         for bullet in Invader_Bullets[i][:]:
-            bullet_rect = pygame.Rect(bullet[0], bullet[1], *bullet_hitbox)
+            bullet_rect = pygame.Rect(bullet[0], bullet[1], *Inv_Bullet_Hitbox)
             if bullet_rect.colliderect(player_rect):
                 Invader_Bullets[i].remove(bullet)
                 player_hit()
