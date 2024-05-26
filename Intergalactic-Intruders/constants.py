@@ -24,15 +24,13 @@ RED_LIGHT = (255, 0, 60)
 BLUE_DARK = (0, 60, 255)
 BLUE_DARKER = (0, 60, 200)
 BLUE_LIGHT = (70, 235, 255)
-GREEN_DARK = (66, 190, 28)
+GREEN_DARK = (20, 180, 40)#this is a darker green based o the test colour
 GREEN_DARKER = (60, 150, 0)
-GREEN_LIGHT = (60, 255, 0)
+GREEN_LIGHT = (20, 230, 6)#this now the test colour
 ORANGE_DARK = (255, 195, 0)
 ORANGE_DARKER = (255, 111, 0)
 ORANGE_LIGHT = (255, 235, 0)
 
-GREEN_TEST = (20, 230, 6)
-GREEN_TEST_DARK = (20, 180, 40)
 
 
 Colour_Palettes = {
@@ -44,19 +42,19 @@ Colour_Palettes = {
     },
     "Green_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Background_Colour": {"Normal": GREEN_DARK, "Hover": GREEN_LIGHT},
-        "Border_Colour": {"Normal": GREEN_DARKER, "Hover": GREEN_DARK},
+        "Background_Colour": {"Normal": GREEN_LIGHT, "Hover": GREEN_DARK},
+        "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
     },
     "Blue_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Background_Colour": {"Normal": BLUE_DARK, "Hover": BLUE_LIGHT},
-        "Border_Colour": {"Normal": BLUE_DARKER, "Hover": BLUE_DARK},
+        "Background_Colour": {"Normal": BLUE_LIGHT, "Hover": BLUE_DARK},
+        "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
     },
     "Orange_Buttons":{
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Background_Colour": {"Normal": GREEN_TEST, "Hover": GREEN_TEST_DARK},
+        "Background_Colour": {"Normal": ORANGE_LIGHT, "Hover": ORANGE_DARK},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
     },
