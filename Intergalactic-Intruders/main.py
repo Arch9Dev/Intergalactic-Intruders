@@ -3,9 +3,9 @@ import constants
 import tutorial
 import settings
 import play
+import test
 
 
-#main
 def main_menu():
     # Initialize Pygame
     pygame.init()
