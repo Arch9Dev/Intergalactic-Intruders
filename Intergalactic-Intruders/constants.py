@@ -1,3 +1,4 @@
+from typing import Any
 import pygame
 import images
 from PageList import pagelist
@@ -85,7 +86,9 @@ BUTTON_W = BUTTON_WIDTH
 BUTTON_H = BUTTON_HEIGHT
 
 # Fonts
-FONT = pygame.font.Font(None, 36)
+def FontResizable(FontSize):
+    return pygame.font.Font("Intergalactic-Intruders\Font\immermann.ttf", FontSize)
+FONT = pygame.font.Font("Intergalactic-Intruders\Font\immermann.ttf", 36)
 TITLE_FONT = pygame.font.Font(None, 48)
 
 def load_xolonium_font(font_size):
@@ -305,4 +308,3 @@ class Timer:
         self.screen.blit(text_surface, text_rect)
 
 
-    
