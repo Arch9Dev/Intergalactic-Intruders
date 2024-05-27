@@ -9,8 +9,8 @@ def show_levels():
     pygame.display.set_caption("LEVELS")
 
     # Define Buttons:
-    Level1_Button = constants.Button("LEVEL 1", 0, 0, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
-    Level2_Button = constants.Button("LEVEL 2", 0, Level1_Button.rect.y + 1, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
+    Level1_Button = constants.Button("LEVEL 1", 0, 0, 0, 0, constants.Colour_Palettes["Green_Buttons"])
+    Level2_Button = constants.Button("LEVEL 2", 0, Level1_Button.rect.y + 1, 0, 0, constants.Colour_Palettes["Green_Buttons"])
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"PLAY")
 
     Level_Buttons = [Level1_Button, Level2_Button,Back_button]

@@ -10,8 +10,8 @@ def show_play():
     
 
     
-    levels_button = constants.Button("LEVELS", 0, 0, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
-    timetrial_button = constants.Button( "TIME TRIAL", 0, levels_button.rect.y + levels_button.height, 0, 0, constants.Colour_Palettes["Orange_Buttons"])
+    levels_button = constants.Button("LEVELS", 0, 0, 0, 0, constants.Colour_Palettes["Green_Buttons"])
+    timetrial_button = constants.Button( "TIME TRIAL", 0, levels_button.rect.y + levels_button.height, 0, 0, constants.Colour_Palettes["Green_Buttons"])
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"MAIN")
 
     Play_Buttons = [levels_button, timetrial_button,Back_button]

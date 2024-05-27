@@ -9,9 +9,9 @@ def show_settings():
     screen = constants.screen
     pygame.display.set_caption("SETTINGS")
     
-    Audio_Button = constants.Button("Audio",0,0,0,0,constants.Colour_Palettes["Orange_Buttons"])
-    Display_Button = constants.Button("Display",0,Audio_Button.rect.y,0,0,constants.Colour_Palettes["Orange_Buttons"])
-    Controls_Button = constants.Button("Controls",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Orange_Buttons"])
+    Audio_Button = constants.Button("Audio",0,0,0,0,constants.Colour_Palettes["Green_Buttons"])
+    Display_Button = constants.Button("Display",0,Audio_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
+    Controls_Button = constants.Button("Controls",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
     Back_Button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"Main")
 
     Settings_Buttons = [Audio_Button,Display_Button,Controls_Button,Back_Button]
