@@ -12,9 +12,11 @@ background_image = pygame.image.load('Intergalactic-Intruders/images/gameback.pn
 
 # Barrier stuff 
 barrier_image = pygame.image.load('Intergalactic-Intruders/images/barrier.png')
+BarrierSize = (175, 75) # adjust x, y size
+barrier_image = pygame.transform.scale(barrier_image, BarrierSize)
 barrier_width = 175
-barrier_height = 100
-barrier_y = 650
+barrier_height = 75
+barrier_y = 650 # barrier y pos on screen
 barriers = [
     (68.75, barrier_y),
     (68.75 + barrier_width + 68.75, barrier_y),
@@ -25,9 +27,9 @@ barriers = [
 clock = pygame.time.Clock()
 last_time_check = pygame.time.get_ticks()
 Time_Difficulty = 1
-Difficulty = 1
+Difficulty = 1 # 1 default, +/-0.5 for easy/hard 
 Frames = 180
-Time_trial = 'false'
+Time_trial = 'false' # self explan
 Max_Invaders_YN = 'false'
 Current_Invaders = 0
 
@@ -40,13 +42,15 @@ Hits_Landed = 1
 Shots_Taken = 1
 
 # Player Variables
-PlayerImag = pygame.image.load('Intergalactic-Intruders/images/Player ship (1).gif')
+PlayerImag = pygame.image.load('Intergalactic-Intruders/images/Player.gif')
 player_hitbox = (PlayerImag.get_width(), PlayerImag.get_height())
 Player_X = 370
 Player_Y = 923
-Player_Xchange = 0
-Player_Ychange = 0
 Player_Health = 3
+Original_Player_Xchange = 1.7
+Original_Player_Ychange = 1.7
+Player_Xchange = Original_Player_Xchange
+Player_Ychange = Original_Player_Ychange
 
 # Player Bullet stuff
 BulletImag = pygame.image.load('Intergalactic-Intruders/images/PlayerBullet.png')
@@ -55,6 +59,7 @@ BulletImag = pygame.transform.scale(BulletImag, BulletSize)
 Bullet_X = 0
 Bullet_Y = 500
 Bullet_Xchange = 0
+Original_Bullet_Ychange = 3
 Bullet_Ychange = 3
 BulletStaet = "rest"
 bullet_hitbox = (BulletImag.get_width(), BulletImag.get_height())
@@ -68,10 +73,10 @@ Invader_X = []
 Invader_Y = []
 Invader_Xchange = []
 Invader_Ychange = 50
-InvaderCount = 30
+InvaderCount = 30 # max invaders that can spawn, max on screen for time trial
 RowHeight = 50
 Invader_Rangom = []
-spawn_delay = 500
+spawn_delay = 500 # delay between invader spawns
 last_spawn_time = pygame.time.get_ticks()
 invader_hitbox = (InvaderImag1.get_height(), InvaderImag1.get_width())
 
@@ -84,24 +89,21 @@ InvBullet_Xchange = 0
 InvBullet_Ychange = 1
 Invader_Bullets = [[] for _ in range(InvaderCount)]
 Bullet_Limit = 50
-Fire_rate = 7500
+Fire_rate = 7500 # invader firerate
 last_shot_times = []
 
-#Powerup stuff
-"""
-Powerups needed:
-    Health back
-    Bullet speed up
-    Fire strength up
-    Player move speed up
-    Shield regen
-"""
-PU_BulletSpeed = 1
-PU_FireStrength= 1
-PU_MoveSpeed = 1
+# Powerup Stuff
+powerup_speed = 1  # Speed at which powerups move down
+powerup_images = {
+    "ShotPower": pygame.image.load('Intergalactic-Intruders/images/ShotPower.png'),
+    "ShieldRegen": pygame.image.load('Intergalactic-Intruders/images/ShieldRegen.png'),
+    "MoveSpeed": pygame.image.load('Intergalactic-Intruders/images/MoveSpeed.png'),
+    "HealthUp": pygame.image.load('Intergalactic-Intruders/images/HealthUp.png'),
+    "BulletSpeed": pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png')
+}
+active_powerups = []
 
-
-# Functions innit
+# Functions
 def isCollision_PlayerBullet(x1, x2, y1, y2):
     distance = math.sqrt((math.pow(x1 - x2, 2)) + (math.pow(y1 - y2, 2)))
     return distance <= 33
@@ -161,6 +163,48 @@ def player_hit():
         game_over()
         Running = False
 
+def spawn_powerup(x, y):
+    powerup_type = random.choice(list(powerup_images.keys()))
+    powerup_image = powerup_images[powerup_type]
+    active_powerups.append((powerup_image, x, y, powerup_type))
+
+def isCollision_PlayerPowerup(player_rect, powerup_rect):
+    return player_rect.colliderect(powerup_rect)
+
+def apply_powerup(powerup_type):
+    global Player_Health, Bullet_Ychange, Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange
+    if powerup_type == "ShotPower":
+        # Yet to be sorted
+        pass
+    elif powerup_type == "ShieldRegen":
+        # Yeha
+        pass
+    elif powerup_type == "MoveSpeed":
+        Original_Player_Xchange = Player_Xchange
+        Original_Player_Ychange = Player_Ychange
+        Player_Xchange *= 2
+        Player_Ychange *= 2
+    elif powerup_type == "HealthUp":
+        Player_Health += 3 - Player_Health
+    elif powerup_type == "BulletSpeed":
+        Bullet_Ychange *= 1.5
+
+def draw_powerups():
+    for powerup in active_powerups:
+        Screen.blit(powerup[0], (powerup[1], powerup[2]))
+
+def remove_powerup(powerup_type):
+    global Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange, Bullet_Ychange, Original_Bullet_Ychange
+    if powerup_type == "MoveSpeed":
+        Player_Xchange = Original_Player_Xchange
+        Player_Ychange = Original_Player_Ychange
+    if powerup_type == "BulletSpeed":
+        Bullet_Ychange = Original_Bullet_Ychange
+
+def powerup_expired():
+    pass
+
+
 # Main game loop
 Running = True
 while Running:
@@ -168,6 +212,7 @@ while Running:
     current_time = pygame.time.get_ticks()
     elapsed_time = current_time - last_time_check
 
+    # time trial stuff
     if Time_trial == 'true':
         if elapsed_time >= 1000:
             if Frames < 300:
@@ -178,6 +223,7 @@ while Running:
 
     Accuracy = round((Hits_Landed / Shots_Taken) * 100)
 
+    # player input handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Running = False
@@ -192,7 +238,7 @@ while Running:
                 Player_Ychange = 1.7
             if event.key == pygame.K_SPACE:
                 if BulletStaet == "rest":
-                    Bullet_X = Player_X - (BulletImag.get_width()/2)
+                    Bullet_X = Player_X - (BulletImag.get_width() / 2)
                     Bullet_Y = Player_Y
                     Bullet(Bullet_X, Bullet_Y)
                     Shots_Taken += 1
@@ -215,6 +261,7 @@ while Running:
     elif Player_Y >= 954:
         Player_Y = 954
 
+    # invader spawning stuff
     current_time = pygame.time.get_ticks()
     if current_time - last_spawn_time > spawn_delay and len(Invader_X) < InvaderCount and Max_Invaders_YN == 'false':
         rangom = random.randint(1, 4)
@@ -228,6 +275,7 @@ while Running:
         if Current_Invaders >= InvaderCount and Time_trial == 'false':
             Max_Invaders_YN = 'true'
 
+    # invader movement
     for i in range(len(Invader_X)):
         Invader_X[i] += Invader_Xchange[i]
         if Invader_X[i] >= 768:
@@ -239,12 +287,14 @@ while Running:
             Invader_Y[i] += RowHeight
             Invader_Xchange[i] *= -1
 
+    # invader shooting
     for i in range(len(Invader_X)):
         if len(Invader_Bullets[i]) < Bullet_Limit:
             if current_time - last_shot_times[i] >= Fire_rate + random.randint(-Fire_rate//2, Fire_rate):
                 Invader_Bullets[i].append([Invader_X[i], Invader_Y[i]])
                 last_shot_times[i] = current_time
 
+    # invader bullet movement
     for i in range(len(Invader_X)):
         for bullet in Invader_Bullets[i]:
             InvaderBullet(bullet[0], bullet[1], i)
@@ -253,6 +303,7 @@ while Running:
                 Invader_Bullets[i].remove(bullet)
                 print('bullet removed')
 
+    # player bullet movement
     if Bullet_Y <= 0:
         Bullet_Y = 1000
         BulletStaet = "rest"
@@ -260,6 +311,26 @@ while Running:
         Bullet(Bullet_X, Bullet_Y)
         Bullet_Y -= Bullet_Ychange
 
+    # Move powerups down and check for collision with player
+    for powerup in active_powerups[:]:
+        powerup_image, x, y, powerup_type = powerup
+        y += powerup_speed
+        if y > Screen_Height:
+            active_powerups.remove(powerup)
+        else:
+            powerup_rect = pygame.Rect(x, y, powerup_image.get_width(), powerup_image.get_height())
+            if isCollision_PlayerPowerup(player_rect, powerup_rect):
+                apply_powerup(powerup_type)
+                active_powerups.remove(powerup)
+            else:
+                active_powerups[active_powerups.index(powerup)] = (powerup_image, x, y, powerup_type)
+
+    for powerup in active_powerups[:]:
+        if powerup_expired(powerup):  # You need to define a function to check if a power-up has expired
+            remove_powerup(powerup[3])
+            active_powerups.remove(powerup)
+
+    # collision stuff for a while
     for i in range(len(Invader_X)):
         collision = isCollision_PlayerBullet(Bullet_X, Invader_X[i], Bullet_Y, Invader_Y[i])
         if collision:
@@ -267,6 +338,10 @@ while Running:
             Score_val += 1
             Bullet_Y = 1000
             BulletStaet = "rest"
+            
+            if random.randint(1, 1) == 1:
+                spawn_powerup(Invader_X[i], Invader_Y[i])
+            
             Invader_X.pop(i)
             Invader_Y.pop(i)
             Invader_Xchange.pop(i)
@@ -300,11 +375,15 @@ while Running:
                 player_hit()
                 break
 
+    # no more collision stuff
+    # rendering stuff now
     Player(Player_X, Player_Y)
     for i in range(len(Invader_X)):
         Invader(Invader_X[i], Invader_Y[i], Invader_Rangom[i])
     for barrier in barriers:
         Screen.blit(barrier_image, barrier)
+    draw_powerups()  # Draw active powerups
+    # UI tings
     show_Score(5, 5)
     show_Difficulty(130, 5, Frames)
     show_Acc(300, 5)
@@ -314,3 +393,4 @@ while Running:
     pygame.display.update()
     clock.tick(Frames)
 pygame.quit()
+# :)
