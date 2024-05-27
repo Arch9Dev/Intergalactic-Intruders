@@ -5,26 +5,23 @@ import difficulty
 
 def show_levels():
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = constants.screen
     pygame.display.set_caption("LEVELS")
 
     # Define Buttons:
-    Button_X = (constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2
-    Button_Y = 300
-    Button_Gap = constants.BUTTON_HEIGHT + constants.BUTTON_GAP
-    Button_W = constants.BUTTON_WIDTH
-    Button_H = constants.BUTTON_HEIGHT
+    Level1_Button = constants.Button("LEVEL 1", 0, 0, 0, 0, constants.Colour_Palettes["Green_Buttons"])
+    Level2_Button = constants.Button("LEVEL 2", 0, Level1_Button.rect.y + 1, 0, 0, constants.Colour_Palettes["Green_Buttons"])
+    Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"PLAY")
 
-    Level1_Button = constants.Button(screen, "LEVEL 1", Button_X, Button_Y, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-    Level2_Button = constants.Button(screen, "LEVEL 2", Button_X, Level1_Button.y + Button_Gap, Button_W, Button_H, constants.Colour_Palettes["Red_Buttons"])
-
-    Level_Buttons = [Level1_Button, Level2_Button]
+    Level_Buttons = [Level1_Button, Level2_Button,Back_button]
     
     pygame.key.set_repeat(100)
 
     levels_running = True
+    
+    #main loop 
     while levels_running:
-        screen.fill(constants.BLUE_LIGHT)
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
         screen.blit(constants.TITLE_IMAGE, title_rect)
         
@@ -39,11 +36,14 @@ def show_levels():
                 levels_running = False
                 
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                if Back_button.rect.collidepoint(event.pos):
+                    Back_button.ReturnTo()
                 if Level1_Button.rect.collidepoint(event.pos):
                     difficulty.show_difficulty()
                 if Level2_Button.rect.collidepoint(event.pos):
                     difficulty.show_difficulty()
                     # Add change for higher levels
+
                     
                     
             
