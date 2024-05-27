@@ -1,3 +1,4 @@
+# images.py
 import pygame
 import os
 
@@ -6,6 +7,24 @@ pygame.init()
 
 # Load title image
 def load_title_image():
-    title_image_path = os.path.join("Intergalactic-Intruders", "images", "title.png")
+    title_image_path = os.path.join("Intergalactic-Intruders", "images", "logo.png")
     title_image = pygame.image.load(title_image_path)
-    return pygame.transform.scale(title_image, (600, 600))
+    return pygame.transform.scale(title_image, (600, 300))
+
+# Load tutorial image
+def load_tutorial_image():
+    tutorial_image_path = os.path.join("Intergalactic-Intruders", "images", "TutorialText.png")
+    tutorial_image = pygame.image.load(tutorial_image_path)
+    return pygame.transform.scale(tutorial_image, (500, 500) )
+
+# Load controls image
+def load_controls_image():
+    controls_image_path = os.path.join("Intergalactic-Intruders", "images", "controls.png")
+    controls_image = pygame.image.load(controls_image_path)
+    return pygame.transform.scale(controls_image, (600, 400))
+
+# Load background image
+def load_background_image():
+    background_image_path = os.path.join("Intergalactic-Intruders", "images", "background.png")
+    background_image = pygame.image.load(background_image_path)
+    return pygame.transform.scale(background_image, (1000, 800))

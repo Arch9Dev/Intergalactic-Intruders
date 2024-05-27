@@ -5,45 +5,58 @@ import difficulty
 
 def show_levels():
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = constants.screen
     pygame.display.set_caption("LEVELS")
 
-    tutorials_running = True
-    while tutorials_running:
+    # Define Buttons:
+    Level1_Button = constants.Button("LEVEL 1", 0, 0, 0, 0, constants.Colour_Palettes["Green_Buttons"])
+    Level2_Button = constants.Button("LEVEL 2", 0, Level1_Button.rect.y + 1, 0, 0, constants.Colour_Palettes["Green_Buttons"])
+    Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"PLAY")
+
+    Level_Buttons = [Level1_Button, Level2_Button,Back_button]
+    
+    pygame.key.set_repeat(100)
+
+    levels_running = True
+    
+    #main loop 
+    while levels_running:
+        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
+        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
+        screen.blit(constants.TITLE_IMAGE, title_rect)
+        
+        
         for event in pygame.event.get():
+            if event.type == pygame.MOUSEMOTION:
+                MousePos = pygame.mouse.get_pos()
+                for button in Level_Buttons:
+                    button.hovered = button.rect.collidepoint(MousePos)
+                    
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                levels_running = False
+                
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if level1.collidepoint(event.pos):
+                if Back_button.rect.collidepoint(event.pos):
+                    Back_button.ReturnTo()
+                if Level1_Button.rect.collidepoint(event.pos):
                     difficulty.show_difficulty()
-                elif constants.BACK_BUTTON.collidepoint(event.pos):
-                    pygame.display.set_caption("PLAY")
-                    return
-            
-            
-        screen.fill(constants.PURPLE)
+                if Level2_Button.rect.collidepoint(event.pos):
+                    difficulty.show_difficulty()
+                    # Add change for higher levels
 
-        # Render display content
-        y_offset = 50
-        for line in constants.LEVELS_TEXT:
-            text_surface = constants.FONT.render(line, True, constants.BLACK)
-            text_rect = text_surface.get_rect(center=(constants.SCREEN_WIDTH // 2, y_offset))
-            screen.blit(text_surface, text_rect)
-            y_offset += 30
+                    
+                    
             
-            
-        # Render level placeholder
-        # Render buttons
-        level1 = pygame.Rect((constants.SCREEN_WIDTH - constants.BUTTON_WIDTH) // 2, 300, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT)
+        for button in Level_Buttons:
+            button.draw()
+        
 
-        constants.draw_button(screen, level1.x, level1.y, constants.BUTTON_WIDTH, constants.BUTTON_HEIGHT, "LEVEL1")
+        # Render title image
+        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
+        screen.blit(constants.TITLE_IMAGE, title_rect)
 
-
-        # Render back button with border
-        pygame.draw.rect(screen, constants.RED, constants.BACK_BUTTON)
-        pygame.draw.rect(screen, constants.BLACK, constants.BACK_BUTTON, 2)  # Draw border
-        back_text = constants.FONT.render("BACK", True, constants.BLACK)
-        screen.blit(back_text, (constants.BACK_BUTTON.x + 20, constants.BACK_BUTTON.y + 10))
 
         pygame.display.update()
+
+    pygame.quit()
+    quit()
