@@ -39,7 +39,7 @@ def main_menu():
     # Main loop for the main menu
     while MainRunning:
         screen.fill(constants.BLUE_LIGHT)
-        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
+        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 170))
         screen.blit(constants.TITLE_IMAGE, title_rect)
 
         # Event handling
