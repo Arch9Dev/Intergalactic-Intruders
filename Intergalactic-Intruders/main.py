@@ -6,8 +6,6 @@ import play
 
 import test
 
-
-
 def main_menu():
     # Initialize Pygame
     pygame.init()
@@ -31,7 +29,7 @@ def main_menu():
     while MainRunning:
         # Blit the background image onto the screen
         screen.blit(constants.BACKGROUND_IMAGE, (0, 0))
-        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
+        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 170))
         screen.blit(constants.TITLE_IMAGE, title_rect)
 
         # Event handling
