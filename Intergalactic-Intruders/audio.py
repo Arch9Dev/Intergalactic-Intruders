@@ -55,7 +55,7 @@ def show_audio():
                 elif gunshot_button_rect.collidepoint(event.pos):
                     sounds.play_gunshot()
             elif event.type == pygame.MOUSEBUTTONUP:
-                dragging_main_volume = False
+                dragging_main_volume = False   
                 dragging_music = False
                 dragging_sound_effects = False
             elif event.type == pygame.MOUSEMOTION:
@@ -63,7 +63,7 @@ def show_audio():
                     main_volume_value = (event.pos[0] - (constants.MAIN_VOLUME_SLIDER_POS[0] - 100)) / constants.SLIDER_WIDTH
                     main_volume_value = max(0, min(1, main_volume_value))
                     main_volume_circle_pos = (int(constants.MAIN_VOLUME_SLIDER_POS[0] + main_volume_value * constants.SLIDER_WIDTH - 100), main_volume_circle_pos[1])
-                  #  sounds.set_main_volume(main_volume_value)
+                    sounds.set_main_volume(main_volume_value)
                 elif dragging_music:
                     music_value = (event.pos[0] - (constants.MUSIC_SLIDER_POS[0] - 100)) / constants.SLIDER_WIDTH
                     music_value = max(0, min(1, music_value))
