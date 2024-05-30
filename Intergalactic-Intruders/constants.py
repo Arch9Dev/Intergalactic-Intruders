@@ -90,7 +90,7 @@ TITLE_FONT = pygame.font.Font(None, 48)
 
 def load_xolonium_font(font_size):
     # Load the custom font
-    xolonium_font_path = "Intergalactic-Intruders\Fonts\Xolonium.ttf"
+    xolonium_font_path = "Intergalactic-Intruders\Font\Xolonium.ttf"
     xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
     return xolonium_font
 
