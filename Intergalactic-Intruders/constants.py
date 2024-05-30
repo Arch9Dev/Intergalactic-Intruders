@@ -74,14 +74,11 @@ Colour_Palettes = {
 # Button dimensions
 BUTTON_WIDTH = 200
 BUTTON_HEIGHT = 50
-BUTTON_GAP = 20
+BUTTON_GAP = 70
 BUTTON_BORDER_WIDTH = 4
-
-
-# Back Button
 BUTTON_X = (SCREEN_WIDTH - BUTTON_WIDTH) // 2
-BUTTON_Y = 300
-BUTTON_GAP = BUTTON_HEIGHT + BUTTON_GAP
+BUTTON_Y = 350
+#BUTTON_GAP = BUTTON_HEIGHT + BUTTON_GAP
 BUTTON_W = BUTTON_WIDTH
 BUTTON_H = BUTTON_HEIGHT
 
@@ -105,6 +102,8 @@ def load_immermann_font(font_size):
 
 # Load title image
 TITLE_IMAGE = images.load_title_image()
+Logo_POS_Y = 170
+Logo_POS = (TITLE_IMAGE.get_rect(center=(SCREEN_WIDTH // 2, 170)))
 
 # Load tutorial image
 TUTORIAL_IMAGE = images.load_tutorial_image()

@@ -27,9 +27,8 @@ def main_menu():
 
     # Main loop for the main menu
     while MainRunning:
-        screen.blit(constants.BACKGROUND_IMAGE, (0, 0))
-        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 170))
-        screen.blit(constants.TITLE_IMAGE, title_rect)
+        screen.blit(constants.BACKGROUND_IMAGE, (0, 0))        
+        screen.blit(constants.TITLE_IMAGE, constants.Logo_POS)
 
         # Event handling
         for event in pygame.event.get():

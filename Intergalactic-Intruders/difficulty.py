@@ -27,8 +27,7 @@ def show_difficulty():
     difficulty_running = True
     while difficulty_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
-        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
-        screen.blit(constants.TITLE_IMAGE, title_rect)
+        screen.blit(constants.TITLE_IMAGE, constants.Logo_POS)
                
         
         for event in pygame.event.get():
@@ -55,10 +54,6 @@ def show_difficulty():
         for button in Difficulty_Buttons:
             button.draw()
         
-
-        # Render title image
-        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
-        screen.blit(constants.TITLE_IMAGE, title_rect)
 
 
         pygame.display.update()
