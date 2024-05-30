@@ -228,6 +228,14 @@ def powerup_expired(hi):
         if Timer_ShotPower <= pygame.time.get_ticks():
             return True
 
+def display_powerup_icons():
+    if Timer_BulletSpeed >= pygame.time.get_ticks():
+        Screen.blit(pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png'), (760, 5))
+    if Timer_MoveSpeed >= pygame.time.get_ticks():
+        Screen.blit(pygame.image.load('Intergalactic-Intruders/images/MoveSpeed.png'), (720, 5))
+    if Timer_ShotPower >= pygame.time.get_ticks():
+        Screen.blit(pygame.image.load('Intergalactic-Intruders/images/ShotPower.png'), (680, 5))
+
 
 # Main game loop
 Running = True
@@ -366,7 +374,7 @@ while Running:
             BulletStaet = "rest"
             Invader_Health[i] -= bullet_damage
             if Invader_Health[i] <= 0:
-                if random.randint(1, 5) == 1: # chance of powerup spwaning on kill
+                if random.randint(1, 1) == 1: # chance of powerup spwaning on kill
                     spawn_powerup(Invader_X[i], Invader_Y[i])
                 Invader_X.pop(i)
                 Invader_Y.pop(i)
@@ -384,13 +392,19 @@ while Running:
                     Invader_Bullets[i].remove(bullet)
                     break
 
-    for i in range(len(Invader_X)):
+    for i in range(len(Invader_X) - 1, -1, -1):
         invader_rect = pygame.Rect(Invader_X[i], Invader_Y[i], *invader_hitbox)
         for barrier in barriers[:]:
             barrier_rect = pygame.Rect(barrier[0], barrier[1], barrier_width, barrier_height)
             if invader_rect.colliderect(barrier_rect):
                 barriers.remove(barrier)
                 Invader_Health[i] = 0
+                if Invader_Health[i] <= 0:
+                    Invader_X.pop(i)
+                    Invader_Y.pop(i)
+                    Invader_Xchange.pop(i)
+                    Invader_Rangom.pop(i)
+                    last_shot_times.pop(i)
                 break
 
     player_rect = pygame.Rect(Player_X, Player_Y, *player_hitbox)
@@ -415,6 +429,7 @@ while Running:
     show_Difficulty(130, 5, Frames)
     show_Acc(300, 5)
     show_Health(420, 5)
+    display_powerup_icons()
 
     Frames = 180 * Difficulty * Time_Difficulty
     pygame.display.update()
