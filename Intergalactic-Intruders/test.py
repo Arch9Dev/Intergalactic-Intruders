@@ -374,7 +374,7 @@ while Running:
             BulletStaet = "rest"
             Invader_Health[i] -= bullet_damage
             if Invader_Health[i] <= 0:
-                if random.randint(1, 1) == 1: # chance of powerup spwaning on kill
+                if random.randint(1, 5) == 1: # chance of powerup spwaning on kill
                     spawn_powerup(Invader_X[i], Invader_Y[i])
                 Invader_X.pop(i)
                 Invader_Y.pop(i)
