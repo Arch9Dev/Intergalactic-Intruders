@@ -1,6 +1,8 @@
 import pygame
 import constants
-import audio
+#import audio
+import AudioTest
+
 import display
 import controls
 
@@ -29,7 +31,8 @@ def show_settings():
                     Buttons.hovered = Buttons.rect.collidepoint(MousePos)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if Audio_Button.rect.collidepoint(event.pos):
-                    audio.show_audio()  # Open audio settings
+                    AudioTest.show_audioTest()
+                    #audio.show_audio()  # Open audio settings
                 elif Display_Button.rect.collidepoint(event.pos):
                     display.show_display()  # Open display settings
                 elif Controls_Button.rect.collidepoint(event.pos):

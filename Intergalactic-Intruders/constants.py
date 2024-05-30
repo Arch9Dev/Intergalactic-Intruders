@@ -283,6 +283,38 @@ class BackButton(Button):
         ReturnTo_pagelist.switching()
         pygame.display.set_caption(F"{self.Returnpage}")
 
+class Slider :
+    def __init__(self,Volume_Value,Label_Text,Slider_Pos_X,Slider_Pos_Y) :
+        self.screen = screen
+        self.Volume_Value = Volume_Value
+        self.dragging = False
+        #slider
+        self.SLIDER_POS = [Slider_Pos_X,Slider_Pos_Y]
+        self.Slider_Rect = pygame.Rect(Slider_Pos_X , Slider_Pos_Y , SLIDER_WIDTH, SLIDER_HEIGHT)
+        #circle
+        self.circle_radius = 10
+        self.circle_pos = (Slider_Pos_X + Volume_Value * SLIDER_WIDTH , (Slider_Pos_Y + self.circle_radius / 2))
+        self.Circle_Rect = pygame.Rect(self.circle_pos[0]-10,Slider_Pos_Y-5,self.circle_radius*2,self.circle_radius*2)
+        #label
+        self.Label = FONT.render(Label_Text,True,BLACK)
+        self.Label_POS = (Slider_Pos_X - 300, Slider_Pos_Y - SLIDER_HEIGHT  )
+        
+  
+    def Drag(self, POS):
+
+        self.Drag_Pos = [POS[0],POS[1]]
+        self.Volume_Value = (self.Drag_Pos[0]-(self.SLIDER_POS[0] )) / SLIDER_WIDTH
+        self.Volume_Value = max(0,min(1,self.Volume_Value))
+        self.circle_pos = (int(MAIN_VOLUME_SLIDER_POS[0] +  self.Volume_Value * SLIDER_WIDTH ), self.circle_pos[1])
+        self.Circle_Rect = pygame.Rect(self.circle_pos[0]-10,self.SLIDER_POS[1]-5,self.circle_radius*2,self.circle_radius*2)
+
+    def draw(self):
+        self.screen.blit(self.Label,self.Label_POS)
+        pygame.draw.rect(self.screen,BLACK,self.Slider_Rect)
+        pygame.draw.rect(self.screen,BLACK,self.Circle_Rect)
+        pygame.draw.circle(screen,WHITE,self.circle_pos,self.circle_radius)
+
+
 class Timer:
     def __init__(self, screen, time, x, y, width, height, fontsize):
         self.x, self.y, self.width, self.height = x, y, width, height
