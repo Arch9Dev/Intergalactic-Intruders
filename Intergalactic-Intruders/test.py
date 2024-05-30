@@ -106,6 +106,9 @@ powerup_images = {
     "BulletSpeed": pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png')
 }
 active_powerups = []
+Timer_ShotPower = 0
+Timer_MoveSpeed = 0
+Timer_BulletSpeed = 0
 
 # Functions
 def isCollision_PlayerBullet(x1, x2, y1, y2):
@@ -176,9 +179,11 @@ def isCollision_PlayerPowerup(player_rect, powerup_rect):
     return player_rect.colliderect(powerup_rect)
 
 def apply_powerup(powerup_type):
-    global Player_Health, Bullet_Ychange, Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange, bullet_damage, barriers
+    global Player_Health, Bullet_Ychange, Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange, bullet_damage, barriers, Timer_ShotPower, Timer_BulletSpeed, Timer_MoveSpeed
     if powerup_type == "ShotPower":
-        bullet_damage = 2
+        bullet_damage = Original_Bullet_damage
+        bullet_damage *= 2
+        Timer_ShotPower = pygame.time.get_ticks() + 10000
     elif powerup_type == "ShieldRegen":
          barriers = [
             (68.75, barrier_y),
@@ -190,25 +195,38 @@ def apply_powerup(powerup_type):
         Original_Player_Ychange = Player_Ychange
         Player_Xchange *= 2
         Player_Ychange *= 2
+        Timer_MoveSpeed = pygame.time.get_ticks() + 10000
     elif powerup_type == "HealthUp":
         Player_Health += 3 - Player_Health
     elif powerup_type == "BulletSpeed":
-        Bullet_Ychange *= 1.5
+        Bullet_Ychange = Original_Bullet_Ychange
+        Bullet_Ychange *= 2
+        Timer_BulletSpeed = pygame.time.get_ticks() + 10000
 
 def draw_powerups():
     for powerup in active_powerups:
         Screen.blit(powerup[0], (powerup[1], powerup[2]))
 
 def remove_powerup(powerup_type):
-    global Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange, Bullet_Ychange, Original_Bullet_Ychange
+    global Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange, Bullet_Ychange, Original_Bullet_Ychange, bullet_damage
     if powerup_type == "MoveSpeed":
         Player_Xchange = Original_Player_Xchange
         Player_Ychange = Original_Player_Ychange
     if powerup_type == "BulletSpeed":
         Bullet_Ychange = Original_Bullet_Ychange
+    if powerup_type == "ShotPower":
+        bullet_damage = Original_Bullet_damage
 
 def powerup_expired(hi):
-    print('peenor', hi)
+    if (hi == 'MoveSpeed'):
+        if Timer_MoveSpeed <= pygame.time.get_ticks():
+            return True
+    if (hi == 'BulletSpeed'):
+        if Timer_BulletSpeed <= pygame.time.get_ticks():
+            return True
+    if (hi == 'ShotPower'):
+        if Timer_ShotPower <= pygame.time.get_ticks():
+            return True
 
 
 # Main game loop
@@ -273,9 +291,9 @@ while Running:
         rangom = random.randint(1, 4)
         Invader_X.append(0)
         Invader_Y.append(30)
-        Invader_Xchange.append(1.7)
+        Invader_Xchange.append(1.3)
         Invader_Rangom.append(rangom)
-        Invader_Health.append(2)
+        Invader_Health.append(random.randint(1,3))
         last_shot_times.append(current_time)
         last_spawn_time = current_time
         Current_Invaders += 1
@@ -308,7 +326,7 @@ while Running:
             bullet[1] += InvBullet_Ychange
             if bullet[1] >= 1000:
                 Invader_Bullets[i].remove(bullet)
-                print('bullet removed')
+                print('bullet removed ', i)
 
     # player bullet movement
     if Bullet_Y <= 0:
@@ -348,7 +366,7 @@ while Running:
             BulletStaet = "rest"
             Invader_Health[i] -= bullet_damage
             if Invader_Health[i] <= 0:
-                if random.randint(1, 20) == 1: # chance of powerup spwaning on kill
+                if random.randint(1, 5) == 1: # chance of powerup spwaning on kill
                     spawn_powerup(Invader_X[i], Invader_Y[i])
                 Invader_X.pop(i)
                 Invader_Y.pop(i)
@@ -356,13 +374,6 @@ while Running:
                 Invader_Rangom.pop(i)
                 last_shot_times.pop(i)
                 break
-        if Invader_Health[i] <= 0:
-            Invader_X.pop(i)
-            Invader_Y.pop(i)
-            Invader_Xchange.pop(i)
-            Invader_Rangom.pop(i)
-            last_shot_times.pop(i)
-            break
 
     for i in range(len(Invader_X)):
         for bullet in Invader_Bullets[i]:
