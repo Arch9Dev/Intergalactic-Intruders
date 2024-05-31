@@ -1,6 +1,7 @@
 from typing import Any
 import pygame
 import images
+from sounds import set_main_volume,set_space_sound_volume,set_gunshot_sound_volume
 from PageList import pagelist
 
 
@@ -32,7 +33,11 @@ ORANGE_DARK = (255, 195, 0)
 ORANGE_DARKER = (255, 111, 0)
 ORANGE_LIGHT = (255, 235, 0)
 
-
+Volume_Type = {
+    "MAIN" : set_main_volume,
+    "MUSIC" : set_space_sound_volume,
+    "SFX" : set_gunshot_sound_volume
+}
 
 Colour_Palettes = {
     "Red_Buttons": {
@@ -167,7 +172,7 @@ TIMETRIAL_TEXT = [
 
 
 # Slider positions and sizes
-SLIDER_WIDTH = 200
+SLIDER_WIDTH = 400
 SLIDER_HEIGHT = 10
 
 MAIN_VOLUME_SLIDER_POS = (SCREEN_WIDTH // 2, 200)
@@ -283,36 +288,84 @@ class BackButton(Button):
         ReturnTo_pagelist.switching()
         pygame.display.set_caption(F"{self.Returnpage}")
 
+
 class Slider :
-    def __init__(self,Volume_Value,Label_Text,Slider_Pos_X,Slider_Pos_Y) :
+    def __init__(self,Volume_Value,Label_Text,Slider_Pos_X,Slider_Pos_Y,Type_Name) :
         self.screen = screen
         self.Volume_Value = Volume_Value
-        self.dragging = False
-        #slider
-        self.SLIDER_POS = [Slider_Pos_X,Slider_Pos_Y]
-        self.Slider_Rect = pygame.Rect(Slider_Pos_X , Slider_Pos_Y , SLIDER_WIDTH, SLIDER_HEIGHT)
-        #circle
-        self.circle_radius = 10
-        self.circle_pos = (Slider_Pos_X + Volume_Value * SLIDER_WIDTH , (Slider_Pos_Y + self.circle_radius / 2))
-        self.Circle_Rect = pygame.Rect(self.circle_pos[0]-10,Slider_Pos_Y-5,self.circle_radius*2,self.circle_radius*2)
+        self.Dragging = False
+        self.Hovering = False
+        self.TYPE = Type_Name
+        self.Slider_Thickness = 12
+        self.Slider_length = 400
         #label
         self.Label = FONT.render(Label_Text,True,BLACK)
-        self.Label_POS = (Slider_Pos_X - 300, Slider_Pos_Y - SLIDER_HEIGHT  )
+        Label_Gap_X = self.Label.get_width()+50
+        Label_Gap_Y = self.Label.get_height() / 2
+        self.Label_POS = (Slider_Pos_X - Label_Gap_X, Slider_Pos_Y - Label_Gap_Y  ) 
+        #background Box
+        BackgroundBox_TopLeft = (self.Label_POS[0],self.Label_POS[1])
+        BackgroundBox_WidthHeight =( self.Slider_length + 50 + self.Label.get_width() ,self.Label.get_height())
+        self.BackgroundBox  = pygame.Rect(BackgroundBox_TopLeft,BackgroundBox_WidthHeight).inflate(22,19)
+        #slider
+        Slider_TopLeft  = (Slider_Pos_X - 15, self.BackgroundBox.centery - self.Slider_Thickness  /2 )
+        Slider_WidthHeight =( self.Slider_length, self.Slider_Thickness)
+        self.Slider_Rect  = pygame.Rect(Slider_TopLeft ,Slider_WidthHeight)        
+        self.SLIDER_POS = [self.Slider_Rect.x,self.Slider_Rect.y] 
+        #circle
+        self.Circle_Radius =  self.Slider_Thickness
+        Circle_X =  Slider_Pos_X + Volume_Value * self.Slider_length
+        Circle_Y =  self.Slider_Rect.centery
+        Circle_Rect_TopLeft =(Circle_X-self.Circle_Radius,Slider_Pos_Y-self.Circle_Radius,)
+        Circle_Rect_WidthHeight = (self.Circle_Radius*2, self.Circle_Radius*2)
+        self.Circle_Rect = pygame.Rect(Circle_Rect_TopLeft,Circle_Rect_WidthHeight)        
+        self.Circle_Pos = (Circle_X,Circle_Y)
+        #mute
+        self.Muted = False 
+        Mute_Checkbox_TopLeft = (self.BackgroundBox.topright[0]+self.BackgroundBox.height*0.7/2, self.BackgroundBox.topright[1] )
+        Mute_Checkbox_WidthHeight =(self.BackgroundBox.height,self.BackgroundBox.height)
+        self.Mute_Checkbox = pygame.Rect(Mute_Checkbox_TopLeft,Mute_Checkbox_WidthHeight)
         
-  
-    def Drag(self, POS):
+    def mute(self):
+        
+        if self.Muted == True:
+            self.Muted = False 
+        else:
+            Volume_Type[self.TYPE](0)
+            self.Volume_Value = 0
+            self.Volume_Value = max(0,min(1,self.Volume_Value))
+            Volume_Type[self.TYPE](self.Volume_Value)
+            self.Circle_Pos = (int(self.SLIDER_POS[0] +  self.Volume_Value * self.Slider_length ), self.Slider_Rect.centery)
+            Circle_Rect_POSX = (self.Circle_Pos[0]-self.Circle_Radius,self.Circle_Pos[1]-self.Circle_Radius)
+            Circle_Rect_POSY = (self.Circle_Radius*2, self.Circle_Radius*2)
+            self.Circle_Rect = pygame.Rect(Circle_Rect_POSX ,Circle_Rect_POSY)
+            self.Muted =True
 
-        self.Drag_Pos = [POS[0],POS[1]]
-        self.Volume_Value = (self.Drag_Pos[0]-(self.SLIDER_POS[0] )) / SLIDER_WIDTH
-        self.Volume_Value = max(0,min(1,self.Volume_Value))
-        self.circle_pos = (int(MAIN_VOLUME_SLIDER_POS[0] +  self.Volume_Value * SLIDER_WIDTH ), self.circle_pos[1])
-        self.Circle_Rect = pygame.Rect(self.circle_pos[0]-10,self.SLIDER_POS[1]-5,self.circle_radius*2,self.circle_radius*2)
+    def Drag(self, POS):
+        if self.Muted == False :
+            self.Drag_Pos = [POS[0],POS[1]]
+            self.Volume_Value = (self.Drag_Pos[0]-(self.SLIDER_POS[0] )) / self.Slider_length
+            self.Volume_Value = max(0,min(1,self.Volume_Value))
+            Volume_Type[self.TYPE](self.Volume_Value)
+            self.Circle_Pos = (int(self.SLIDER_POS[0] +  self.Volume_Value * self.Slider_length ), self.Slider_Rect.centery)
+            Circle_Rect_POSX = (self.Circle_Pos[0]-self.Circle_Radius,self.Circle_Pos[1]-self.Circle_Radius)
+            Circle_Rect_POSY = (self.Circle_Radius*2, self.Circle_Radius*2)
+            self.Circle_Rect = pygame.Rect(Circle_Rect_POSX ,Circle_Rect_POSY)        
 
     def draw(self):
+        
+       
+        pygame.draw.rect(self.screen,GREY,self.Mute_Checkbox,0,15)
+        pygame.draw.rect(self.screen,WHITE,self.Mute_Checkbox,5,15)
+        if self.Muted == True:
+            pygame.draw.line(self.screen,WHITE,(self.Mute_Checkbox.topleft[0]+7,self.Mute_Checkbox.topleft[1]+7),(self.Mute_Checkbox.bottomright[0]-7,self.Mute_Checkbox.bottomright[1]-7),5)
+            pygame.draw.line(self.screen,WHITE,(self.Mute_Checkbox.topright[0]-7,self.Mute_Checkbox.topright[1]+7),(self.Mute_Checkbox.bottomleft[0]+7,self.Mute_Checkbox.bottomleft[1]-7),5)
+        pygame.draw.rect(self.screen,BLUE_LIGHT,self.BackgroundBox,border_radius=7)
         self.screen.blit(self.Label,self.Label_POS)
-        pygame.draw.rect(self.screen,BLACK,self.Slider_Rect)
-        pygame.draw.rect(self.screen,BLACK,self.Circle_Rect)
-        pygame.draw.circle(screen,WHITE,self.circle_pos,self.circle_radius)
+        pygame.draw.rect(self.screen,BLACK,self.Slider_Rect,border_radius=10)
+        pygame.draw.circle(screen,WHITE,self.Circle_Pos,self.Circle_Radius)
+        pygame.draw.circle(screen,BLACK,self.Circle_Pos,self.Circle_Radius*0.7)
+
 
 
 class Timer:

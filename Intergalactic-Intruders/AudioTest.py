@@ -11,22 +11,33 @@ def show_audioTest():
     pygame.display.set_caption("Audio Settings Test")
 
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"settings")
-    Audio_Buttons =[Back_button]
+    Gunshot_Button = constants.Button("TEST FIRE",constants.SCREEN_WIDTH // 2 - constants.BUTTON_WIDTH // 2, 500,0,0,constants.Colour_Palettes["Red_Buttons"])
+
+    Audio_Buttons =[Back_button,Gunshot_Button]
     
     audio_running = True
 
     # Initial slider values set to the middle
-    volume_value = 0.5
-    #music_value = 0.5
-    #sound_effects_value = 0.5
+    Main_value = 0.5
+    Music_value = 0.5
+    Sfx_value = 0.5
 
     # Apply initial volumes
-   # sounds.set_volume(volume_value)
-   # sounds.set_space_sound_volume(music_value)
-    #sounds.set_gunshot_sound_volume(sound_effects_value)
+    sounds.set_main_volume(Main_value)
+    sounds.set_space_sound_volume(Music_value)
+    sounds.set_gunshot_sound_volume(Sfx_value)
+    
+    Slider_X = 400
+    Slider_Y = 250
+    Slider_Gap = 75
+    
+    Main_Volume_Slider = constants.Slider(Main_value,"Main  Volume :",Slider_X,Slider_Y,"MAIN")
+    Music_Volume_Slider = constants.Slider(Music_value,"Music Volume :",Slider_X,Slider_Y+Slider_Gap,"MUSIC")
+    SFX_Volume_Slider = constants.Slider(Sfx_value,"SFX    Volume :",Slider_X,Slider_Y+Slider_Gap*2,"SFX")
 
-    Volume_Slider =  constants.Slider(volume_value," Volume Slider Test ",500,200)
-
+    Volume_Sliders = [Main_Volume_Slider,Music_Volume_Slider,SFX_Volume_Slider]
+    i = 0
+   
     while audio_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         for event in pygame.event.get():
@@ -36,14 +47,23 @@ def show_audioTest():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
-                elif Volume_Slider.Circle_Rect.collidepoint(event.pos):
-                    Volume_Slider.dragging = True
+                if Gunshot_Button.rect.collidepoint(event.pos):
+                    sounds.play_gunshot()
+                for Sliders in Volume_Sliders:
+                    if Sliders.Mute_Checkbox.collidepoint(event.pos):
+
+                        Sliders.mute()
+                    if Sliders.Circle_Rect.collidepoint(event.pos):
+                        Sliders.Dragging = True
             elif event.type == pygame.MOUSEBUTTONUP:
-                if Volume_Slider.dragging :
-                    Volume_Slider.dragging = False
+                for Sliders in Volume_Sliders:
+                  Sliders.Dragging = False
             elif event.type == pygame.MOUSEMOTION:
-                if Volume_Slider.dragging :
-                    Volume_Slider.Drag(event.pos)
+                for Buttons in Audio_Buttons:
+                    Buttons.hovered = Buttons.rect.collidepoint(event.pos)
+                for Sliders in Volume_Sliders:
+                  if Sliders.Dragging == True:
+                      Sliders.Drag(event.pos)
         
         
 
@@ -56,8 +76,12 @@ def show_audioTest():
             screen.blit(text_surface, text_rect)
             y_offset += 30
         
-        Volume_Slider.draw()
-        Back_button.draw()
+        for Sliders in Volume_Sliders:
+            Sliders.draw()
+            
+
+        for Buttons in Audio_Buttons:
+            Buttons.draw()
         pygame.display.update()
 
 
