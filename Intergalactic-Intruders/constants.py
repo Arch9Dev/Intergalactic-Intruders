@@ -4,6 +4,8 @@ import images
 from sounds import set_main_volume,set_space_sound_volume,set_gunshot_sound_volume
 from PageList import pagelist
 
+Coords = tuple[float,float]
+Colour = tuple[int,int,int]
 
 # Initialize Pygame
 pygame.init()
@@ -100,7 +102,7 @@ def load_xolonium_font(font_size):
     return xolonium_font
 
 def load_immermann_font(font_size):
-    immermann_font_path = "Intergalactic-Intruders/Fonts/Immermann.ttf"
+    immermann_font_path = 'Intergalactic-Intruders\Font\Immermann.ttf'
     immerman_font = pygame.font.Font(immermann_font_path, font_size)
     return immerman_font
 
@@ -290,14 +292,38 @@ class BackButton(Button):
 
 
 class Slider :
-    def __init__(self,Volume_Value,Label_Text,Slider_Pos_X,Slider_Pos_Y,Type_Name) :
+    def __init__(self,Volume_Value : float,Label_Text : str ,Slider_Pos_X : float,Slider_Pos_Y : float,Type_Name : str) :
+        #Needed Var's
         self.screen = screen
         self.Volume_Value = Volume_Value
+        self.Muted = False 
         self.Dragging = False
-        self.Hovering = False
+        self.Hovering_SliderBar = False
+        self.Hovering_MuteCheckbox = False
+
         self.TYPE = Type_Name
         self.Slider_Thickness = 12
         self.Slider_length = 400
+        #Colours
+        self.Slider_Colours ={
+            "Colour_SliderBar" : {"NORMAL": BLACK, "HOVERING":WHITE, "MUTED": GREY },
+            "Colour_Circle" : {
+                "NORMAL": {"Center":BLACK,"Ring":WHITE},
+                "DRAGGING":{"Center":WHITE,"Ring":BLACK},
+                "MUTED":{"Center":GREY,"Ring":GREY}
+            },
+            "Background_Box": {"UNMUTED": BLUE_LIGHT, "MUTED":RED_LIGHT},
+            "Mute_Checkbox": {
+                "UNMUTED":{
+                    "NORMAL":  {"Center":GREY,"Border":WHITE},
+                    "HOVERING": {"Center":WHITE,"Border":GREY}
+                },
+                "MUTED":{
+                    "NORMAL": {"Center":GREY,"Border":WHITE,"Cross": WHITE},
+                    "HOVERING": {"Center":WHITE,"Border":GREY,"Cross": GREY}
+                    },
+            } 
+        }
         #label
         self.Label = FONT.render(Label_Text,True,BLACK)
         Label_Gap_X = self.Label.get_width()+50
@@ -321,14 +347,16 @@ class Slider :
         self.Circle_Rect = pygame.Rect(Circle_Rect_TopLeft,Circle_Rect_WidthHeight)        
         self.Circle_Pos = (Circle_X,Circle_Y)
         #mute
-        self.Muted = False 
         Mute_Checkbox_TopLeft = (self.BackgroundBox.topright[0]+self.BackgroundBox.height*0.7/2, self.BackgroundBox.topright[1] )
         Mute_Checkbox_WidthHeight =(self.BackgroundBox.height,self.BackgroundBox.height)
-        self.Mute_Checkbox = pygame.Rect(Mute_Checkbox_TopLeft,Mute_Checkbox_WidthHeight)
-        
+        self.Mute_Checkbox_Rect = pygame.Rect(Mute_Checkbox_TopLeft,Mute_Checkbox_WidthHeight)
+        self.Cross_1 =  (self.Mute_Checkbox_Rect.topleft[0]+7,self.Mute_Checkbox_Rect.topleft[1]+7),(self.Mute_Checkbox_Rect.bottomright[0]-7,self.Mute_Checkbox_Rect.bottomright[1]-7)
+        self.Cross_2 = (self.Mute_Checkbox_Rect.topright[0]-7,self.Mute_Checkbox_Rect.topright[1]+7),(self.Mute_Checkbox_Rect.bottomleft[0]+7,self.Mute_Checkbox_Rect.bottomleft[1]-7)
     def mute(self):
         
+        
         if self.Muted == True:
+            
             self.Muted = False 
         else:
             Volume_Type[self.TYPE](0)
@@ -353,18 +381,75 @@ class Slider :
             self.Circle_Rect = pygame.Rect(Circle_Rect_POSX ,Circle_Rect_POSY)        
 
     def draw(self):
-        
-       
-        pygame.draw.rect(self.screen,GREY,self.Mute_Checkbox,0,15)
-        pygame.draw.rect(self.screen,WHITE,self.Mute_Checkbox,5,15)
-        if self.Muted == True:
-            pygame.draw.line(self.screen,WHITE,(self.Mute_Checkbox.topleft[0]+7,self.Mute_Checkbox.topleft[1]+7),(self.Mute_Checkbox.bottomright[0]-7,self.Mute_Checkbox.bottomright[1]-7),5)
-            pygame.draw.line(self.screen,WHITE,(self.Mute_Checkbox.topright[0]-7,self.Mute_Checkbox.topright[1]+7),(self.Mute_Checkbox.bottomleft[0]+7,self.Mute_Checkbox.bottomleft[1]-7),5)
-        pygame.draw.rect(self.screen,BLUE_LIGHT,self.BackgroundBox,border_radius=7)
-        self.screen.blit(self.Label,self.Label_POS)
-        pygame.draw.rect(self.screen,BLACK,self.Slider_Rect,border_radius=10)
-        pygame.draw.circle(screen,WHITE,self.Circle_Pos,self.Circle_Radius)
-        pygame.draw.circle(screen,BLACK,self.Circle_Pos,self.Circle_Radius*0.7)
+        Colour_Circle = self.Slider_Colours["Colour_Circle"]
+        Colour_SliderBar = self.Slider_Colours["Colour_SliderBar"]
+        Colour_Background = self.Slider_Colours["Background_Box"]
+        Colour_Mute_Checkbox = self.Slider_Colours["Mute_Checkbox"]
+        test1 = (self.Cross_1[0][0],self.Cross_1[0][1])
+        test2 = self.Cross_1[0][0]
+
+        CrossCords = [[self.Cross_1[0],self.Cross_1[1]],[self.Cross_2[0],self.Cross_2[1]]]
+        def Draw_Checkbox(Muted :bool,Hovered : bool):
+            if Muted:
+                if Hovered:
+                    pygame.draw.rect(self.screen,Colour_Mute_Checkbox["MUTED"]["HOVERING"]["Center"],self.Mute_Checkbox_Rect,0,15)
+                    pygame.draw.line(self.screen,Colour_Mute_Checkbox["MUTED"]["HOVERING"]["Cross"],CrossCords[0][0],CrossCords[0][1],5)
+                    pygame.draw.line(self.screen,Colour_Mute_Checkbox["MUTED"]["HOVERING"]["Cross"],CrossCords[1][0],CrossCords[1][1],5)
+                    pygame.draw.rect(self.screen,Colour_Mute_Checkbox["MUTED"]["HOVERING"]["Border"],self.Mute_Checkbox_Rect,5,15)
+                else:
+                    pygame.draw.rect(self.screen,Colour_Mute_Checkbox["MUTED"]["NORMAL"]["Center"],self.Mute_Checkbox_Rect,0,15)
+                    pygame.draw.line(self.screen,Colour_Mute_Checkbox["MUTED"]["NORMAL"]["Cross"],CrossCords[0][0],CrossCords[0][1],5)
+                    pygame.draw.line(self.screen,Colour_Mute_Checkbox["MUTED"]["NORMAL"]["Cross"],CrossCords[1][0],CrossCords[1][1],5)
+                    pygame.draw.rect(self.screen,Colour_Mute_Checkbox["MUTED"]["NORMAL"]["Border"],self.Mute_Checkbox_Rect,5,15)
+            else:
+                if Hovered:
+                    pygame.draw.rect(self.screen,Colour_Mute_Checkbox["UNMUTED"]["HOVERING"]["Center"],self.Mute_Checkbox_Rect,0,15)
+                    pygame.draw.rect(self.screen,Colour_Mute_Checkbox["UNMUTED"]["HOVERING"]["Border"],self.Mute_Checkbox_Rect,5,15)
+                else:
+                    pygame.draw.rect(self.screen,Colour_Mute_Checkbox["UNMUTED"]["NORMAL"]["Center"],self.Mute_Checkbox_Rect,0,15)
+                    pygame.draw.rect(self.screen,Colour_Mute_Checkbox["UNMUTED"]["NORMAL"]["Border"],self.Mute_Checkbox_Rect,5,15)
+        def Draw_SliderBar(Muted : bool,Hovered : bool):
+            if Muted:
+                pygame.draw.rect(self.screen,Colour_SliderBar["MUTED"],self.Slider_Rect,border_radius=10)
+            elif Hovered:
+                pygame.draw.rect(self.screen,Colour_SliderBar["HOVERING"],self.Slider_Rect,border_radius=10)
+            else:
+                pygame.draw.rect(self.screen,Colour_SliderBar["NORMAL"],self.Slider_Rect,border_radius=10)            
+        def Draw_Circle(Muted : bool,Dragging : bool,):
+            if Muted:
+                pygame.draw.circle(screen,Colour_Circle["MUTED"]["Ring"],self.Circle_Pos,self.Circle_Radius)
+                pygame.draw.circle(screen,Colour_Circle["MUTED"]["Center"],self.Circle_Pos,self.Circle_Radius*0.7)
+            elif Dragging:
+                pygame.draw.circle(screen,Colour_Circle["DRAGGING"]["Ring"],self.Circle_Pos,self.Circle_Radius)
+                pygame.draw.circle(screen,Colour_Circle["DRAGGING"]["Center"],self.Circle_Pos,self.Circle_Radius*0.7)
+            else:
+                pygame.draw.circle(screen,Colour_Circle["NORMAL"]["Ring"],self.Circle_Pos,self.Circle_Radius)
+                pygame.draw.circle(screen,Colour_Circle["NORMAL"]["Center"],self.Circle_Pos,self.Circle_Radius*0.7)
+        def Draw_BackgroundBox(Muted : bool):
+            if Muted :
+                pygame.draw.rect(self.screen,Colour_Background["MUTED"],self.BackgroundBox,border_radius=7)
+            else:
+                pygame.draw.rect(self.screen,Colour_Background["UNMUTED"],self.BackgroundBox,border_radius=7)
+        def Draw_Label():
+            self.screen.blit(self.Label,self.Label_POS)
+
+        Draw_Checkbox(self.Muted,self.Hovering_MuteCheckbox)
+        Draw_BackgroundBox(self.Muted)
+        Draw_Label()
+        Draw_SliderBar(self.Muted,self.Hovering_SliderBar)
+        Draw_Circle(self.Muted,self.Dragging)
+
+class Lable:
+    def __init__(self, X_Y : Coords, Fontsize : int,Lable_Text : str,Text_Colour: Colour,Background_Colour : Colour,AA :bool):
+        Label_Font = load_immermann_font(Fontsize)
+        self.Lable = Label_Font.render(Lable_Text,AA,Text_Colour,Background_Colour)
+        self.X_Y = X_Y
+    def draw(self):
+        self.Lable.get_rect(center = self.X_Y)
+        screen.blit(self.Lable,self.X_Y)
+    
+
+
 
 
 

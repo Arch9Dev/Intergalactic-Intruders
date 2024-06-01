@@ -23,9 +23,7 @@ def show_audioTest():
     Sfx_value = 0.5
 
     # Apply initial volumes
-    sounds.set_main_volume(Main_value)
-    sounds.set_space_sound_volume(Music_value)
-    sounds.set_gunshot_sound_volume(Sfx_value)
+
     
     Slider_X = 400
     Slider_Y = 250
@@ -34,10 +32,10 @@ def show_audioTest():
     Main_Volume_Slider = constants.Slider(Main_value,"Main  Volume :",Slider_X,Slider_Y,"MAIN")
     Music_Volume_Slider = constants.Slider(Music_value,"Music Volume :",Slider_X,Slider_Y+Slider_Gap,"MUSIC")
     SFX_Volume_Slider = constants.Slider(Sfx_value,"SFX    Volume :",Slider_X,Slider_Y+Slider_Gap*2,"SFX")
-
     Volume_Sliders = [Main_Volume_Slider,Music_Volume_Slider,SFX_Volume_Slider]
     i = 0
-   
+    Page_label = constants.Lable((screen.get_width()/3-15,75),72,"Audio Settings",constants.GREEN_LIGHT,None,True)
+
     while audio_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
         for event in pygame.event.get():
@@ -50,8 +48,7 @@ def show_audioTest():
                 if Gunshot_Button.rect.collidepoint(event.pos):
                     sounds.play_gunshot()
                 for Sliders in Volume_Sliders:
-                    if Sliders.Mute_Checkbox.collidepoint(event.pos):
-
+                    if Sliders.Mute_Checkbox_Rect.collidepoint(event.pos):
                         Sliders.mute()
                     if Sliders.Circle_Rect.collidepoint(event.pos):
                         Sliders.Dragging = True
@@ -62,23 +59,21 @@ def show_audioTest():
                 for Buttons in Audio_Buttons:
                     Buttons.hovered = Buttons.rect.collidepoint(event.pos)
                 for Sliders in Volume_Sliders:
-                  if Sliders.Dragging == True:
+                    
+                    if Sliders.Dragging == True:
                       Sliders.Drag(event.pos)
-        
-        
+                      Sliders.Hovering_SliderBar = True
+                    else:
+                        Sliders.Hovering_SliderBar = Sliders.Slider_Rect.collidepoint(event.pos)                      
+                        Sliders.Hovering_MuteCheckbox = Sliders.Mute_Checkbox_Rect.collidepoint(event.pos)                      
 
         
-        y_offset = 50
-
-        for line in constants.AUDIO_TEXT:
-            text_surface = constants.FONT.render(line, True, constants.BLACK)
-            text_rect = text_surface.get_rect(center=(constants.SCREEN_WIDTH // 2, y_offset))
-            screen.blit(text_surface, text_rect)
-            y_offset += 30
+        Page_label.draw()
         
         for Sliders in Volume_Sliders:
             Sliders.draw()
             
+        constants.Lable((100,100),24,"TESTING Hellow world ",constants.RED_LIGHT,None,True)
 
         for Buttons in Audio_Buttons:
             Buttons.draw()
