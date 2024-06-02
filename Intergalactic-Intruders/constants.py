@@ -1,7 +1,7 @@
-from typing import Any
+from typing import __all__
 import pygame
 import images
-from sounds import set_main_volume,set_space_sound_volume,set_gunshot_sound_volume
+from sounds import *
 from PageList import pagelist
 
 Coords = tuple[float,float]
@@ -36,9 +36,18 @@ ORANGE_DARKER = (255, 111, 0)
 ORANGE_LIGHT = (255, 235, 0)
 
 Volume_Type = {
-    "MAIN" : set_main_volume,
-    "MUSIC" : set_space_sound_volume,
-    "SFX" : set_gunshot_sound_volume
+    "GET":
+    {
+        "MAIN" : get_main_volume,
+        "MUSIC" : get_space_sound_volume,
+        "SFX" : get_gunshot_sound_volume
+    },
+    "SET":
+    {
+        "MAIN" : set_main_volume,
+        "MUSIC" : set_space_sound_volume,
+        "SFX" : set_gunshot_sound_volume
+    },
 }
 
 Colour_Palettes = {
@@ -172,27 +181,27 @@ TIMETRIAL_TEXT = [
 
 
 
-
+#Deprecated
 # Slider positions and sizes
 SLIDER_WIDTH = 400
 SLIDER_HEIGHT = 10
-
+#Deprecated
 MAIN_VOLUME_SLIDER_POS = (SCREEN_WIDTH // 2, 200)
 MUSIC_SLIDER_POS = (SCREEN_WIDTH // 2, 300)
 SOUND_EFFECTS_SLIDER_POS = (SCREEN_WIDTH // 2, 400)
-
+#Deprecated
 def draw_circle(screen, colour, position, radius):
     pygame.draw.circle(screen, colour, position, radius)
 
 
-
-def draw_button(screen, x, y, width, height, text):
+#Deprecated
+def draw_button(screen, x, y, width, height, text):#Deprecated
     pygame.draw.rect(screen, RED_DARK, (x, y, width, height))
     pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
     text_surface = FONT.render(text, True, BLACK)
     text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
     screen.blit(text_surface, text_rect)
-
+#Deprecated
 def draw_gunshot_button(screen, x, y, width, height, text):
     pygame.draw.rect(screen, RED_DARK, (x, y, width, height))
     pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
@@ -292,22 +301,25 @@ class BackButton(Button):
 
 
 class Slider :
-    def __init__(self,Volume_Value : float,Label_Text : str ,Slider_Pos_X : float,Slider_Pos_Y : float,Type_Name : str) :
+    def __init__(self,Label_Text : str ,Slider_Pos_X : float,Slider_Pos_Y : float,Type_Name : str) :
         #Needed Var's
         self.screen = screen
-        self.Volume_Value = Volume_Value
-        self.Muted = False 
+        self.Volume_Value = Volume_Type["GET"][Type_Name]()
+        self.Muted = False if self.Volume_Value > 0 else True 
         self.Dragging = False
-        self.Hovering_SliderBar = False
+        self.Hovering_Slider_Track = False
         self.Hovering_MuteCheckbox = False
-
         self.TYPE = Type_Name
-        self.Slider_Thickness = 12
-        self.Slider_length = 400
+        self.Slider_Track_Thickness = 12
+        self.Slider_Track_Length = 400
         #Colours
         self.Slider_Colours ={
-            "Colour_SliderBar" : {"NORMAL": BLACK, "HOVERING":WHITE, "MUTED": GREY },
-            "Colour_Circle" : {
+            "Colour_Slider_Track" : {
+                "NORMAL": {"FillTrack": GREY, "BackTrack":BLACK},
+                "HOVERING":{"FillTrack": WHITE, "BackTrack":BLACK},
+                "MUTED": GREY 
+            },
+            "Colour_Slider_Thumb" : {
                 "NORMAL": {"Center":BLACK,"Ring":WHITE},
                 "DRAGGING":{"Center":WHITE,"Ring":BLACK},
                 "MUTED":{"Center":GREY,"Ring":GREY}
@@ -331,58 +343,80 @@ class Slider :
         self.Label_POS = (Slider_Pos_X - Label_Gap_X, Slider_Pos_Y - Label_Gap_Y  ) 
         #background Box
         BackgroundBox_TopLeft = (self.Label_POS[0],self.Label_POS[1])
-        BackgroundBox_WidthHeight =( self.Slider_length + 50 + self.Label.get_width() ,self.Label.get_height())
+        BackgroundBox_WidthHeight =( self.Slider_Track_Length + 50 + self.Label.get_width() ,self.Label.get_height())
         self.BackgroundBox  = pygame.Rect(BackgroundBox_TopLeft,BackgroundBox_WidthHeight).inflate(22,19)
-        #slider
-        Slider_TopLeft  = (Slider_Pos_X - 15, self.BackgroundBox.centery - self.Slider_Thickness  /2 )
-        Slider_WidthHeight =( self.Slider_length, self.Slider_Thickness)
-        self.Slider_Rect  = pygame.Rect(Slider_TopLeft ,Slider_WidthHeight)        
-        self.SLIDER_POS = [self.Slider_Rect.x,self.Slider_Rect.y] 
-        #circle
-        self.Circle_Radius =  self.Slider_Thickness
-        Circle_X =  Slider_Pos_X + Volume_Value * self.Slider_length
-        Circle_Y =  self.Slider_Rect.centery
-        Circle_Rect_TopLeft =(Circle_X-self.Circle_Radius,Slider_Pos_Y-self.Circle_Radius,)
-        Circle_Rect_WidthHeight = (self.Circle_Radius*2, self.Circle_Radius*2)
-        self.Circle_Rect = pygame.Rect(Circle_Rect_TopLeft,Circle_Rect_WidthHeight)        
-        self.Circle_Pos = (Circle_X,Circle_Y)
-        #mute
+        
+        #Slider Track
+        Slider_Track_TopLeft  = (Slider_Pos_X - 15, self.BackgroundBox.centery - self.Slider_Track_Thickness  /2 )
+        Slider_Track_WidthHeight =( self.Slider_Track_Length, self.Slider_Track_Thickness)
+        self.Slider_Track_Rect  = pygame.Rect(Slider_Track_TopLeft ,Slider_Track_WidthHeight)        
+        self.SLIDER_Track_POS = [self.Slider_Track_Rect.x,self.Slider_Track_Rect.y] 
+        
+        #Slider_Thumb
+        self.Slider_Thumb_Radius =  self.Slider_Track_Thickness
+        Slider_Thumb_X =  Slider_Pos_X + self.Volume_Value * self.Slider_Track_Length
+        Slider_Thumb_Y =  self.Slider_Track_Rect.centery
+        Slider_Thumb_Rect_TopLeft =(Slider_Thumb_X-self.Slider_Thumb_Radius,Slider_Pos_Y-self.Slider_Thumb_Radius,)
+        Slider_Thumb_Rect_WidthHeight = (self.Slider_Thumb_Radius*2, self.Slider_Thumb_Radius*2)
+        self.Slider_Thumb_Rect = pygame.Rect(Slider_Thumb_Rect_TopLeft,Slider_Thumb_Rect_WidthHeight)        
+        self.Slider_Thumb_Pos = (Slider_Thumb_X,Slider_Thumb_Y)
+        
+        #Slider Track Fill (Volume indicator) 
+        Slider_Track_Fill_TopLeft = self.SLIDER_Track_POS[0],self.SLIDER_Track_POS[1]
+        Slider_Track_Fill_WidthHeight = (self.Slider_Thumb_Rect.centerx-self.SLIDER_Track_POS[0], self.Slider_Track_Rect.height)
+        self.Slider_Track_Fill_Rect = pygame.Rect(Slider_Track_Fill_TopLeft,Slider_Track_Fill_WidthHeight)
+        
+        #Mute_Checkbox
         Mute_Checkbox_TopLeft = (self.BackgroundBox.topright[0]+self.BackgroundBox.height*0.7/2, self.BackgroundBox.topright[1] )
         Mute_Checkbox_WidthHeight =(self.BackgroundBox.height,self.BackgroundBox.height)
         self.Mute_Checkbox_Rect = pygame.Rect(Mute_Checkbox_TopLeft,Mute_Checkbox_WidthHeight)
         self.Cross_1 =  (self.Mute_Checkbox_Rect.topleft[0]+7,self.Mute_Checkbox_Rect.topleft[1]+7),(self.Mute_Checkbox_Rect.bottomright[0]-7,self.Mute_Checkbox_Rect.bottomright[1]-7)
         self.Cross_2 = (self.Mute_Checkbox_Rect.topright[0]-7,self.Mute_Checkbox_Rect.topright[1]+7),(self.Mute_Checkbox_Rect.bottomleft[0]+7,self.Mute_Checkbox_Rect.bottomleft[1]-7)
+    def CheckMute(self):
+        self.Muted = False if self.Volume_Value > 0 else True 
+
     def mute(self):
-        
-        
         if self.Muted == True:
-            
+            self.Volume_Value = 0.01
             self.Muted = False 
         else:
-            Volume_Type[self.TYPE](0)
+            self.Muted =True
+            # volume
+            Volume_Type["SET"][self.TYPE](0)
             self.Volume_Value = 0
             self.Volume_Value = max(0,min(1,self.Volume_Value))
-            Volume_Type[self.TYPE](self.Volume_Value)
-            self.Circle_Pos = (int(self.SLIDER_POS[0] +  self.Volume_Value * self.Slider_length ), self.Slider_Rect.centery)
-            Circle_Rect_POSX = (self.Circle_Pos[0]-self.Circle_Radius,self.Circle_Pos[1]-self.Circle_Radius)
-            Circle_Rect_POSY = (self.Circle_Radius*2, self.Circle_Radius*2)
-            self.Circle_Rect = pygame.Rect(Circle_Rect_POSX ,Circle_Rect_POSY)
-            self.Muted =True
-
+            Volume_Type["SET"][self.TYPE](self.Volume_Value)
+            # Slider_Thumb
+            self.Slider_Thumb_Pos = (int(self.SLIDER_Track_POS[0] +  self.Volume_Value * self.Slider_Track_Length ), self.Slider_Track_Rect.centery)
+            Slider_Thumb_Rect_POSX = (self.Slider_Thumb_Pos[0]-self.Slider_Thumb_Radius,self.Slider_Thumb_Pos[1]-self.Slider_Thumb_Radius)
+            Slider_Thumb_Rect_POSY = (self.Slider_Thumb_Radius*2, self.Slider_Thumb_Radius*2)
+            self.Slider_Thumb_Rect = pygame.Rect(Slider_Thumb_Rect_POSX ,Slider_Thumb_Rect_POSY)
+            #Slider Track Fill (Volume indicator) 
+            Slider_Track_Fill_TopLeft = self.SLIDER_Track_POS[0],self.SLIDER_Track_POS[1]
+            Slider_Track_Fill_WidthHeight = (self.Slider_Thumb_Rect.centerx-self.SLIDER_Track_POS[0], self.Slider_Track_Rect.height)
+            self.Slider_Track_Fill_Rect = pygame.Rect(Slider_Track_Fill_TopLeft,Slider_Track_Fill_WidthHeight)
+            
     def Drag(self, POS):
         if self.Muted == False :
             self.Drag_Pos = [POS[0],POS[1]]
-            self.Volume_Value = (self.Drag_Pos[0]-(self.SLIDER_POS[0] )) / self.Slider_length
+            # volume
+            self.Volume_Value = (self.Drag_Pos[0]-(self.SLIDER_Track_POS[0] )) / self.Slider_Track_Length
             self.Volume_Value = max(0,min(1,self.Volume_Value))
-            Volume_Type[self.TYPE](self.Volume_Value)
-            self.Circle_Pos = (int(self.SLIDER_POS[0] +  self.Volume_Value * self.Slider_length ), self.Slider_Rect.centery)
-            Circle_Rect_POSX = (self.Circle_Pos[0]-self.Circle_Radius,self.Circle_Pos[1]-self.Circle_Radius)
-            Circle_Rect_POSY = (self.Circle_Radius*2, self.Circle_Radius*2)
-            self.Circle_Rect = pygame.Rect(Circle_Rect_POSX ,Circle_Rect_POSY)        
+            Volume_Type['SET'][self.TYPE](self.Volume_Value)
+            # Slider_Thumb
+            self.Slider_Thumb_Pos = (int(self.SLIDER_Track_POS[0] +  self.Volume_Value * self.Slider_Track_Length ), self.Slider_Track_Rect.centery)
+            Slider_Thumb_Rect_POSX = (self.Slider_Thumb_Pos[0]-self.Slider_Thumb_Radius,self.Slider_Thumb_Pos[1]-self.Slider_Thumb_Radius)
+            Slider_Thumb_Rect_POSY = (self.Slider_Thumb_Radius*2, self.Slider_Thumb_Radius*2)
+            self.Slider_Thumb_Rect = pygame.Rect(Slider_Thumb_Rect_POSX ,Slider_Thumb_Rect_POSY)
+            #Slider Track Fill (Volume indicator) 
+            Slider_Track_Fill_TopLeft = self.SLIDER_Track_POS[0],self.SLIDER_Track_POS[1]
+            Slider_Track_Fill_WidthHeight = (self.Slider_Thumb_Rect.centerx-self.SLIDER_Track_POS[0], self.Slider_Track_Rect.height)
+            self.Slider_Track_Fill_Rect = pygame.Rect(Slider_Track_Fill_TopLeft,Slider_Track_Fill_WidthHeight)
 
     def draw(self):
-        Colour_Circle = self.Slider_Colours["Colour_Circle"]
-        Colour_SliderBar = self.Slider_Colours["Colour_SliderBar"]
+
+        Colour_Slider_Thumb = self.Slider_Colours["Colour_Slider_Thumb"]
+        Colour_Slider_Track = self.Slider_Colours["Colour_Slider_Track"]
         Colour_Background = self.Slider_Colours["Background_Box"]
         Colour_Mute_Checkbox = self.Slider_Colours["Mute_Checkbox"]
         test1 = (self.Cross_1[0][0],self.Cross_1[0][1])
@@ -410,21 +444,24 @@ class Slider :
                     pygame.draw.rect(self.screen,Colour_Mute_Checkbox["UNMUTED"]["NORMAL"]["Border"],self.Mute_Checkbox_Rect,5,15)
         def Draw_SliderBar(Muted : bool,Hovered : bool):
             if Muted:
-                pygame.draw.rect(self.screen,Colour_SliderBar["MUTED"],self.Slider_Rect,border_radius=10)
+                pygame.draw.rect(self.screen,Colour_Slider_Track["MUTED"],self.Slider_Track_Rect,border_radius=10)
             elif Hovered:
-                pygame.draw.rect(self.screen,Colour_SliderBar["HOVERING"],self.Slider_Rect,border_radius=10)
+                pygame.draw.rect(self.screen,Colour_Slider_Track["HOVERING"]["BackTrack"],self.Slider_Track_Rect,border_radius=10)
+                pygame.draw.rect(self.screen,Colour_Slider_Track["HOVERING"]["FillTrack"],self.Slider_Track_Fill_Rect,border_radius=10)
             else:
-                pygame.draw.rect(self.screen,Colour_SliderBar["NORMAL"],self.Slider_Rect,border_radius=10)            
-        def Draw_Circle(Muted : bool,Dragging : bool,):
+                pygame.draw.rect(self.screen,Colour_Slider_Track["NORMAL"]["BackTrack"],self.Slider_Track_Rect,border_radius=10)            
+                pygame.draw.rect(self.screen,Colour_Slider_Track["NORMAL"]["FillTrack"],self.Slider_Track_Fill_Rect,border_radius=10)
+
+        def Draw_Slider_Thumb(Muted : bool,Dragging : bool,):
             if Muted:
-                pygame.draw.circle(screen,Colour_Circle["MUTED"]["Ring"],self.Circle_Pos,self.Circle_Radius)
-                pygame.draw.circle(screen,Colour_Circle["MUTED"]["Center"],self.Circle_Pos,self.Circle_Radius*0.7)
+                pygame.draw.circle(screen,Colour_Slider_Thumb["MUTED"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
+                pygame.draw.circle(screen,Colour_Slider_Thumb["MUTED"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
             elif Dragging:
-                pygame.draw.circle(screen,Colour_Circle["DRAGGING"]["Ring"],self.Circle_Pos,self.Circle_Radius)
-                pygame.draw.circle(screen,Colour_Circle["DRAGGING"]["Center"],self.Circle_Pos,self.Circle_Radius*0.7)
+                pygame.draw.circle(screen,Colour_Slider_Thumb["DRAGGING"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
+                pygame.draw.circle(screen,Colour_Slider_Thumb["DRAGGING"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
             else:
-                pygame.draw.circle(screen,Colour_Circle["NORMAL"]["Ring"],self.Circle_Pos,self.Circle_Radius)
-                pygame.draw.circle(screen,Colour_Circle["NORMAL"]["Center"],self.Circle_Pos,self.Circle_Radius*0.7)
+                pygame.draw.circle(screen,Colour_Slider_Thumb["NORMAL"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
+                pygame.draw.circle(screen,Colour_Slider_Thumb["NORMAL"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
         def Draw_BackgroundBox(Muted : bool):
             if Muted :
                 pygame.draw.rect(self.screen,Colour_Background["MUTED"],self.BackgroundBox,border_radius=7)
@@ -436,10 +473,10 @@ class Slider :
         Draw_Checkbox(self.Muted,self.Hovering_MuteCheckbox)
         Draw_BackgroundBox(self.Muted)
         Draw_Label()
-        Draw_SliderBar(self.Muted,self.Hovering_SliderBar)
-        Draw_Circle(self.Muted,self.Dragging)
+        Draw_SliderBar(self.Muted,self.Hovering_Slider_Track)
+        Draw_Slider_Thumb(self.Muted,self.Dragging)
 
-class Lable:
+class TileLable:
     def __init__(self, X_Y : Coords, Fontsize : int,Lable_Text : str,Text_Colour: Colour,Background_Colour : Colour,AA :bool):
         Label_Font = load_immermann_font(Fontsize)
         self.Lable = Label_Font.render(Lable_Text,AA,Text_Colour,Background_Colour)
