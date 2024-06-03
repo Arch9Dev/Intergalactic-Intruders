@@ -21,16 +21,16 @@ barrier_image = {
     2: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker06.png'),
     1: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker07.png')
 }
-BarrierSize = (175, 75) # adjust x, y size
+BarrierSize = (Screen_Width * 0.21875, Screen_Height * 0.075) # adjust x, y size
 barrier_image = {health: pygame.transform.scale(img, BarrierSize) for health, img in barrier_image.items()}
 barrier_health = 8
-barrier_width = 175
-barrier_height = 75
-barrier_y = 650 # barrier y pos on screen
+barrier_width = Screen_Width * 0.21875
+barrier_height = Screen_Height * 0.075
+barrier_y = Screen_Height * 0.65 # barrier y pos on screen
 barriers = [
-    [68.75, barrier_y, barrier_health],
-    [68.75 + barrier_width + 68.75, barrier_y, barrier_health],
-    [68.75 + 2 * (barrier_width + 68.75), barrier_y, barrier_health]
+    [(Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
+    [(Screen_Width - (barrier_width * 3))/4 + barrier_width + (Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
+    [(Screen_Width - (barrier_width * 3))/4 + 2 * (barrier_width + (Screen_Width - (barrier_width * 3))/4), barrier_y, barrier_health]
 ]
 
 # General backend
@@ -50,28 +50,34 @@ Score_val = 0
 Accuracy = 100
 Hits_Landed = 1
 Shots_Taken = 1
+countdown_font = pygame.font.Font('freesansbold.ttf', 64)
+countdown_active = True
+countdown_start_time = pygame.time.get_ticks()
+countdown_duration = 3000  # 3 seconds
 
 # Player Variables
 PlayerImag = pygame.image.load('Intergalactic-Intruders/images/Player.gif')
+PlayerSize = (Screen_Width * 0.04, Screen_Height * 0.032)
+PlayerImag = pygame.transform.scale(PlayerImag, PlayerSize)
 player_hitbox = (PlayerImag.get_width(), PlayerImag.get_height())
-Player_X = 370
-Player_Y = 923
+Player_X = (Screen_Width / 2)
+Player_Y = Screen_Height * 0.9
 Player_Health = 3
 Player_Xchange = 0
 Player_Ychange = 0
-Original_Player_Xchange = 1.7
-Original_Player_Ychange = 1.7
+Original_Player_Xchange = Screen_Width * 0.002125
+Original_Player_Ychange = Screen_Height * 0.0017
 
 
 # Player Bullet stuff
 BulletImag = pygame.image.load('Intergalactic-Intruders/images/PlayerBullet.png')
-BulletSize = (10, 20)
+BulletSize = (Screen_Width * 0.0125, Screen_Height * 0.02)
 BulletImag = pygame.transform.scale(BulletImag, BulletSize) 
 Bullet_X = 0
-Bullet_Y = 500
+Bullet_Y = Screen_Height
 Bullet_Xchange = 0
-Original_Bullet_Ychange = 3
-Bullet_Ychange = 3
+Original_Bullet_Ychange = Screen_Height * 0.003
+Bullet_Ychange = Screen_Height * 0.003
 BulletStaet = "rest"
 bullet_hitbox = (BulletImag.get_width(), BulletImag.get_height())
 bullet_damage = 1
@@ -85,9 +91,9 @@ InvaderImag4 = pygame.image.load('Intergalactic-Intruders/images/Alien4.gif')
 Invader_X = []
 Invader_Y = []
 Invader_Xchange = []
-Invader_Ychange = 50
+Invader_Ychange = Screen_Height * 0.05
 InvaderCount = 30 # max invaders that can spawn, max on screen for time trial
-RowHeight = 50
+RowHeight = Screen_Height * 0.05
 Invader_Rangom = []
 Invader_Health = []  # List to store health of each invader, initialized to 2
 spawn_delay = 500 # delay between invader spawns
@@ -96,18 +102,18 @@ invader_hitbox = (InvaderImag1.get_height(), InvaderImag1.get_width())
 
 # Invader Bullet stuff
 InvBulletImag = pygame.image.load('Intergalactic-Intruders/images/InvaderBullet.png')
-InvBulletSize = (10, 20)
+InvBulletSize = (Screen_Width * 0.0125, Screen_Height * 0.02)
 InvBulletImag = pygame.transform.scale(InvBulletImag, BulletSize) 
 Inv_Bullet_Hitbox = (InvBulletImag.get_width(), InvBulletImag.get_height())
 InvBullet_Xchange = 0
-InvBullet_Ychange = 1
+InvBullet_Ychange = Screen_Height * 0.001
 Invader_Bullets = [[] for _ in range(InvaderCount)]
 Bullet_Limit = 50
-Fire_rate = 7500 # invader firerate
+Fire_rate = 7500 # invader firerate in 1/1000s sec
 last_shot_times = []
 
 # Powerup Stuff
-powerup_speed = 1  # Speed at which powerups move down
+powerup_speed = Screen_Height * 0.001  # Speed at which powerups move down
 powerup_images = {
     "ShotPower": pygame.image.load('Intergalactic-Intruders/images/ShotPower.png'),
     "ShieldRegen": pygame.image.load('Intergalactic-Intruders/images/ShieldRegen.png'),
@@ -127,6 +133,8 @@ Sound_BarrierDestroy = pygame.mixer.Sound('Sounds\BarrierDestroyed.wav')
 Sound_PlayerShoot = pygame.mixer.Sound('Sounds\GunShot.wav')
 Sound_PlayerHit = pygame.mixer.Sound('Sounds\PlayerHit.wav')
 Sound_PowerUP = pygame.mixer.Sound('Sounds\PowerUP.wav')
+pygame.mixer.music.load('Sounds\SpaceAmbience.wav')
+pygame.mixer.music.play(loops = -1)
 
 # Functions
 def isCollision_PlayerBullet(x1, x2, y1, y2):
@@ -179,7 +187,7 @@ def show_Health(x, y):
 
 def game_over():
     game_over_text = game_over_font.render("GAME OVER", True, (255, 255, 255))
-    Screen.blit(game_over_text, (190, 250))
+    Screen.blit(game_over_text, (Screen_Width * 0.2375, Screen_Height * 0.25))
 
 def player_hit():
     global Player_Health, Running
@@ -206,9 +214,9 @@ def apply_powerup(powerup_type):
         Timer_ShotPower = pygame.time.get_ticks() + 10000
     elif powerup_type == "ShieldRegen":
          barriers = [
-            [68.75, barrier_y],
-            [68.75 + barrier_width + 68.75, barrier_y],
-            [68.75 + 2 * (barrier_width + 68.75), barrier_y]
+            [(Screen_Width - (barrier_width * 3))/4, barrier_y],
+            [(Screen_Width - (barrier_width * 3))/4 + barrier_width + (Screen_Width - (barrier_width * 3))/4, barrier_y],
+            [(Screen_Width - (barrier_width * 3))/4 + 2 * (barrier_width + (Screen_Width - (barrier_width * 3))/4), barrier_y]
         ]
     elif powerup_type == "MoveSpeed":
         Original_Player_Xchange = Player_Xchange
@@ -250,11 +258,11 @@ def powerup_expired(hi):
 
 def display_powerup_icons():
     if Timer_BulletSpeed >= pygame.time.get_ticks():
-        Screen.blit(pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png'), (760, 5))
+        Screen.blit(pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png'), (Screen_Width * 0.95, Screen_Height * 0.005))
     if Timer_MoveSpeed >= pygame.time.get_ticks():
-        Screen.blit(pygame.image.load('Intergalactic-Intruders/images/MoveSpeed.png'), (720, 5))
+        Screen.blit(pygame.image.load('Intergalactic-Intruders/images/MoveSpeed.png'), (Screen_Width * 0.9, Screen_Height * 0.005))
     if Timer_ShotPower >= pygame.time.get_ticks():
-        Screen.blit(pygame.image.load('Intergalactic-Intruders/images/ShotPower.png'), (680, 5))
+        Screen.blit(pygame.image.load('Intergalactic-Intruders/images/ShotPower.png'), (Screen_Width * 0.85, 5))
 
 
 # Main game loop
@@ -263,6 +271,16 @@ while Running:
     Screen.blit(background_image, (0, 0))
     current_time = pygame.time.get_ticks()
     elapsed_time = current_time - last_time_check
+
+    if countdown_active:
+        current_time = pygame.time.get_ticks()
+        time_elapsed = current_time - countdown_start_time
+        if time_elapsed >= countdown_duration:
+            countdown_active = False
+        else:
+            countdown_number = 3 - time_elapsed // 1000  # Counting down from 3
+            countdown_text = countdown_font.render(str(countdown_number), True, (255, 255, 255))
+            Screen.blit(countdown_text, (Screen_Width // 2 - 32, Screen_Height // 2 - 32))
 
     # time trial stuff
     if Time_trial == 'true':
@@ -305,23 +323,23 @@ while Running:
     Player_X += Player_Xchange
     Player_Y += Player_Ychange
 
-    if Player_X <= 16:
-        Player_X = 16
-    elif Player_X >= 784:
-        Player_X = 784
+    if Player_X <= Screen_Width * 0.02:
+        Player_X = Screen_Width * 0.02
+    elif Player_X >= Screen_Width * 0.98:
+        Player_X = Screen_Width * 0.98
 
-    if Player_Y <= 834:
-        Player_Y = 834
-    elif Player_Y >= 954:
-        Player_Y = 954
+    if Player_Y <= Screen_Height * 0.834:
+        Player_Y = Screen_Height * 0.834
+    elif Player_Y >= Screen_Height * 0.954:
+        Player_Y = Screen_Height * 0.954
 
     # invader spawning stuff
     current_time = pygame.time.get_ticks()
     if current_time - last_spawn_time > spawn_delay and len(Invader_X) < InvaderCount and Max_Invaders_YN == 'false':
         rangom = random.randint(1, 4)
         Invader_X.append(0)
-        Invader_Y.append(30)
-        Invader_Xchange.append(1.3)
+        Invader_Y.append(Screen_Height * 0.03)
+        Invader_Xchange.append(Screen_Width * 0.001625)
         Invader_Rangom.append(rangom)
         Invader_Health.append(random.randint(1,3))
         last_shot_times.append(current_time)
