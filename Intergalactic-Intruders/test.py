@@ -11,16 +11,26 @@ Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
 background_image = pygame.image.load('Intergalactic-Intruders/images/gameback.png')
 
 # Barrier stuff 
-barrier_image = pygame.image.load('Intergalactic-Intruders/images/barrier.png')
+barrier_image = {
+    8: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker00.png'),
+    7: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker01.png'),
+    6: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker02.png'),
+    5: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker03.png'),
+    4: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker04.png'),
+    3: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker05.png'),
+    2: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker06.png'),
+    1: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker07.png')
+}
 BarrierSize = (175, 75) # adjust x, y size
-barrier_image = pygame.transform.scale(barrier_image, BarrierSize)
+barrier_image = {health: pygame.transform.scale(img, BarrierSize) for health, img in barrier_image.items()}
+barrier_health = 8
 barrier_width = 175
 barrier_height = 75
 barrier_y = 650 # barrier y pos on screen
 barriers = [
-    (68.75, barrier_y),
-    (68.75 + barrier_width + 68.75, barrier_y),
-    (68.75 + 2 * (barrier_width + 68.75), barrier_y)
+    [68.75, barrier_y, barrier_health],
+    [68.75 + barrier_width + 68.75, barrier_y, barrier_health],
+    [68.75 + 2 * (barrier_width + 68.75), barrier_y, barrier_health]
 ]
 
 # General backend
@@ -110,6 +120,14 @@ Timer_ShotPower = 0
 Timer_MoveSpeed = 0
 Timer_BulletSpeed = 0
 
+# Sound stuff
+pygame.mixer.init()
+Sound_InvaderDie = pygame.mixer.Sound('Sounds\AlienDeath.wav')
+Sound_BarrierDestroy = pygame.mixer.Sound('Sounds\BarrierDestroyed.wav')
+Sound_PlayerShoot = pygame.mixer.Sound('Sounds\GunShot.wav')
+Sound_PlayerHit = pygame.mixer.Sound('Sounds\PlayerHit.wav')
+Sound_PowerUP = pygame.mixer.Sound('Sounds\PowerUP.wav')
+
 # Functions
 def isCollision_PlayerBullet(x1, x2, y1, y2):
     distance = math.sqrt((math.pow(x1 - x2, 2)) + (math.pow(y1 - y2, 2)))
@@ -166,6 +184,7 @@ def game_over():
 def player_hit():
     global Player_Health, Running
     Player_Health -= 1
+    Sound_PlayerHit.play()
     if Player_Health <= 0:
         game_over()
         Running = False
@@ -180,15 +199,16 @@ def isCollision_PlayerPowerup(player_rect, powerup_rect):
 
 def apply_powerup(powerup_type):
     global Player_Health, Bullet_Ychange, Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange, bullet_damage, barriers, Timer_ShotPower, Timer_BulletSpeed, Timer_MoveSpeed
+    Sound_PowerUP.play()
     if powerup_type == "ShotPower":
         bullet_damage = Original_Bullet_damage
         bullet_damage *= 2
         Timer_ShotPower = pygame.time.get_ticks() + 10000
     elif powerup_type == "ShieldRegen":
          barriers = [
-            (68.75, barrier_y),
-            (68.75 + barrier_width + 68.75, barrier_y),
-            (68.75 + 2 * (barrier_width + 68.75), barrier_y)
+            [68.75, barrier_y],
+            [68.75 + barrier_width + 68.75, barrier_y],
+            [68.75 + 2 * (barrier_width + 68.75), barrier_y]
         ]
     elif powerup_type == "MoveSpeed":
         Original_Player_Xchange = Player_Xchange
@@ -274,6 +294,8 @@ while Running:
                     Bullet_Y = Player_Y
                     Bullet(Bullet_X, Bullet_Y)
                     Shots_Taken += 1
+                    Sound_PlayerShoot.play()
+                    
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 Player_Xchange = 0
@@ -381,16 +403,8 @@ while Running:
                 Invader_Xchange.pop(i)
                 Invader_Rangom.pop(i)
                 last_shot_times.pop(i)
+                Sound_InvaderDie.play()
                 break
-
-    for i in range(len(Invader_X)):
-        for bullet in Invader_Bullets[i]:
-            bullet_rect = pygame.Rect(bullet[0], bullet[1], *Inv_Bullet_Hitbox)
-            for barrier in barriers[:]:
-                barrier_rect = pygame.Rect(barrier[0], barrier[1], barrier_width, barrier_height)
-                if isCollision_Barrier(bullet[0], bullet[1], barrier_rect):
-                    Invader_Bullets[i].remove(bullet)
-                    break
 
     for i in range(len(Invader_X) - 1, -1, -1):
         invader_rect = pygame.Rect(Invader_X[i], Invader_Y[i], *invader_hitbox)
@@ -398,6 +412,7 @@ while Running:
             barrier_rect = pygame.Rect(barrier[0], barrier[1], barrier_width, barrier_height)
             if invader_rect.colliderect(barrier_rect):
                 barriers.remove(barrier)
+                Sound_BarrierDestroy.play()
                 Invader_Health[i] = 0
                 if Invader_Health[i] <= 0:
                     Invader_X.pop(i)
@@ -405,6 +420,7 @@ while Running:
                     Invader_Xchange.pop(i)
                     Invader_Rangom.pop(i)
                     last_shot_times.pop(i)
+                    Sound_InvaderDie.play()
                 break
 
     player_rect = pygame.Rect(Player_X, Player_Y, *player_hitbox)
@@ -416,13 +432,32 @@ while Running:
                 player_hit()
                 break
 
+    for i in range(len(Invader_X)):
+        for bullet in Invader_Bullets[i]:
+            bullet_rect = pygame.Rect(bullet[0], bullet[1], *Inv_Bullet_Hitbox)
+            for barrier in barriers[:]:
+                barrier_rect = pygame.Rect(barrier[0], barrier[1], barrier_width, barrier_height)
+                if isCollision_Barrier(bullet[0], bullet[1], barrier_rect):
+                    Invader_Bullets[i].remove(bullet)
+                    barrier[2] -= 1
+                    print(barrier[2])
+                    if barrier[2] <= 0:
+                        barriers.remove(barrier)
+                        Sound_BarrierDestroy.play()
+                    break
+
+    for barrier in barriers:
+        health = barrier[2]
+        if health > 0:
+            Screen.blit(barrier_image[health], (barrier[0], barrier[1]))
+
     # no more collision stuff
     # rendering stuff now
     Player(Player_X, Player_Y)
     for i in range(len(Invader_X)):
         Invader(Invader_X[i], Invader_Y[i], Invader_Rangom[i])
     for barrier in barriers:
-        Screen.blit(barrier_image, barrier)
+        Screen.blit(barrier_image[barrier[2]], (barrier[0], barrier[1]))
     draw_powerups()  # Draw active powerups
     # UI tings
     show_Score(5, 5)
