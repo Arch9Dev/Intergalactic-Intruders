@@ -100,18 +100,18 @@ BUTTON_H = BUTTON_HEIGHT
 
 # Fonts
 def FontResizable(FontSize):
-    return pygame.font.Font("Intergalactic-Intruders\Font\immermann.ttf", FontSize)
-FONT = pygame.font.Font("Intergalactic-Intruders\Font\immermann.ttf", 36)
+    return pygame.font.Font("Intergalactic-Intruders/Font/immermann.ttf", FontSize)
+FONT = pygame.font.Font("Intergalactic-Intruders/Font/immermann.ttf", 36)
 TITLE_FONT = pygame.font.Font(None, 48)
 
 def load_xolonium_font(font_size):
     # Load the custom font
-    xolonium_font_path = "Intergalactic-Intruders\Font\Xolonium.ttf"
+    xolonium_font_path = "Intergalactic-Intruders/Font/xolonium.ttf"
     xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
     return xolonium_font
 
 def load_immermann_font(font_size):
-    immermann_font_path = 'Intergalactic-Intruders\Font\Immermann.ttf'
+    immermann_font_path = 'Intergalactic-Intruders/Font/Immermann.ttf'
     immerman_font = pygame.font.Font(immermann_font_path, font_size)
     return immerman_font
 
@@ -280,9 +280,6 @@ class QuitButton(Button):
         height_Offset =(BACK_BUTTON.height - BUTTON_HEIGHT)
         button_text = "QUIT"
         super().__init__(button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette)
-    def Quit():
-        pygame.quit()
-        quit()
 
 class BackButton(Button):
     def __init__(self,  colour_palette, ReturnPage  ):
