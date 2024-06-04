@@ -8,7 +8,7 @@ def show_audioTest():
     sounds.Space_Sound.play()
     
     screen = constants.screen
-    pygame.display.set_caption("Audio Settings Test")
+    pygame.display.set_caption("Audio Settings")
 
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"settings")
     Gunshot_Button = constants.Button("TEST FIRE",constants.SCREEN_WIDTH // 2 - constants.BUTTON_WIDTH // 2, 500,0,0,constants.Colour_Palettes["Red_Buttons"])
@@ -32,7 +32,7 @@ def show_audioTest():
     SFX_Volume_Slider = constants.Slider("SFX    Volume :",Slider_X,Slider_Y+Slider_Gap*2,"SFX")
     Volume_Sliders = [Main_Volume_Slider,Music_Volume_Slider,SFX_Volume_Slider]
     i = 0
-    Page_label = constants.TileLable((screen.get_width()/3-15,75),72,"Audio Settings",constants.GREEN_LIGHT,None,True)
+    Page_label = constants.TitleLable((screen.get_width()/3-15,75),72,"Audio Settings",constants.GREEN_LIGHT,True,False)
 
     while audio_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
@@ -72,7 +72,6 @@ def show_audioTest():
         for Sliders in Volume_Sliders:
             Sliders.draw()
             
-        constants.TileLable((100,100),24,"TESTING Hellow world ",constants.RED_LIGHT,None,True)
 
         for Buttons in Audio_Buttons:
             Buttons.draw()

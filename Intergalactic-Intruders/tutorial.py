@@ -9,7 +9,7 @@ def show_tutorial():
 
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"main")
     Tutorial_Buttons =[Back_button]
-    xolonium_font = constants.load_xolonium_font(24)
+    xolonium_font = constants.Font(24,"xolonium")
     
     # Get the tutorial text from constants.py
     text_content = constants.TUTORIAL_TEXT

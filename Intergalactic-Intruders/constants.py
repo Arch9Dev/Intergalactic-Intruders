@@ -99,22 +99,25 @@ BUTTON_W = BUTTON_WIDTH
 BUTTON_H = BUTTON_HEIGHT
 
 # Fonts
-def FontResizable(FontSize):
-    return pygame.font.Font("Intergalactic-Intruders\Font\immermann.ttf", FontSize)
-FONT = pygame.font.Font("Intergalactic-Intruders\Font\immermann.ttf", 36)
-TITLE_FONT = pygame.font.Font(None, 48)
+def Font(FontSize =None,Font = None):
+    xolonium_font_path = "Intergalactic-Intruders\\Font\\Xolonium.ttf"
+    immermann_font_path = 'Intergalactic-Intruders\\Font\\Immermann.ttf'
+    FontSize = 36 if FontSize == None else FontSize
+    immerman_font = pygame.font.Font(immermann_font_path, FontSize)
+    xolonium_font = pygame.font.Font(xolonium_font_path, FontSize)
+    default_font = xolonium_font
+    if Font == None:
+        return default_font   
+    elif Font == "immermann":
+        return immerman_font
+    elif Font == "xolonium":  
+        return xolonium_font
+    else: return pygame.font.Font(None,36)
 
-def load_xolonium_font(font_size):
-    # Load the custom font
-    xolonium_font_path = "Intergalactic-Intruders\Font\Xolonium.ttf"
-    xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
-    return xolonium_font
 
-def load_immermann_font(font_size):
-    immermann_font_path = 'Intergalactic-Intruders\Font\Immermann.ttf'
-    immerman_font = pygame.font.Font(immermann_font_path, font_size)
-    return immerman_font
-
+FONT = Font()
+TITLE_FONT = Font(46)
+BUTTON_FONT = Font(36,"immermann")
 
 # Load title image
 TITLE_IMAGE = images.load_title_image()
@@ -250,7 +253,7 @@ class Button:
             adjusted_rect = self.rect.inflate(-5, -5)  # Slightly smaller to indicate press
             pygame.draw.rect(self.screen, Hover_Back_Colour, adjusted_rect, border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Hover_Border_Colour, adjusted_rect, self.border_thickness, border_radius=self.border_radius)
-            text_surface = FONT.render(self.text, True, Hover_Text_Colour)
+            text_surface = BUTTON_FONT.render(self.text, True, Hover_Text_Colour)
         elif self.hovered:
             shadow_rect = self.rect.inflate(10, 10)  # Slightly larger for shadow effect
             shadow_rect.topleft = (self.rect.left + 5, self.rect.top + 5)
@@ -258,14 +261,14 @@ class Button:
             pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect.inflate(5, 5), border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Hover_Border_Colour_Two, self.rect.inflate(10, 10), self.border_thickness, self.border_radius)
             pygame.draw.rect(self.screen, Hover_Border_Colour, self.rect.inflate(5, 5), self.border_thickness, self.border_radius)
-            text_surface = FONT.render(self.text, True, Hover_Text_Colour)
+            text_surface = BUTTON_FONT.render(self.text, True, Hover_Text_Colour)
         else:
             pygame.draw.rect(self.screen, Back_Colour, self.rect, border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Border_Colour_Two, self.rect.inflate(5,5), self.border_thickness, self.border_radius)
 
             pygame.draw.rect(self.screen, Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
 
-            text_surface = FONT.render(self.text, True, Text_Colour)
+            text_surface = BUTTON_FONT.render(self.text, True, Text_Colour)
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
@@ -476,12 +479,43 @@ class Slider :
         Draw_SliderBar(self.Muted,self.Hovering_Slider_Track)
         Draw_Slider_Thumb(self.Muted,self.Dragging)
 
-class TileLable:
-    def __init__(self, X_Y : Coords, Fontsize : int,Lable_Text : str,Text_Colour: Colour,Background_Colour : Colour,AA :bool):
-        Label_Font = load_immermann_font(Fontsize)
-        self.Lable = Label_Font.render(Lable_Text,AA,Text_Colour,Background_Colour)
+def InvertColour(IN_Colour : Colour):
+    Out_Colour  = ((255 - IN_Colour[0]),(255 -IN_Colour[1]),(255 -IN_Colour[2]))
+    return Out_Colour
+    
+class TitleLable:
+    def __init__(self, X_Y : Coords, Fontsize : int,Text : str,Text_Colour: Colour,AA :bool, Background :bool):
+        Label_Font = Font(Fontsize)
+        self.Lable = Label_Font.render(Text,AA,Text_Colour)
+        self.Text_Colour =Text_Colour
         self.X_Y = X_Y
+        self.Has_Background = Background
+    def Set_Background_Colour(self):
+
+        Lable_BackgroundBox_Rect = pygame.Rect(self.Lable.get_rect(topleft = self.X_Y)).inflate(50,25)
+        BackgroundBox_Border_Rect = pygame.Rect(Lable_BackgroundBox_Rect)
+        Border_Border_Rect = pygame.Rect(BackgroundBox_Border_Rect).inflate(10,10)
+
+        Background_Colour = InvertColour(self.Text_Colour)
+        Border_Colour = InvertColour(Background_Colour)
+        BorderBorder_Colour = InvertColour(Border_Colour)
+        self.BackgroundBox = {
+           "MainBox": {"Rect":Lable_BackgroundBox_Rect, "Colour": Background_Colour },
+           "Border": {"Rect":BackgroundBox_Border_Rect, "Colour": Border_Colour },
+           "BorderBorder": {"Rect":Border_Border_Rect, "Colour": BorderBorder_Colour }
+        }
+        self.Has_Background = True
+    def __BackgroundDraw__(self):
+        self.Set_Background_Colour()
+        pygame.draw.rect(screen,self.BackgroundBox["MainBox"]["Colour"],self.BackgroundBox["MainBox"]["Rect"])
+        pygame.draw.rect(screen,self.BackgroundBox["Border"]["Colour"],self.BackgroundBox["Border"]["Rect"],5)
+        pygame.draw.rect(screen,self.BackgroundBox["BorderBorder"]["Colour"],self.BackgroundBox["BorderBorder"]["Rect"],5)
+
     def draw(self):
+       
+        if  self.Has_Background == True:
+            self.__BackgroundDraw__()
+            
         self.Lable.get_rect(center = self.X_Y)
         screen.blit(self.Lable,self.X_Y)
     
