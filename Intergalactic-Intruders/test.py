@@ -130,7 +130,7 @@ def show_test():
 
     def player_hit():
         global Player_Health, Running
-        Player_Health -= 1
+        Player_Health =- 1
         if Player_Health <= 0:
             game_over()
             Running = False

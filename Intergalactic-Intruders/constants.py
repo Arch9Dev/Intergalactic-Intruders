@@ -5,8 +5,18 @@ from sounds import *
 from PageList import pagelist
 
 Coords = tuple[float,float]
+"""
+ float X & Y coordinates
+"""
 Colour = tuple[int,int,int]
-
+"""
+Colours are:
+    •WHITE •GREY •BLACK\n     
+    •RED_LIGHT •RED_DARK •RED_DARKER\n
+    •BLUE_LIGHT •BLUE_DARK •BLUE_DARKER\n
+    •GREEN_LIGHT •GREEN_DARK •GREEN_DARKER\n
+    •ORANGE_LIGHT •ORANGE_DARK •ORANGE_DARKER
+"""
 # Initialize Pygame
 pygame.init()
 
@@ -135,10 +145,7 @@ GAME_TEXT = [
     "GAME PAGE PLACE HOLDER"
 ]
 
-# Setting text
-SETTINGS_TEXT = [
-    "SETTINGS PAGE PLACE HOLDER"
-]
+
 
 # Tutorial text
 TUTORIAL_TEXT = [
@@ -197,20 +204,7 @@ def draw_circle(screen, colour, position, radius):
     pygame.draw.circle(screen, colour, position, radius)
 
 
-#Deprecated
-def draw_button(screen, x, y, width, height, text):#Deprecated
-    pygame.draw.rect(screen, RED_DARK, (x, y, width, height))
-    pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
-    text_surface = FONT.render(text, True, BLACK)
-    text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
-    screen.blit(text_surface, text_rect)
-#Deprecated
-def draw_gunshot_button(screen, x, y, width, height, text):
-    pygame.draw.rect(screen, RED_DARK, (x, y, width, height))
-    pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
-    text_surface = FONT.render(text, True, BLACK)
-    text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
-    screen.blit(text_surface, text_rect)
+
 
 
 # Back button
@@ -283,7 +277,7 @@ class QuitButton(Button):
         height_Offset =(BACK_BUTTON.height - BUTTON_HEIGHT)
         button_text = "QUIT"
         super().__init__(button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette)
-    def Quit():
+    def Quit(self):
         pygame.quit()
         quit()
 
@@ -482,17 +476,40 @@ class Slider :
 def InvertColour(IN_Colour : Colour):
     Out_Colour  = ((255 - IN_Colour[0]),(255 -IN_Colour[1]),(255 -IN_Colour[2]))
     return Out_Colour
+
+class Screen_Text:
+    """
+    For righting Blocks of text to the screen
+    Separate lines of text by '*'
+    """
+    def __init__(self,Center_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour):
+        Text.strip()
+        self.lines = Text.split("*")
+        self.lines
+        self.Label_Font = Font(Fontsize)
+        self.Text_Colour = Text_Colour
+        self.Center_XY =Center_XY
+    def draw(self):
+        start_y = self.Center_XY[1]
+        i =0
+        for line in self.lines:
+            line.strip
+            Lable = self.Label_Font.render(line,1,self.Text_Colour)
+            screen.blit(Lable,( screen.get_size()[0]//2 - Lable.get_width()//2, i*25))
+            i = i+1
+
     
 class TitleLable:
-    def __init__(self, X_Y : Coords, Fontsize : int,Text : str,Text_Colour: Colour,AA :bool, Background :bool):
+    
+    def __init__(self, Center_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour,AA :bool, Background :bool):
         Label_Font = Font(Fontsize)
         self.Lable = Label_Font.render(Text,AA,Text_Colour)
         self.Text_Colour =Text_Colour
-        self.X_Y = X_Y
+        self.LableRect = self.Lable.get_rect(center = Center_XY)
         self.Has_Background = Background
     def Set_Background_Colour(self):
 
-        Lable_BackgroundBox_Rect = pygame.Rect(self.Lable.get_rect(topleft = self.X_Y)).inflate(50,25)
+        Lable_BackgroundBox_Rect = pygame.Rect(self.LableRect).inflate(50,25)
         BackgroundBox_Border_Rect = pygame.Rect(Lable_BackgroundBox_Rect)
         Border_Border_Rect = pygame.Rect(BackgroundBox_Border_Rect).inflate(10,10)
 
@@ -515,9 +532,7 @@ class TitleLable:
        
         if  self.Has_Background == True:
             self.__BackgroundDraw__()
-            
-        self.Lable.get_rect(center = self.X_Y)
-        screen.blit(self.Lable,self.X_Y)
+        screen.blit(self.Lable, self.LableRect)
     
 
 
