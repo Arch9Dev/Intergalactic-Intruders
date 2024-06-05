@@ -1,6 +1,6 @@
 import pygame
 import constants
-import Audio
+import audio
 
 import display
 import controls
@@ -15,7 +15,7 @@ def show_settings():
     Controls_Button = constants.Button("Controls",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
     Back_Button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"Main")
     Title_cords =  (screen.get_width()/2, screen.get_height()/5 )
-    Settings_Title = constants.TitleLable(Title_cords,48,"SETTINGS",constants.BLUE_DARK,True,True)
+    Settings_Title = constants.TitleLable(Title_cords,72,"SETTINGS",constants.BLUE_DARK,True,True)
     Settings_Buttons = [Audio_Button,Display_Button,Controls_Button,Back_Button]
     settings_running = True
 
@@ -31,7 +31,7 @@ def show_settings():
                     Buttons.hovered = Buttons.rect.collidepoint(MousePos)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if Audio_Button.rect.collidepoint(event.pos):
-                    Audio.Show_Audio()
+                    audio.Show_Audio()
                 elif Display_Button.rect.collidepoint(event.pos):
                     display.show_display()  # Open display settings
                 elif Controls_Button.rect.collidepoint(event.pos):

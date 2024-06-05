@@ -32,7 +32,7 @@ def Show_Audio():
     SFX_Volume_Slider = constants.Slider("SFX    Volume :",Slider_X,Slider_Y+Slider_Gap*2,"SFX")
     Volume_Sliders = [Main_Volume_Slider,Music_Volume_Slider,SFX_Volume_Slider]
     i = 0
-    Page_label = constants.TitleLable((screen.get_width()/3-15,75),72,"Audio Settings",constants.GREEN_LIGHT,True,False)
+    Page_label = constants.TitleLable((screen.get_width()/2,100),72,"Audio Settings",constants.BLUE_DARK,True,True)
 
     while audio_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
