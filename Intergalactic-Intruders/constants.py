@@ -476,7 +476,6 @@ class Slider :
 def InvertColour(IN_Colour : Colour):
     Out_Colour  = ((255 - IN_Colour[0]),(255 -IN_Colour[1]),(255 -IN_Colour[2]))
     return Out_Colour
-
 class Screen_Text:
     """
     For righting Blocks of text to the screen
@@ -484,7 +483,7 @@ class Screen_Text:
     """
     def __init__(self,Center_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour):
         Text.strip()
-        self.lines = Text.split("*")
+        self.lines = Text.split("\n")
         self.lines
         self.Label_Font = Font(Fontsize)
         self.Text_Colour = Text_Colour
@@ -495,8 +494,26 @@ class Screen_Text:
         for line in self.lines:
             line.strip
             Lable = self.Label_Font.render(line,1,self.Text_Colour)
-            screen.blit(Lable,( screen.get_size()[0]//2 - Lable.get_width()//2, i*25))
+            screen.blit(Lable,( screen.get_size()[0]//2 - Lable.get_width()//2, i*self.Label_Font.get_height()))
             i = i+1
+class TUTORIAL_Screen_Text(Screen_Text):
+    def __init__(self,  Fontsize: int,  Text_Colour: tuple[int, int, int]):
+        Center_XY = (screen.get_width()/2,screen.get_height()/2)
+        Text = """
+        YOUR MISSION IS SIMPLE
+        DEFEND YOUR BASE FROM 
+        THE APPROACHING WAVES 
+        OF ALIEN INTRUDERS,
+        USE YOUR SHIP'S LASER BLASTERS
+        TO SHOOT DOWN THE INTRUDERS
+        BEFORE THEY CAN REACH YOU AND
+        START DESTROYING YOUR DEFENSES,
+        ALONG THE WAY YOU CAN GAIN UPGRADES
+        WHICH MAY BE HELPFUL IN 
+        SUCCEEDING THE MISSION, 
+        GOOD LUCK SOLDIER.
+        """
+        super().__init__(Center_XY, Fontsize, Text, Text_Colour)
 
     
 class TitleLable:

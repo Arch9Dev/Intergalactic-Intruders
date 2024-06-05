@@ -3,6 +3,7 @@ import constants
 import tutorial
 import settings
 import play
+import game_test
 
 
 def main_menu():
@@ -41,7 +42,7 @@ def main_menu():
                 for button in Main_Buttons:
                     if button.clicked:
                         if button.text == "PLAY":
-                            play.show_play()
+                            game_test.test()
                         elif button.text == "TUTORIAL":
                             tutorial.show_tutorial()
                         elif button.text == "SETTINGS":

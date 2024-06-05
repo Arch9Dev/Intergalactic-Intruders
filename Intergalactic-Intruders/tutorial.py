@@ -23,7 +23,7 @@ def show_tutorial():
 
     # Calculate the starting horizontal position to center the text horizontally with margins
     starting_x = (constants.SCREEN_WIDTH - (xolonium_font.size("W")[0] * max(len(line) for line in text_content))) // 2
-
+    tutorial_TEXT = constants.TUTORIAL_Screen_Text(36,constants.WHITE)
     tutorials_running = True
     while tutorials_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
@@ -45,12 +45,13 @@ def show_tutorial():
         for button in Tutorial_Buttons:
             button.draw()
 
+        tutorial_TEXT.draw()
         # Render tutorial
         y_offset = starting_y
         for line in text_content:
             text_surface = xolonium_font.render(line, True, constants.BLACK)
             text_rect = text_surface.get_rect(midtop=(constants.SCREEN_WIDTH // 2, y_offset))
-            screen.blit(text_surface, text_rect)
+           # screen.blit(text_surface, text_rect)
             y_offset += line_height
        
         # Render back button with border

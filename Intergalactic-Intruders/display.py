@@ -23,7 +23,7 @@ def show_display():
         13 : {"name": "ORANGE_DARKER","colour":(255, 111, 0)},
         14 : {"name": "ORANGE_LIGHT","colour":(255, 235, 0)},
     }
-    Page_label = constants.TitleLable((screen.get_width()/3-15,75),72,"Display Settings",constants.BLUE_DARKER,True,True)
+    Page_label = constants.TitleLable((screen.get_width()/2,75),72,"DISPLAY SETTINGS",constants.BLUE_DARKER,True,True)
 
     lable_list = [Page_label]
     for i in Colours:

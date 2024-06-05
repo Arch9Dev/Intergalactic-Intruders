@@ -27,12 +27,24 @@ def Show_Audio():
     Slider_Y = 250
     Slider_Gap = 75
     
-    Main_Volume_Slider = constants.Slider("Main  Volume :",Slider_X,Slider_Y,"MAIN")
-    Music_Volume_Slider = constants.Slider("Music Volume :",Slider_X,Slider_Y+Slider_Gap,"MUSIC")
-    SFX_Volume_Slider = constants.Slider("SFX    Volume :",Slider_X,Slider_Y+Slider_Gap*2,"SFX")
+    Main_Volume_Slider = constants.Slider(" Main Volume :",Slider_X,Slider_Y,"MAIN")
+    Music_Volume_Slider = constants.Slider(" Music Volume :",Slider_X,Slider_Y+Slider_Gap,"MUSIC")
+    SFX_Volume_Slider = constants.Slider(" SFX  Volume :",Slider_X,Slider_Y+Slider_Gap*2,"SFX")
     Volume_Sliders = [Main_Volume_Slider,Music_Volume_Slider,SFX_Volume_Slider]
+    sliderbox_x = []
+    sliderbox_width = []
+
+    for Sliders in Volume_Sliders:
+       sliderbox_x.append(Sliders.BackgroundBox.x)
+       sliderbox_width.append(Sliders.BackgroundBox.width) 
+    sliderbox_x.sort(reverse=True)
+    sliderbox_width.sort()
+    for Sliders in Volume_Sliders:
+        Sliders.BackgroundBox.width = sliderbox_width[0]
+        Sliders.BackgroundBox.x = sliderbox_x[0]
+
     i = 0
-    Page_label = constants.TitleLable((screen.get_width()/2,100),72,"Audio Settings",constants.BLUE_DARK,True,True)
+    Page_label = constants.TitleLable((screen.get_width()/2,100),72,"AUDIO SETTINGS",constants.BLUE_DARK,True,True)
 
     while audio_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))

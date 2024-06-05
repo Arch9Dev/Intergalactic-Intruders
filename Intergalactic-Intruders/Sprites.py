@@ -7,7 +7,7 @@ def loadGIF(filename):
     for Frames in ImageSequence.Iterator(pilImage):
         Frames = Frames.convert('RGBA')
         pygameImage = pygame.image.fromstring(
-            Frames.tobytes(), Frames.size, Frames.mode).convert_alpha()
+            Frames.tobytes(), Frames.size, 'RGBA').convert_alpha()
         AnimationFrames.append(pygameImage)
     return AnimationFrames
 
@@ -31,5 +31,5 @@ class AnimatedSpriteObject(pygame.sprite.Sprite):
 def AnimatedSpriteGroup(SpriteFileName,PosX,PosY):
  SpriteGIFFrameList = loadGIF(SpriteFileName)
  animated_sprite = AnimatedSpriteObject(PosX,PosY,SpriteGIFFrameList)
- return (pygame.sprite.Group(animated_sprite))
+ return (pygame.sprite.Group(animated_sprite)) # type: ignore
 

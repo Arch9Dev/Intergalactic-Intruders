@@ -1,8 +1,6 @@
 import pygame
 import constants
 import Sprites
-import Colours
-import main
 def test():
 
    #ViewPort
@@ -18,11 +16,11 @@ def test():
 
   #Button_Palette = Colours.Blue_Buttons
   
-   Testing  =  constants.Button(screen,"Testing",100,100, 200,100,Colours.Colour_Palettes["Red_Buttons"])
+   Testing  =  constants.Button("Testing",100,100, 200,100,constants.Colour_Palettes["Red_Buttons"])
    buttons = [Testing]
 
    #Animating Sprites
-   Player = Sprites.AnimatedSpriteGroup("Intergalactic-Intruders\Test.gif",screen_width//2,screen_height//2)
+   Player = Sprites.AnimatedSpriteGroup("Intergalactic-Intruders/Test.gif",screen_width//2,screen_height//2)
    PosX = 0
    PosY = 0
    start = True
@@ -70,16 +68,14 @@ def test():
       
 
       
-      timedisplay =  constants.timer(screen,F"{timedisplaytext}",screen_width-375 ,10,350,60,36)
 
-      timedisplay.draw()
       while  i < len(buttons):
          buttons[i].draw()
          i += 1
       Player.update(PosX,PosY)
      
       Player.draw(screen)
-      pygame.display.update()
+      pygame.display.flip()
      
 
       
