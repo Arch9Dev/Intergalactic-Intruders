@@ -45,6 +45,14 @@ ORANGE_DARK = (255, 195, 0)
 ORANGE_DARKER = (255, 111, 0)
 ORANGE_LIGHT = (255, 235, 0)
 
+Sprite_GIF_Path = {
+    "Player_Ship" : "Intergalactic-Intruders\\images\\Player_ship.gif",
+    "Alion_ONE": "Intergalactic-Intruders\\images\\Alinon_one.gif",
+    "Alion_TWO": "Intergalactic-Intruders\\images\\Alion_two.gif",
+    "Alion_THREE": "Intergalactic-Intruders\\images\\Alinon_three.gif",
+    "Mother_Ship": "Intergalactic-Intruders\\images\\Mother_Ship.gif"
+}
+
 Volume_Type = {
     "GET":
     {
