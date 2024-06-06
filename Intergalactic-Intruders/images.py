@@ -16,6 +16,7 @@ def load_title_image():
 
 # Load tutorial image
 def load_tutorial_image():
+    """Deprecated DO NOT USE"""
     tutorial_image_path = os.path.join("Intergalactic-Intruders", "images", "TutorialText.png")
     tutorial_image = pygame.image.load(tutorial_image_path)
     return pygame.transform.scale(tutorial_image, (500, 500) )

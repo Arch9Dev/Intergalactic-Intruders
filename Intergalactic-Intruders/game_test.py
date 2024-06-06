@@ -16,8 +16,8 @@ def test():
 
 
    #Animating Sprites
-   Player = Sprites.AnimatedSpriteGroup("Intergalactic-Intruders/Test.gif",screen_width//2,screen_height//2)
-   Ailon_1 = Sprites.AnimatedSpriteGroup("Intergalactic-Intruders/images/Alion_one.gif",screen_width//2,screen_height//2)  
+   Player = Sprites.AnimatedSpriteGroup(constants.Sprite_GIF_Path["Player_Ship"],screen_width//2,screen_height//2)
+   Ailon_1 = Sprites.AnimatedSpriteGroup(constants.Sprite_GIF_Path["Alion_ONE"],screen_width//2,screen_height//2)  
    Ailon_2 = Sprites.AnimatedSpriteGroup(constants.Sprite_GIF_Path["Alion_TWO"],screen_width//2,screen_height//2)
    Ailon_3 = Sprites.AnimatedSpriteGroup(constants.Sprite_GIF_Path["Alion_THREE"],screen_width//2,screen_height//2)
    Mothership = Sprites.AnimatedSpriteGroup(constants.Sprite_GIF_Path["Mother_Ship"],screen_width//2,screen_height//2)

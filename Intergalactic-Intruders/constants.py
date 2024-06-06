@@ -46,8 +46,8 @@ ORANGE_DARKER = (255, 111, 0)
 ORANGE_LIGHT = (255, 235, 0)
 
 Sprite_GIF_Path = {
-    "Player_Ship" : r"Intergalactic-Intruders/images/Alion_one.gif",
-    "Alion_ONE": r"Intergalactic-Intruders/images/Alinon_one.gif",
+    "Player_Ship" : r"Intergalactic-Intruders/images/Player_ship.gif",
+    "Alion_ONE": r"Intergalactic-Intruders/images/Alion_one.gif",
     "Alion_TWO": r"Intergalactic-Intruders/images/Alion_two.gif",
     "Alion_THREE": r"Intergalactic-Intruders/images/Alinon_three.gif",
     "Mother_Ship": r"Intergalactic-Intruders/images/Mother_Ship.gif"
@@ -142,55 +142,9 @@ TITLE_IMAGE = images.load_title_image()
 Logo_POS_Y = 170
 Logo_POS = (TITLE_IMAGE.get_rect(center=(SCREEN_WIDTH // 2, 170)))
 
-# Load tutorial image
-TUTORIAL_IMAGE = images.load_tutorial_image()
-
 # Load controls image
 CONTROLS_IMAGE = images.load_controls_image()
 
-# Game text
-GAME_TEXT = [
-    "GAME PAGE PLACE HOLDER"
-]
-
-
-
-# Tutorial text
-TUTORIAL_TEXT = [
-        "                YOUR MISSION IS SIMPLE                        ",
-        "",
-        "DEFEND YOUR BASE FROM THE APPROACHING WAVES OF ALIEN INTRUDERS",
-        "",
-        "USE YOUR SHIP'S LASER BLASTERS TO SHOOT DOWN THE INTRUDERS"
-        "",
-        "BEFORE THEY CAN REACH YOU AND START DESTROYING YOUR DEFENSES",
-        "",
-        "ALONG THE WAY YOU CAN GAIN UPGRADES",
-        "",
-        "WHICH MAY BE HELPFUL IN SUCCEEDING THE MISSION",
-        "",
-        "GOOD LUCK SOLDIER"
-]
-
-# Audio text
-AUDIO_TEXT = [
-    "AUDIO SETTINGS PAGE PLACE HOLDER"
-]
-
-# Display text
-DISPLAY_TEXT = [
-    "DISPLAY SETTINGS PAGE PLACE HOLDER"
-]
-
-# Controls text
-CONTROLS_TEXT = [
-    "CONTROLS SETTINGS PAGE PLACE HOLDER"
-]
-
-# Levels text
-LEVELS_TEXT = [
-    "LEVELS PLACE HOLDER"
-]
 
 # Time Trial Text
 TIMETRIAL_TEXT = [
@@ -209,6 +163,7 @@ MUSIC_SLIDER_POS = (SCREEN_WIDTH // 2, 300)
 SOUND_EFFECTS_SLIDER_POS = (SCREEN_WIDTH // 2, 400)
 #Deprecated
 def draw_circle(screen, colour, position, radius):
+    """Deprecated DO NOT USE"""
     pygame.draw.circle(screen, colour, position, radius)
 
 
@@ -219,7 +174,9 @@ def draw_circle(screen, colour, position, radius):
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
 class Button:
+
     def __init__(self, button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette):
+
         self.X = Offset_X if Offset_X != 0 else BUTTON_X
         self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else BUTTON_Y
         self.width = (BUTTON_WIDTH + width_Offset)
@@ -502,26 +459,27 @@ class Screen_Text:
         for line in self.lines:
             line.strip
             Lable = self.Label_Font.render(line,1,self.Text_Colour)
-            screen.blit(Lable,( screen.get_size()[0]//2 - Lable.get_width()//2, i*self.Label_Font.get_height()))
+            screen.blit(Lable,( screen.get_size()[0]//2 - Lable.get_width()//2, i*self.Label_Font.get_height()+start_y))
             i = i+1
+TutorialText = """
+YOUR MISSION IS SIMPLE
+DEFEND YOUR BASE FROM 
+THE APPROACHING WAVES 
+OF ALIEN INTRUDERS,
+USE YOUR SHIP'S LASER BLASTERS
+TO SHOOT DOWN THE INTRUDERS
+BEFORE THEY CAN REACH YOU AND
+START DESTROYING YOUR DEFENSES,
+ALONG THE WAY YOU CAN GAIN UPGRADES
+WHICH MAY BE HELPFUL IN 
+SUCCEEDING THE MISSION, 
+GOOD LUCK SOLDIER.
+"""
 class TUTORIAL_Screen_Text(Screen_Text):
     def __init__(self,  Fontsize: int,  Text_Colour: tuple[int, int, int]):
-        Center_XY = (screen.get_width()/2,screen.get_height()/2)
-        Text = """
-        YOUR MISSION IS SIMPLE
-        DEFEND YOUR BASE FROM 
-        THE APPROACHING WAVES 
-        OF ALIEN INTRUDERS,
-        USE YOUR SHIP'S LASER BLASTERS
-        TO SHOOT DOWN THE INTRUDERS
-        BEFORE THEY CAN REACH YOU AND
-        START DESTROYING YOUR DEFENSES,
-        ALONG THE WAY YOU CAN GAIN UPGRADES
-        WHICH MAY BE HELPFUL IN 
-        SUCCEEDING THE MISSION, 
-        GOOD LUCK SOLDIER.
-        """
-        super().__init__(Center_XY, Fontsize, Text, Text_Colour)
+        Center_XY = (screen.get_width()/2,screen.get_height()/5)
+        
+        super().__init__(Center_XY, Fontsize, TutorialText, Text_Colour)
 
     
 class TitleLable:
