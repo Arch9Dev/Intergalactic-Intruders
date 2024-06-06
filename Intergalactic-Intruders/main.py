@@ -42,7 +42,8 @@ def main_menu():
                 for button in Main_Buttons:
                     if button.clicked:
                         if button.text == "PLAY":
-                            game_test.test()
+                            play.show_play()
+                            #game_test.test()
                         elif button.text == "TUTORIAL":
                             tutorial.show_tutorial()
                         elif button.text == "SETTINGS":

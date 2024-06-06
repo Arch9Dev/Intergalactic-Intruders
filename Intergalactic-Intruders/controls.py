@@ -5,7 +5,7 @@ def show_controls():
     pygame.init()
     screen = constants.screen
     pygame.display.set_caption("CONTROLS")
-    Page_label = constants.TitleLable((screen.get_width()/2,75),72,"CONTROL SETTINGS",constants.BLUE_DARKER,True,True)
+    Page_label = constants.TitleLable((screen.get_width()/2,100),72,"CONTROL SETTINGS",constants.BLUE_DARKER,True,True)
 
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"Settings")
     Control_Buttons =[Back_button]

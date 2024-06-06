@@ -38,7 +38,6 @@ def show_tutorial():
                     Back_button.ReturnTo()
 
                 
-        screen.fill(constants.BLUE_DARK)
         for button in Tutorial_Buttons:
             button.draw()
 
