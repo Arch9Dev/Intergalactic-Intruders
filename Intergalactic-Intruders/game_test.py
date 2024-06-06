@@ -17,7 +17,7 @@ def test():
 
    #Animating Sprites
    Player = Sprites.AnimatedSpriteGroup("Intergalactic-Intruders/Test.gif",screen_width//2,screen_height//2)
-   Ailon_1 = Sprites.AnimatedSpriteGroup(constants.Sprite_GIF_Path["Alion_ONE"],screen_width//2,screen_height//2)  
+   Ailon_1 = Sprites.AnimatedSpriteGroup("Intergalactic-Intruders/images/Alion_one.gif",screen_width//2,screen_height//2)  
    Ailon_2 = Sprites.AnimatedSpriteGroup(constants.Sprite_GIF_Path["Alion_TWO"],screen_width//2,screen_height//2)
    Ailon_3 = Sprites.AnimatedSpriteGroup(constants.Sprite_GIF_Path["Alion_THREE"],screen_width//2,screen_height//2)
    Mothership = Sprites.AnimatedSpriteGroup(constants.Sprite_GIF_Path["Mother_Ship"],screen_width//2,screen_height//2)
@@ -51,15 +51,19 @@ def test():
     
      
 
-
-      
-
-      
-
-
       Player.update(PosX,PosY)
-     
+      Mothership.update(100,-100)
+      Ailon_1.update(600,-300)
+      Ailon_2.update(500,-400)
+      Ailon_3.update(300,-300)
+      Mothership.draw(screen)
+      Ailon_3.draw(screen)
+      Ailon_2.draw(screen)
+      Ailon_1.draw(screen)
+      
       Player.draw(screen)
+      Mothership.draw(screen)
+
       pygame.display.flip()
      
 
