@@ -21,8 +21,7 @@ def show_play():
 
     while play_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0, 0))
-        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
-        screen.blit(constants.TITLE_IMAGE, title_rect)
+        screen.blit(constants.TITLE_IMAGE, constants.Logo_POS)
         
         # Event Handling
         for event in pygame.event.get():
@@ -49,8 +48,7 @@ def show_play():
         
 
         # Render title image
-        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 150))
-        screen.blit(constants.TITLE_IMAGE, title_rect)
+
 
 
         pygame.display.update()

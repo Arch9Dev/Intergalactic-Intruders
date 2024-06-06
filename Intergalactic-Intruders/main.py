@@ -3,8 +3,8 @@ import constants
 import tutorial
 import settings
 import play
+import game_test
 
-import test
 
 def main_menu():
     # Initialize Pygame
@@ -27,10 +27,8 @@ def main_menu():
 
     # Main loop for the main menu
     while MainRunning:
-        # Blit the background image onto the screen
-        screen.blit(constants.BACKGROUND_IMAGE, (0, 0))
-        title_rect = constants.TITLE_IMAGE.get_rect(center=(constants.SCREEN_WIDTH // 2, 170))
-        screen.blit(constants.TITLE_IMAGE, title_rect)
+        screen.blit(constants.BACKGROUND_IMAGE, (0, 0))        
+        screen.blit(constants.TITLE_IMAGE, constants.Logo_POS)
 
         # Event handling
         for event in pygame.event.get():
@@ -44,7 +42,7 @@ def main_menu():
                 for button in Main_Buttons:
                     if button.clicked:
                         if button.text == "PLAY":
-                            play.show_play()
+                            game_test.test()
                         elif button.text == "TUTORIAL":
                             tutorial.show_tutorial()
                         elif button.text == "SETTINGS":

@@ -9,21 +9,18 @@ def show_tutorial():
 
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"main")
     Tutorial_Buttons =[Back_button]
-    xolonium_font = constants.load_xolonium_font(24)
+    xolonium_font = constants.Font(24,"xolonium")
     
     # Get the tutorial text from constants.py
-    text_content = constants.TUTORIAL_TEXT
 
     # Calculate the total height of the text
     line_height = 30
-    total_text_height = len(text_content) * line_height
 
     # Calculate the starting vertical position to center the text vertically
-    starting_y = (constants.SCREEN_HEIGHT - total_text_height) // 2
 
     # Calculate the starting horizontal position to center the text horizontally with margins
-    starting_x = (constants.SCREEN_WIDTH - (xolonium_font.size("W")[0] * max(len(line) for line in text_content))) // 2
-
+    Page_Title_Text = constants.TitleLable((screen.get_width()/2,screen.get_height()/7),72,"TUTORIAL",constants.BLUE_DARK,True,True)
+    tutorial_TEXT = constants.TUTORIAL_Screen_Text(36,constants.WHITE)
     tutorials_running = True
     while tutorials_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
@@ -45,14 +42,8 @@ def show_tutorial():
         for button in Tutorial_Buttons:
             button.draw()
 
-        # Render tutorial
-        y_offset = starting_y
-        for line in text_content:
-            text_surface = xolonium_font.render(line, True, constants.BLACK)
-            text_rect = text_surface.get_rect(midtop=(constants.SCREEN_WIDTH // 2, y_offset))
-            screen.blit(text_surface, text_rect)
-            y_offset += line_height
-       
+        tutorial_TEXT.draw()
+        Page_Title_Text.draw()
         # Render back button with border
         
         pygame.display.update()
