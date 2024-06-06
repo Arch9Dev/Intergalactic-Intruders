@@ -4,14 +4,19 @@ import random
 
 pygame.init()
 
+# ---------------------------------
+#            VARIABLES
+# ---------------------------------
+
 # Screen stuff
 Screen_Width = 800
 Screen_Height = 1000
 Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
 background_image = pygame.image.load('Intergalactic-Intruders/images/gameback.png')
+background_image = pygame.transform.scale(background_image, (Screen_Width, Screen_Height))
 
-# Barrier stuff 
-barrier_image = {
+# Barrier stuff
+barrier_image = { # one for each health point
     8: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker00.png'),
     7: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker01.png'),
     6: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker02.png'),
@@ -21,25 +26,25 @@ barrier_image = {
     2: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker06.png'),
     1: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker07.png')
 }
-BarrierSize = (Screen_Width * 0.21875, Screen_Height * 0.075) # adjust x, y size
+BarrierSize = (Screen_Width * 0.21875, Screen_Height * 0.075)
 barrier_image = {health: pygame.transform.scale(img, BarrierSize) for health, img in barrier_image.items()}
 barrier_health = 8
 barrier_width = Screen_Width * 0.21875
 barrier_height = Screen_Height * 0.075
-barrier_y = Screen_Height * 0.65 # barrier y pos on screen
+barrier_y = Screen_Height * 0.65
 barriers = [
     [(Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
     [(Screen_Width - (barrier_width * 3))/4 + barrier_width + (Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
     [(Screen_Width - (barrier_width * 3))/4 + 2 * (barrier_width + (Screen_Width - (barrier_width * 3))/4), barrier_y, barrier_health]
 ]
 
-# General backend
+# General things, self explanatory
 clock = pygame.time.Clock()
 last_time_check = pygame.time.get_ticks()
 Time_Difficulty = 1
-Difficulty = 0.75 # 1 default, +/-0.5 for easy/hard 
+Difficulty = 0.75 # 1 default, +/-0.5 for easy/hard respectively
 Frames = 180
-Time_trial = 'false' # self explan
+Time_trial = 'false' # true or false for time trial
 Max_Invaders_YN = 'false'
 Current_Invaders = 0
 
@@ -72,7 +77,6 @@ Player_Ychange = 0
 Original_Player_Xchange = Screen_Width * 0.002125
 Original_Player_Ychange = Screen_Height * 0.0017
 
-
 # Player Bullet stuff
 BulletImag = pygame.image.load('Intergalactic-Intruders/images/PlayerBullet.png')
 BulletSize = (Screen_Width * 0.0125, Screen_Height * 0.02)
@@ -99,7 +103,7 @@ Invader_Ychange = Screen_Height * 0.05
 InvaderCount = 30 # max invaders that can spawn, max on screen for time trial
 RowHeight = Screen_Height * 0.05
 Invader_Rangom = []
-Invader_Health = []  # List to store health of each invader, initialized to 2
+Invader_Health = []
 spawn_delay = 500 # delay between invader spawns
 last_spawn_time = pygame.time.get_ticks()
 invader_hitbox = (InvaderImag1.get_height(), InvaderImag1.get_width())
@@ -112,12 +116,12 @@ Inv_Bullet_Hitbox = (InvBulletImag.get_width(), InvBulletImag.get_height())
 InvBullet_Xchange = 0
 InvBullet_Ychange = Screen_Height * 0.001
 Invader_Bullets = [[] for _ in range(InvaderCount)]
-Bullet_Limit = 50
+Bullet_Limit = InvaderCount * 5
 Fire_rate = 7500 # invader firerate in 1/1000s sec
 last_shot_times = []
 
 # Powerup Stuff
-powerup_speed = Screen_Height * 0.001  # Speed at which powerups move down
+powerup_speed = Screen_Height * 0.001
 powerup_images = {
     "ShotPower": pygame.image.load('Intergalactic-Intruders/images/ShotPower.png'),
     "ShieldRegen": pygame.image.load('Intergalactic-Intruders/images/ShieldRegen.png'),
@@ -140,7 +144,9 @@ Sound_PowerUP = pygame.mixer.Sound('Sounds\PowerUP.wav')
 pygame.mixer.music.load('Sounds\SpaceAmbience.wav')
 pygame.mixer.music.play(loops = -1)
 
-# Functions
+# ---------------------------------
+#            FUNCTIONS
+# ---------------------------------
 def isCollision_PlayerBullet(x1, x2, y1, y2):
     distance = math.sqrt((math.pow(x1 - x2, 2)) + (math.pow(y1 - y2, 2)))
     return distance <= 33
@@ -189,18 +195,59 @@ def show_Health(x, y):
     health_text = font.render("Health: " + str(Player_Health), True, (255, 255, 255))
     Screen.blit(health_text, (x, y))
 
-def game_over():
-    game_over_text = game_over_font.render("GAME OVER", True, (255, 255, 255))
-    Screen.blit(game_over_text, (Screen_Width * 0.2375, Screen_Height * 0.25))
+def game_over_menu():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        game_over_text = game_over_font.render("GAME OVER", True, (255, 255, 255))
+        Screen.blit(game_over_text, (Screen_Width * 0.2375, Screen_Height * 0.25))
+
+        retry_text = font.render("Retry", True, (255, 255, 255))
+        main_menu_text = font.render("Main Menu", True, (255, 255, 255))
+        exit_text = font.render("Exit", True, (255, 255, 255))
+        Screen.blit(retry_text, (Screen_Width * 0.3, Screen_Height * 0.4))
+        Screen.blit(main_menu_text, (Screen_Width * 0.3, Screen_Height * 0.5))
+        Screen.blit(exit_text, (Screen_Width * 0.3, Screen_Height * 0.6))
+
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_click = pygame.mouse.get_pressed()
+
+        if Screen_Width * 0.3 <= mouse_pos[0] <= Screen_Width * 0.3 + retry_text.get_width() and \
+           Screen_Height * 0.4 <= mouse_pos[1] <= Screen_Height * 0.4 + retry_text.get_height():
+            if mouse_click[0]:
+                return "retry"
+        
+        if Screen_Width * 0.3 <= mouse_pos[0] <= Screen_Width * 0.3 + main_menu_text.get_width() and \
+           Screen_Height * 0.5 <= mouse_pos[1] <= Screen_Height * 0.5 + main_menu_text.get_height():
+            if mouse_click[0]:
+                return "main_menu"
+
+        if Screen_Width * 0.3 <= mouse_pos[0] <= Screen_Width * 0.3 + exit_text.get_width() and \
+           Screen_Height * 0.6 <= mouse_pos[1] <= Screen_Height * 0.6 + exit_text.get_height():
+            if mouse_click[0]:
+                pygame.quit()
+                quit()
+
+        pygame.display.update()
+        clock.tick(60)
 
 def player_hit():
     global Player_Health, Running
     Player_Health -= 1
     Sound_PlayerHit.play()
     if Player_Health <= 0:
-        game_over()
-        Running = False
-
+        action = game_over_menu()
+        if action == "retry":
+            pass
+        elif action == "main_menu":
+            print('menu')
+        elif action == "exit":
+            pygame.quit()
+            quit()
+            
 def spawn_powerup(x, y):
     powerup_type = random.choice(list(powerup_images.keys()))
     powerup_image = powerup_images[powerup_type]
@@ -269,9 +316,31 @@ def display_powerup_icons():
         Screen.blit(pygame.image.load('Intergalactic-Intruders/images/ShotPower.png'), (Screen_Width * 0.85, 5))
 
 
-# Main game loop
+def show_pause_menu():
+    resume_button = pygame.Rect(Screen_Width / 2 - 100, Screen_Height / 2 - 100, 200, 50)
+    settings_button = pygame.Rect(Screen_Width / 2 - 100, Screen_Height / 2, 200, 50)
+    main_menu_button = pygame.Rect(Screen_Width / 2 - 100, Screen_Height / 2 + 100, 200, 50)
+
+    pygame.draw.rect(Screen, (0, 0, 0), resume_button)
+    pygame.draw.rect(Screen, (0, 0, 0), settings_button)
+    pygame.draw.rect(Screen, (0, 0, 0), main_menu_button)
+
+    resume_text = font.render("Resume", True, (255, 255, 255))
+    settings_text = font.render("Settings", True, (255, 255, 255))
+    main_menu_text = font.render("Main Menu", True, (255, 255, 255))
+
+    Screen.blit(resume_text, (resume_button.x + 50, resume_button.y + 10))
+    Screen.blit(settings_text, (settings_button.x + 50, settings_button.y + 10))
+    Screen.blit(main_menu_text, (main_menu_button.x + 30, main_menu_button.y + 10))
+
+    return resume_button, settings_button, main_menu_button
+
+# ---------------------------------
+#            MAIN LOOP
+# ---------------------------------
 Running = True
 while Running:
+    # Screen init stuff
     Screen.blit(background_image, (0, 0))
     current_time = pygame.time.get_ticks()
     elapsed_time = current_time - last_time_check
@@ -283,21 +352,23 @@ while Running:
     if (Difficulty >= 2):
         Screen.blit(DifHard, (5, 25))
 
+    # Countdown before game start
     if countdown_active:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     Running = False
         current_time = pygame.time.get_ticks()
         time_elapsed = current_time - countdown_start_time
-        if time_elapsed >= countdown_duration + 1000:  # Extend the duration for "GO!"
+        if time_elapsed >= countdown_duration + 1000:
             countdown_active = False
         else:
             if time_elapsed >= countdown_duration:
                 countdown_text = countdown_font.render("GO!", True, (255, 255, 255))
             else:
-                countdown_number = 3 - time_elapsed // 1000  # Counting down from 3
+                countdown_number = 3 - time_elapsed // 1000
                 countdown_text = countdown_font.render(str(countdown_number), True, (255, 255, 255))
             Screen.blit(countdown_text, (Screen_Width // 2 - 32, Screen_Height // 2 - 32))
+    # Game Start
     else:
         # player input handling
         for event in pygame.event.get():
@@ -328,11 +399,23 @@ while Running:
                     Player_Xchange = 0
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     Player_Ychange = 0
+        # Pause menu stuff
         if paused:
-            pass
+            resume_button, settings_button, main_menu_button = show_pause_menu()
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_click = pygame.mouse.get_pressed()
+
+            if resume_button.collidepoint(mouse_pos) and mouse_click[0]:
+                paused = False
+            elif settings_button.collidepoint(mouse_pos) and mouse_click[0]:
+                print("Settings button clicked")
+            elif main_menu_button.collidepoint(mouse_pos) and mouse_click[0]:
+                print("Main Menu button clicked")
+
+        # Game logic and update stuff
         else:
             menu = False
-            # time trial stuff
+            # Time trial difficulty thing
             if Time_trial == 'true':
                 if elapsed_time >= 1000:
                     if Frames < 300:
@@ -344,6 +427,7 @@ while Running:
             Player_X += Player_Xchange
             Player_Y += Player_Ychange
 
+            # Player boundary yeah
             if Player_X <= Screen_Width * 0.02:
                 Player_X = Screen_Width * 0.02
             elif Player_X >= Screen_Width * 0.98:
@@ -354,7 +438,7 @@ while Running:
             elif Player_Y >= Screen_Height * 0.954:
                 Player_Y = Screen_Height * 0.954
 
-            # invader spawning stuff
+            # Invader spawning \o/
             current_time = pygame.time.get_ticks()
             if current_time - last_spawn_time > spawn_delay and len(Invader_X) < InvaderCount and Max_Invaders_YN == 'false':
                 rangom = random.randint(1, 4)
@@ -369,7 +453,7 @@ while Running:
                 if Current_Invaders >= InvaderCount and Time_trial == 'false':
                     Max_Invaders_YN = 'true'
 
-            # invader movement
+            # Invader movement
             for i in range(len(Invader_X)):
                 Invader_X[i] += Invader_Xchange[i]
                 if Invader_X[i] >= Screen_Width * 0.96:
@@ -381,14 +465,14 @@ while Running:
                     Invader_Y[i] += RowHeight
                     Invader_Xchange[i] *= -1
 
-            # invader shooting
+            # Invader shooting
             for i in range(len(Invader_X)):
                 if len(Invader_Bullets[i]) < Bullet_Limit:
                     if current_time - last_shot_times[i] >= Fire_rate + random.randint(-Fire_rate//2, Fire_rate):
                         Invader_Bullets[i].append([Invader_X[i], Invader_Y[i]])
                         last_shot_times[i] = current_time
 
-            # invader bullet movement
+            # Invader bullet mooovinnng
             for i in range(len(Invader_X)):
                 for bullet in Invader_Bullets[i]:
                     InvaderBullet(bullet[0], bullet[1], i)
@@ -397,7 +481,7 @@ while Running:
                         Invader_Bullets[i].remove(bullet)
                         print('bullet removed ', i)
 
-            # player bullet movement
+            # Plyer bullet boundry
             if Bullet_Y <= 0:
                 Bullet_Y = Screen_Height
                 BulletStaet = "rest"
@@ -405,7 +489,7 @@ while Running:
                 Bullet(Bullet_X, Bullet_Y)
                 Bullet_Y -= Bullet_Ychange
 
-            # Move powerups down and check for collision with player
+            # Powerups spawning stuff
             for powerup in active_powerups[:]:
                 powerup_image, x, y, powerup_type = powerup
                 y += powerup_speed
@@ -420,11 +504,11 @@ while Running:
                         active_powerups[active_powerups.index(powerup)] = (powerup_image, x, y, powerup_type)
 
             for powerup in active_powerups[:]:
-                if powerup_expired(powerup):  # You need to define a function to check if a power-up has expired
+                if powerup_expired(powerup):
                     remove_powerup(powerup[3])
                     active_powerups.remove(powerup)
 
-            # collision stuff for a while
+            # Collision stuff for a while
             for i in range(len(Invader_X)):
                 collision = isCollision_PlayerBullet(Bullet_X, Invader_X[i], Bullet_Y, Invader_Y[i])
         
@@ -435,7 +519,7 @@ while Running:
                     BulletStaet = "rest"
                     Invader_Health[i] -= bullet_damage
                     if Invader_Health[i] <= 0:
-                        if random.randint(1, 5) == 1: # chance of powerup spwaning on kill
+                        if random.randint(1, 5) == 1:
                             spawn_powerup(Invader_X[i], Invader_Y[i])
                         Invader_X.pop(i)
                         Invader_Y.pop(i)
@@ -489,16 +573,16 @@ while Running:
                 health = barrier[2]
                 if health > 0:
                     Screen.blit(barrier_image[health], (barrier[0], barrier[1]))
-            # no more collision stuff
-    # also exited the else countdown_active
-    # rendering stuff now
+            # All done with collisino 
+
+    # now just rendering stuff every frame
     Player(Player_X, Player_Y)
     for i in range(len(Invader_X)):
         Invader(Invader_X[i], Invader_Y[i], Invader_Rangom[i])
     for barrier in barriers:
         Screen.blit(barrier_image[barrier[2]], (barrier[0], barrier[1]))
-    draw_powerups()  # Draw active powerups
-    # UI tings
+    # UI Activities
+    draw_powerups()
     show_Score(Screen_Width * 0.00625, Screen_Height * 0.005)
     show_Difficulty(Screen_Width * 0.1625, Screen_Height * 0.005, Frames)
     show_Acc(Screen_Width * 0.375, Screen_Height * 0.005)
@@ -509,4 +593,3 @@ while Running:
     pygame.display.update()
     clock.tick(Frames)
 pygame.quit()
-# :)
