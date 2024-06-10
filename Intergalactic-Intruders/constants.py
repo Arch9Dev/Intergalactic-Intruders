@@ -46,11 +46,11 @@ ORANGE_DARKER = (255, 111, 0)
 ORANGE_LIGHT = (255, 235, 0)
 
 Sprite_GIF_Path = {
-    "Player_Ship" : r"Intergalactic-Intruders/images/Player_ship.gif",
-    "Alion_ONE": r"Intergalactic-Intruders/images/Alion_one.gif",
-    "Alion_TWO": r"Intergalactic-Intruders/images/Alion_two.gif",
-    "Alion_THREE": r"Intergalactic-Intruders/images/Alinon_three.gif",
-    "Mother_Ship": r"Intergalactic-Intruders/images/Mother_Ship.gif"
+    "Player_Ship" : r"Intergalactic-Intruders\images\Player.gif",
+    "Alion_ONE": r"Intergalactic-Intruders/images/Alien1.gif",
+    "Alion_TWO": r"Intergalactic-Intruders/images/Alien2.gif",
+    "Alion_THREE": r"Intergalactic-Intruders/images/Alien3.gif",
+    "Mother_Ship": r"Intergalactic-Intruders/images/Alien4.gif"
 }
 
 Volume_Type = {
