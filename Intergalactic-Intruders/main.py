@@ -26,7 +26,7 @@ def main_menu():
 
     # Main loop for the main menu
     while MainRunning:
-        screen.blit(constants.BACKGROUND_IMAGE, (0, 0))        
+        screen.blit(constants.NEWBG, (0, 0))        
         screen.blit(constants.TITLE_IMAGE, constants.Logo_POS)
 
         # Event handling

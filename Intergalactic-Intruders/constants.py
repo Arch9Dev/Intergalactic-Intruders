@@ -16,7 +16,7 @@ SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 BACKGROUND_IMAGE = images.load_background_image()
-
+NEWBG = images.load_background_image()
 
 #Colours
 WHITE = (250, 249, 246)
