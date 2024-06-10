@@ -1,6 +1,7 @@
 import pygame
 import math
 import random
+from PIL import Image, ImageSequence
 
 pygame.init()
 
@@ -14,6 +15,44 @@ Screen_Height = 1000
 Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
 background_image = pygame.image.load('Intergalactic-Intruders/images/gameback.png')
 background_image = pygame.transform.scale(background_image, (Screen_Width, Screen_Height))
+
+# Animation stuff
+# Aedans code, props to him
+Sprite_GIF_Path = {
+      "Player_Ship" : r"Intergalactic-Intruders\images\Player.gif",
+      "Alien1": r"Intergalactic-Intruders\images\Alien1.gif",
+      "Alien2": r"Intergalactic-Intruders\images\Alien2.gif",
+      "Alien3": r"Intergalactic-Intruders\images\Alien3.gif",
+      "Alien4": r"Intergalactic-Intruders\images\Alien4.gif"
+   }
+
+class AnimatedSpriteObject(pygame.sprite.Sprite):
+    def __init__(self, X, Y, images):
+        pygame.sprite.Sprite.__init__(self)
+        self.images = images
+        self.image = self.images[0]
+        self.rect = self.image.get_rect(midbottom = (X, -Y))
+        self.image_index = 0
+    def update(self, PosX, PosY):
+        self.rect.x = PosX
+        self.rect.y = -PosY
+        self.image_index += 1
+        self.image = self.images[self.image_index % len(self.images)]
+
+def loadGIF(filename):
+    pilImage = Image.open(filename)
+    AnimationFrames = []
+    for Frames in ImageSequence.Iterator(pilImage):
+        Frames = Frames.convert('RGBA')
+        pygameImage = pygame.image.fromstring(
+            Frames.tobytes(), Frames.size, 'RGBA').convert_alpha()
+        AnimationFrames.append(pygameImage)
+    return AnimationFrames
+
+def AnimatedSpriteGroup(SpriteFileName,PosX,PosY):
+      SpriteGIFFrameList = loadGIF(SpriteFileName)
+      animated_sprite = AnimatedSpriteObject(PosX,PosY,SpriteGIFFrameList)
+      return (pygame.sprite.Group(animated_sprite))
 
 # Barrier stuff
 barrier_image = { # one for each health point
@@ -65,7 +104,7 @@ DifNormal = pygame.image.load('Intergalactic-Intruders\images\DifNormal.png')
 DifHard = pygame.image.load('Intergalactic-Intruders\images\DifHard.png')
 
 # Player Variables
-PlayerImag = pygame.image.load('Intergalactic-Intruders/images/Player.gif')
+PlayerImag = AnimatedSpriteGroup(Sprite_GIF_Path["Player_Ship"],Screen_Width//2,Screen_Height//2)
 PlayerSize = (Screen_Width * 0.04, Screen_Height * 0.032)
 PlayerImag = pygame.transform.scale(PlayerImag, PlayerSize)
 player_hitbox = (PlayerImag.get_width(), PlayerImag.get_height())
@@ -92,10 +131,10 @@ bullet_damage = 1
 Original_Bullet_damage = 1
 
 # Invader variables
-InvaderImag1 = pygame.image.load('Intergalactic-Intruders/images/Alien1.gif')
-InvaderImag2 = pygame.image.load('Intergalactic-Intruders/images/Alien2.gif')
-InvaderImag3 = pygame.image.load('Intergalactic-Intruders/images/Alien3.gif')
-InvaderImag4 = pygame.image.load('Intergalactic-Intruders/images/Alien4.gif')
+InvaderImag1 = AnimatedSpriteGroup(Sprite_GIF_Path["Alien1"],Screen_Width//2,Screen_Height//2)
+InvaderImag2 = AnimatedSpriteGroup(Sprite_GIF_Path["Alien2"],Screen_Width//2,Screen_Height//2)
+InvaderImag3 = AnimatedSpriteGroup(Sprite_GIF_Path["Alien3"],Screen_Width//2,Screen_Height//2)
+InvaderImag4 = AnimatedSpriteGroup(Sprite_GIF_Path["Alien4"],Screen_Width//2,Screen_Height//2)
 Invader_X = []
 Invader_Y = []
 Invader_Xchange = []
