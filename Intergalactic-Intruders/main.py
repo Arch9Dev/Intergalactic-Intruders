@@ -1,6 +1,6 @@
 import pygame
 import constants
-import tutorial
+import intro
 import settings
 import play
 
@@ -15,11 +15,11 @@ def main_menu():
 
     # Buttons
     play_button = constants.Button( "PLAY", 0, 0,0,0, constants.Colour_Palettes["Green_Buttons"])
-    tutorial_button = constants.Button( "TUTORIAL", 0,  play_button.rect.y,0,0, constants.Colour_Palettes["Green_Buttons"])
-    settings_button = constants.Button( "SETTINGS", 0, tutorial_button.rect.y,0,0, constants.Colour_Palettes["Green_Buttons"])
+    intro_button = constants.Button( "INTRO", 0,  play_button.rect.y,0,0, constants.Colour_Palettes["Green_Buttons"])
+    settings_button = constants.Button( "SETTINGS", 0, intro_button.rect.y,0,0, constants.Colour_Palettes["Green_Buttons"])
     quit_button = constants.QuitButton( constants.Colour_Palettes["Red_Buttons"])
     
-    Main_Buttons = [play_button, tutorial_button, settings_button, quit_button]
+    Main_Buttons = [play_button, intro_button, settings_button, quit_button]
 
     pygame.key.set_repeat(100)
     MainRunning = True
@@ -42,8 +42,8 @@ def main_menu():
                     if button.clicked:
                         if button.text == "PLAY":
                             play.show_play()
-                        elif button.text == "TUTORIAL":
-                            tutorial.show_tutorial()
+                        elif button.text == "INTRO":
+                            intro.show_intro()
                         elif button.text == "SETTINGS":
                             settings.show_settings()
                         elif button.text == "QUIT":

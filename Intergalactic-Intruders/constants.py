@@ -121,8 +121,8 @@ TITLE_IMAGE = images.load_title_image()
 Logo_POS_Y = 170
 Logo_POS = (TITLE_IMAGE.get_rect(center=(SCREEN_WIDTH // 2, 170)))
 
-# Load tutorial image
-TUTORIAL_IMAGE = images.load_tutorial_image()
+# Load intro image
+INTRO_IMAGE = images.load_intro_image()
 
 # Load controls image
 CONTROLS_IMAGE = images.load_controls_image()
@@ -135,23 +135,6 @@ GAME_TEXT = [
 # Setting text
 SETTINGS_TEXT = [
     "SETTINGS PAGE PLACE HOLDER"
-]
-
-# Tutorial text
-TUTORIAL_TEXT = [
-        "                YOUR MISSION IS SIMPLE                        ",
-        "",
-        "DEFEND YOUR BASE FROM THE APPROACHING WAVES OF ALIEN INTRUDERS",
-        "",
-        "USE YOUR SHIP'S LASER BLASTERS TO SHOOT DOWN THE INTRUDERS"
-        "",
-        "BEFORE THEY CAN REACH YOU AND START DESTROYING YOUR DEFENSES",
-        "",
-        "ALONG THE WAY YOU CAN GAIN UPGRADES",
-        "",
-        "WHICH MAY BE HELPFUL IN SUCCEEDING THE MISSION",
-        "",
-        "GOOD LUCK SOLDIER"
 ]
 
 # Audio text
