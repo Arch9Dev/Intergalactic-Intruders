@@ -620,13 +620,13 @@ while Running:
     PlayerImag.draw(Screen)
     for i in range(len(Invader_X)):
         Invader(Invader_X[i], Invader_Y[i], Invader_Rangom[i])
-        if (Invader_Rangom == 1):
+        if (Invader_Rangom[i] == 1):
             InvaderImag1.draw(Screen)
-        if (Invader_Rangom == 2):
+        if (Invader_Rangom[i] == 2):
             InvaderImag2.draw(Screen)
-        if (Invader_Rangom == 3):
+        if (Invader_Rangom[i] == 3):
             InvaderImag3.draw(Screen)
-        if (Invader_Rangom == 4):
+        if (Invader_Rangom[i] == 4):
             InvaderImag4.draw(Screen)
     
     for barrier in barriers:
