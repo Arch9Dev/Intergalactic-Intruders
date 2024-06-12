@@ -105,9 +105,9 @@ DifHard = pygame.image.load('Intergalactic-Intruders\images\DifHard.png')
 
 # Player Variables
 PlayerImag = AnimatedSpriteGroup(Sprite_GIF_Path["Player_Ship"],Screen_Width//2,Screen_Height//2)
+hitbox_Image = pygame.image.load('Intergalactic-Intruders\images\Player.gif')
 PlayerSize = (Screen_Width * 0.04, Screen_Height * 0.032)
-PlayerImag = pygame.transform.scale(PlayerImag, PlayerSize)
-player_hitbox = (PlayerImag.get_width(), PlayerImag.get_height())
+player_hitbox = (hitbox_Image.get_width(), hitbox_Image.get_height())
 Player_X = (Screen_Width / 2)
 Player_Y = Screen_Height * 0.9
 Player_Health = 3
@@ -131,6 +131,7 @@ bullet_damage = 1
 Original_Bullet_damage = 1
 
 # Invader variables
+inv_hitbox_image = pygame.image.load('Intergalactic-Intruders\images\Alien4.gif')
 InvaderImag1 = AnimatedSpriteGroup(Sprite_GIF_Path["Alien1"],Screen_Width//2,Screen_Height//2)
 InvaderImag2 = AnimatedSpriteGroup(Sprite_GIF_Path["Alien2"],Screen_Width//2,Screen_Height//2)
 InvaderImag3 = AnimatedSpriteGroup(Sprite_GIF_Path["Alien3"],Screen_Width//2,Screen_Height//2)
@@ -145,7 +146,7 @@ Invader_Rangom = []
 Invader_Health = []
 spawn_delay = 500 # delay between invader spawns
 last_spawn_time = pygame.time.get_ticks()
-invader_hitbox = (InvaderImag1.get_height(), InvaderImag1.get_width())
+invader_hitbox = (inv_hitbox_image.get_height(), inv_hitbox_image.get_width())
 
 # Invader Bullet stuff
 InvBulletImag = pygame.image.load('Intergalactic-Intruders/images/InvaderBullet.png')
@@ -198,17 +199,17 @@ def isCollision_Barrier(x1, y1, barrier_rect):
     return barrier_rect.collidepoint(x1, y1)
 
 def Player(x, y):
-    Screen.blit(PlayerImag, (x - 16, y + 10))
+    PlayerImag.update(x - 16, y + 10)
 
 def Invader(x, y, rangom):
     if rangom == 1:
-        Screen.blit(InvaderImag1, (x, y))
+        InvaderImag1.update(x, y)
     elif rangom == 2:
-        Screen.blit(InvaderImag2, (x, y))
+        InvaderImag2.update(x, y)
     elif rangom == 3:
-        Screen.blit(InvaderImag3, (x, y))
+        InvaderImag3.update(x, y)
     elif rangom == 4:
-        Screen.blit(InvaderImag4, (x, y))
+        InvaderImag4.update(x, y)
 
 def Bullet(x, y):
     global BulletStaet
@@ -616,8 +617,18 @@ while Running:
 
     # now just rendering stuff every frame
     Player(Player_X, Player_Y)
+    PlayerImag.draw(Screen)
     for i in range(len(Invader_X)):
         Invader(Invader_X[i], Invader_Y[i], Invader_Rangom[i])
+        if (Invader_Rangom == 1):
+            InvaderImag1.draw(Screen)
+        if (Invader_Rangom == 2):
+            InvaderImag2.draw(Screen)
+        if (Invader_Rangom == 3):
+            InvaderImag3.draw(Screen)
+        if (Invader_Rangom == 4):
+            InvaderImag4.draw(Screen)
+    
     for barrier in barriers:
         Screen.blit(barrier_image[barrier[2]], (barrier[0], barrier[1]))
     # UI Activities

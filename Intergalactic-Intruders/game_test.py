@@ -47,7 +47,7 @@ def test():
       "Alion_ONE": r"Intergalactic-Intruders/images/Alien1.gif",
       "Alion_TWO": r"Intergalactic-Intruders/images/Alien2.gif",
       "Alion_THREE": r"Intergalactic-Intruders/images/Alien3.gif",
-      "Mother_Ship": r"Intergalactic-Intruders/images/Alien4.gif"
+      "Mother_Ship": r"Intergalactic-Intruders\images\Alien4.gif"
    }
 
    #Animating Sprites
