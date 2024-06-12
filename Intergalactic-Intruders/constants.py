@@ -16,7 +16,7 @@ SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 BACKGROUND_IMAGE = images.load_background_image()
-
+NEWBG = images.load_background_image()
 
 #Colours
 WHITE = (250, 249, 246)
@@ -55,25 +55,25 @@ Colour_Palettes = {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": RED_DARK, "Hover": RED_LIGHT},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
+        "Border_Colour_two": {"Normal": BLACK, "Hover": BLACK}
     },
     "Green_Buttons": {
-        "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Background_Colour": {"Normal": GREEN_LIGHT, "Hover": GREEN_DARK},
+        "Text_Colour": {"Normal": BLACK, "Hover": BLACK},
+        "Background_Colour": {"Normal": GREEN_LIGHT, "Hover": GREEN_LIGHT},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
+        "Border_Colour_two": {"Normal": BLACK, "Hover": BLACK}
     },
     "Blue_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": BLUE_LIGHT, "Hover": BLUE_DARK},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
+        "Border_Colour_two": {"Normal": BLACK, "Hover": WHITE}
     },
     "Orange_Buttons":{
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": ORANGE_LIGHT, "Hover": ORANGE_DARK},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
+        "Border_Colour_two": {"Normal": BLACK, "Hover": BLACK}
     },
     "Timer": {
         "Text_Colour": WHITE,

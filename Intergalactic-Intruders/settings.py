@@ -21,6 +21,7 @@ def show_settings():
 
     while settings_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
+        screen.blit(constants.TITLE_IMAGE, constants.Logo_POS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -39,11 +40,6 @@ def show_settings():
                     controls.show_controls()  # Open controls settings
                 elif Back_Button.rect.collidepoint(event.pos):
                     Back_Button.ReturnTo()
-
-        # Render title
-        title_text = constants.TITLE_FONT.render("SETTINGS", True, constants.BLACK)
-        title_rect = title_text.get_rect(center=(constants.SCREEN_WIDTH // 2, 50))
-        screen.blit(title_text, title_rect)
 
         for buttons in Settings_Buttons:
             buttons.draw()
