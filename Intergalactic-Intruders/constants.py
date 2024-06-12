@@ -3,6 +3,7 @@ import pygame
 import images
 from sounds import *
 from PageList import pagelist
+import asyncio
 
 Coords = tuple[float,float]
 Colour = tuple[int,int,int]
@@ -492,5 +493,4 @@ class Timer:
 
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
-
 
