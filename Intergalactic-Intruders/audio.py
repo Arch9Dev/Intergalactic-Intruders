@@ -31,18 +31,12 @@ def Show_Audio():
     Music_Volume_Slider = constants.Slider(" Music Volume :",Slider_X,Slider_Y+Slider_Gap,"MUSIC")
     SFX_Volume_Slider = constants.Slider(" SFX  Volume :",Slider_X,Slider_Y+Slider_Gap*2,"SFX")
     Volume_Sliders = [Main_Volume_Slider,Music_Volume_Slider,SFX_Volume_Slider]
-    sliderbox_x = []
-    sliderbox_width = []
+    Volume_Sliders_test = constants.sliderlist()
+    Volume_Sliders_test.AddSlider("Main Volume :","MAIN")
+    Volume_Sliders_test.AddSlider("Music Volume :","MUSIC")
+    Volume_Sliders_test.AddSlider("SFX Volume :","SFX")
 
-    for Sliders in Volume_Sliders:
-       sliderbox_x.append(Sliders.BackgroundBox.x)
-       sliderbox_width.append(Sliders.BackgroundBox.width) 
-    sliderbox_x.sort(reverse=True)
-    sliderbox_width.sort()
-    for Sliders in Volume_Sliders:
-        Sliders.BackgroundBox.width = sliderbox_width[0]
-        Sliders.BackgroundBox.x = sliderbox_x[0]
-
+    Volume_Sliders_test.FormatSliders()
     i = 0
     Page_label = constants.TitleLable((screen.get_width()/2,100),72,"AUDIO SETTINGS",constants.BLUE_DARK,True,True)
 
@@ -57,19 +51,19 @@ def Show_Audio():
                     Back_button.ReturnTo()
                 if Gunshot_Button.rect.collidepoint(event.pos):
                     sounds.play_gunshot()
-                for Sliders in Volume_Sliders:
+                for Sliders in Volume_Sliders_test:
                     if Sliders.Mute_Checkbox_Rect.collidepoint(event.pos):
                         Sliders.mute()
                     if Sliders.Slider_Thumb_Rect.collidepoint(event.pos):
                         Sliders.Dragging = True
             elif event.type == pygame.MOUSEBUTTONUP:
-                for Sliders in Volume_Sliders:
+                for Sliders in Volume_Sliders_test.Sliders:
                   Sliders.Dragging = False
                   Sliders.CheckMute()
             elif event.type == pygame.MOUSEMOTION:
                 for Buttons in Audio_Buttons:
                     Buttons.hovered = Buttons.rect.collidepoint(event.pos)
-                for Sliders in Volume_Sliders:
+                for Sliders in Volume_Sliders_test:
                     
                     if Sliders.Dragging == True:
                       Sliders.Drag(event.pos)
@@ -81,8 +75,9 @@ def Show_Audio():
         
         Page_label.draw()
         
-        for Sliders in Volume_Sliders:
-            Sliders.draw()
+        #Volume_Sliders_test.draw()
+        for sliders in Volume_Sliders_test:
+            sliders.draw()
             
 
         for Buttons in Audio_Buttons:
@@ -90,4 +85,5 @@ def Show_Audio():
         pygame.display.update()
 
 
-   
+if __name__ == "__main__":
+    Show_Audio()

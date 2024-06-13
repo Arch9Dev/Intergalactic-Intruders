@@ -20,7 +20,7 @@ class AnimatedSpriteObject(pygame.sprite.Sprite):
         self.image_index = 0
     def update(self, PosX, PosY):
         self.rect.x = PosX
-        self.rect.y = -PosY
+        self.rect.y = PosY
         self.image_index += 1
         self.image = self.images[self.image_index % len(self.images)]
 

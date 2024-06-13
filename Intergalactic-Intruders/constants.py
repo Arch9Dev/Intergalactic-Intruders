@@ -266,6 +266,8 @@ class Slider :
     def __init__(self,Label_Text : str ,Slider_Pos_X : float,Slider_Pos_Y : float,Type_Name : str) :
         #Needed Var's
         self.screen = screen
+        self.Slider_Pos_X =Slider_Pos_X
+        self.Slider_Pos_Y =Slider_Pos_Y
         self.Volume_Value = Volume_Type["GET"][Type_Name]()
         self.Muted = False if self.Volume_Value > 0 else True 
         self.Dragging = False
@@ -300,13 +302,15 @@ class Slider :
         }
         #label
         self.Label = FONT.render(Label_Text,True,BLACK)
-        Label_Gap_X = self.Label.get_width()+50
-        Label_Gap_Y = self.Label.get_height() / 2
-        self.Label_POS = (Slider_Pos_X - Label_Gap_X, Slider_Pos_Y - Label_Gap_Y  ) 
+        self.Label_Gap_X = self.Label.get_width()
+        self.Label_Gap_Y = self.Label.get_height() / 2
+        self.Label_POS = (Slider_Pos_X - self.Label_Gap_X, Slider_Pos_Y - self.Label_Gap_Y  ) 
+        
         #background Box
-        BackgroundBox_TopLeft = (self.Label_POS[0],self.Label_POS[1])
-        BackgroundBox_WidthHeight =( self.Slider_Track_Length + 50 + self.Label.get_width() ,self.Label.get_height())
-        self.BackgroundBox  = pygame.Rect(BackgroundBox_TopLeft,BackgroundBox_WidthHeight).inflate(22,19)
+        self.BackgroundBox_TopLeft = (self.Label_POS[0]-50,self.Label_POS[1])
+        self.BackgroundBox_WidthHeight =( self.Slider_Track_Length + self.Label.get_width() +50 ,self.Label.get_height())
+        self.BackgroundBox  = pygame.Rect(self.BackgroundBox_TopLeft,self.BackgroundBox_WidthHeight).inflate(22,19)
+
         
         #Slider Track
         Slider_Track_TopLeft  = (Slider_Pos_X - 15, self.BackgroundBox.centery - self.Slider_Track_Thickness  /2 )
@@ -381,8 +385,7 @@ class Slider :
         Colour_Slider_Track = self.Slider_Colours["Colour_Slider_Track"]
         Colour_Background = self.Slider_Colours["Background_Box"]
         Colour_Mute_Checkbox = self.Slider_Colours["Mute_Checkbox"]
-        test1 = (self.Cross_1[0][0],self.Cross_1[0][1])
-        test2 = self.Cross_1[0][0]
+
 
         CrossCords = [[self.Cross_1[0],self.Cross_1[1]],[self.Cross_2[0],self.Cross_2[1]]]
         def Draw_Checkbox(Muted :bool,Hovered : bool):
@@ -437,6 +440,54 @@ class Slider :
         Draw_Label()
         Draw_SliderBar(self.Muted,self.Hovering_Slider_Track)
         Draw_Slider_Thumb(self.Muted,self.Dragging)
+
+class sliderlist:
+    def __init__(self) :
+        self.Sliders = []
+    def __iter__(self):
+        for Slider in self.Sliders:
+            yield Slider
+    def  AddSlider(self,Text : str,Type: str):
+        Slider_X = 400
+        Slider_Y = 250
+        Slider_Gap = 75
+        if not self.Sliders:
+            self.Sliders.append(Slider(Text,Slider_X,Slider_Y,Type))
+        else:
+            Slider_count = self.Sliders.__len__()
+            Next_Slider_Y = self.Sliders[Slider_count-1].Slider_Pos_Y + Slider_Gap
+            self.Sliders.append(Slider(Text,Slider_X,Next_Slider_Y,Type))
+
+    def FormatSliders(self):
+        Labelwidths =[]
+        for Slider in self.Sliders:
+           Labelwidths.append( Slider.Label.get_width())
+        Slider.Label_Gap_X 
+        Labelwidths.sort()
+
+        Biggist_labelWidth = Labelwidths[0] 
+        Labelwidths.sort(reverse=True)
+        for Slider in self.Sliders:
+            Slider.Label_POS = (Slider.Slider_Pos_X - Biggist_labelWidth -50,Slider.Slider_Pos_Y- Slider.Label_Gap_Y)
+            Slider.BackgroundBox = (pygame.Rect(Slider.BackgroundBox_TopLeft,Slider.BackgroundBox_WidthHeight).inflate(22,19))
+            
+        sliderbox_x = []
+        sliderbox_width = []
+        for Sliders in self.Sliders:
+            sliderbox_x.append(Sliders.BackgroundBox.x)
+            sliderbox_width.append(Sliders.BackgroundBox.width) 
+        sliderbox_x.sort(reverse=True)
+        sliderbox_width.sort()
+        for Sliders in self.Sliders:
+            Sliders.BackgroundBox.width = sliderbox_width[0]
+            Sliders.BackgroundBox.x = sliderbox_x[0]
+    def draw(self):
+        for Sliders in self.Sliders:
+            Sliders.draw()
+
+
+        
+        
 
 def InvertColour(IN_Colour : Colour):
     Out_Colour  = ((255 - IN_Colour[0]),(255 -IN_Colour[1]),(255 -IN_Colour[2]))
