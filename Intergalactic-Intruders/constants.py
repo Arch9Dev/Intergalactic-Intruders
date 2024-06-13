@@ -307,13 +307,13 @@ class Slider :
         self.Label_POS = (Slider_Pos_X - self.Label_Gap_X, Slider_Pos_Y - self.Label_Gap_Y  ) 
         
         #background Box
-        self.BackgroundBox_TopLeft = (self.Label_POS[0]-50,self.Label_POS[1])
-        self.BackgroundBox_WidthHeight =( self.Slider_Track_Length + self.Label.get_width() +50 ,self.Label.get_height())
+        self.BackgroundBox_TopLeft = (self.Label_POS[0]-75,self.Label_POS[1])
+        self.BackgroundBox_WidthHeight =( self.Slider_Track_Length + self.Label.get_width() +75 ,self.Label.get_height())
         self.BackgroundBox  = pygame.Rect(self.BackgroundBox_TopLeft,self.BackgroundBox_WidthHeight).inflate(22,19)
 
         
         #Slider Track
-        Slider_Track_TopLeft  = (Slider_Pos_X - 15, self.BackgroundBox.centery - self.Slider_Track_Thickness  /2 )
+        Slider_Track_TopLeft  = (Slider_Pos_X -5, self.BackgroundBox.centery - self.Slider_Track_Thickness  /2 )
         Slider_Track_WidthHeight =( self.Slider_Track_Length, self.Slider_Track_Thickness)
         self.Slider_Track_Rect  = pygame.Rect(Slider_Track_TopLeft ,Slider_Track_WidthHeight)        
         self.SLIDER_Track_POS = [self.Slider_Track_Rect.x,self.Slider_Track_Rect.y] 
@@ -468,7 +468,7 @@ class sliderlist:
         Biggist_labelWidth = Labelwidths[0] 
         Labelwidths.sort(reverse=True)
         for Slider in self.Sliders:
-            Slider.Label_POS = (Slider.Slider_Pos_X - Biggist_labelWidth -50,Slider.Slider_Pos_Y- Slider.Label_Gap_Y)
+            Slider.Label_POS = (Slider.Slider_Pos_X - Biggist_labelWidth -75,Slider.Slider_Pos_Y- Slider.Label_Gap_Y)
             Slider.BackgroundBox = (pygame.Rect(Slider.BackgroundBox_TopLeft,Slider.BackgroundBox_WidthHeight).inflate(22,19))
             
         sliderbox_x = []
