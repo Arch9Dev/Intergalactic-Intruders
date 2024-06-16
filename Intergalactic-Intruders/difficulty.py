@@ -1,6 +1,5 @@
 import pygame
 import constants
-import gameplay
 import test
 
 
@@ -43,9 +42,9 @@ def show_difficulty():
                 if easy_button.rect.collidepoint(event.pos):
                     test.show_test()
                 if medium_button.rect.collidepoint(event.pos):
-                    gameplay.show_gameplay() # MEDIUM
+                    test.show_test()
                 if hard_button.rect.collidepoint(event.pos):
-                    gameplay.show_gameplay() # HARD
+                    test.show_test() # HARD
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()                    
 

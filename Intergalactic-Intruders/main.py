@@ -5,7 +5,7 @@ import settings
 import play
 import asyncio
 
-async def main_menu():
+def main_menu():
     # Initialize Pygame
     pygame.init()
 
@@ -56,6 +56,6 @@ async def main_menu():
     
     pygame.quit()
     quit()
-
+    
 if __name__ == "__main__":
-    asyncio.run(main_menu())
+    main_menu()
