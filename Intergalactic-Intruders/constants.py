@@ -47,7 +47,7 @@ Volume_Type = {
     {
         "MAIN" : set_main_volume,
         "MUSIC" : set_space_sound_volume,
-        "SFX" : set_gunshot_sound_volume
+        "SFX" : get_gunshot_sound_volume
     },
 }
 
