@@ -161,7 +161,7 @@ def show_test():
     InvBullet_Ychange = Screen_Height * 0.001
     Invader_Bullets = [[] for _ in range(InvaderCount)]
     Bullet_Limit = InvaderCount * 5
-    Fire_rate = 7500 # invader firerate in 1/1000s sec
+    Fire_rate = 10000 # invader firerate in 1/1000s sec
     last_shot_times = []
 
     # Powerup Stuff
@@ -178,13 +178,6 @@ def show_test():
     Timer_MoveSpeed = 0
     Timer_BulletSpeed = 0
 
-    # Sound stuff
-    pygame.mixer.init()
-    Sound_InvaderDie = sounds.play_aliendeath()
-    Sound_BarrierDestroy = sounds.play_barrierdestroyed()
-    Sound_PlayerShoot = sounds.play_gunshot
-    Sound_PlayerHit = sounds.play_playerhit
-    Sound_PowerUP = sounds.play_powerup
 
     # ---------------------------------
     #            FUNCTIONS
@@ -477,8 +470,8 @@ def show_test():
                 elif Player_X >= Screen_Width * 0.98:
                     Player_X = Screen_Width * 0.98
 
-                if Player_Y <= Screen_Height * 0.834:
-                    Player_Y = Screen_Height * 0.834
+                if Player_Y <= Screen_Height * 0.750:
+                    Player_Y = Screen_Height * 0.750
                 elif Player_Y >= Screen_Height * 0.954:
                     Player_Y = Screen_Height * 0.954
 
@@ -570,7 +563,8 @@ def show_test():
                             Invader_Xchange.pop(i)
                             Invader_Rangom.pop(i)
                             last_shot_times.pop(i)
-                            sounds.play_aliendeath()
+                            if not countdown_active:
+                                sounds.play_aliendeath()
                             break
 
                 for i in range(len(Invader_X) - 1, -1, -1):
