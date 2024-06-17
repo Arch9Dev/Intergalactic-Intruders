@@ -2,22 +2,31 @@ import pygame
 import math
 import random
 import sounds
+import os
 from PIL import Image, ImageSequence
 
 def show_test():
     pygame.init()
-
-    # ---------------------------------
-    #            VARIABLES
-    # ---------------------------------
-
-    # Screen stuff
     Screen_Width = 800
     Screen_Height = 1000
+    os.environ['SDL_VIDEO_CENTERED'] = '1'
     Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
-    background_image = pygame.image.load('Intergalactic-Intruders/images/gameback.png')
-    background_image = pygame.transform.scale(background_image, (Screen_Width, Screen_Height))
-
+    
+    background_image = pygame.image.load('Intergalactic-Intruders/images/gameback1.png')
+    
+    level = 1
+    clock = pygame.time.Clock()
+    last_time_check = pygame.time.get_ticks()
+    Time_Difficulty = 1
+    Difficulty = 0.75 # 1 default, +/-0.5 for easy/hard respectively
+    Frames = 180
+    Time_trial = 'false' # true or false for time trial
+    InvaderCount = 10 * level # max invaders that can spawn, max on screen for time trial
+    Max_Invaders_YN = 'false'
+    Current_Invaders = 0
+    
+    
+    
     # Animation stuff
     Sprite_GIF_Path = {
         "Player_Ship" : r"Intergalactic-Intruders/images/Player.gif",
@@ -26,6 +35,7 @@ def show_test():
         "Alien3": r"Intergalactic-Intruders\images\Alien3.gif",
         "Alien4": r"Intergalactic-Intruders\images\Alien4.gif"
     }
+    
 
     class AnimatedSpriteObject(pygame.sprite.Sprite):
         def __init__(self, X, Y, images):
@@ -53,19 +63,20 @@ def show_test():
     def AnimatedSpriteGroup(SpriteFileName,PosX,PosY):
         SpriteGIFFrameList = loadGIF(SpriteFileName)
         animated_sprite = AnimatedSpriteObject(PosX,PosY,SpriteGIFFrameList)
-        return (pygame.sprite.Group(animated_sprite))
+        return (pygame.sprite.Group(animated_sprite)) # type: ignore
 
     # Barrier stuff
     barrier_image = { # one for each health point
-        8: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker00.png'),
-        7: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker01.png'),
-        6: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker02.png'),
-        5: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker03.png'),
-        4: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker04.png'),
-        3: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker05.png'),
-        2: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker06.png'),
-        1: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker07.png')
+            8: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker00.png'),
+            7: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker01.png'),
+            6: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker02.png'),
+            5: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker03.png'),
+            4: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker04.png'),
+            3: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker05.png'),
+            2: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker06.png'),
+            1: pygame.image.load('Intergalactic-Intruders\images\Bunker\sprite_Bunker07.png')
     }
+    
     BarrierSize = (Screen_Width * 0.21875, Screen_Height * 0.075)
     barrier_image = {health: pygame.transform.scale(img, BarrierSize) for health, img in barrier_image.items()}
     barrier_health = 8
@@ -78,17 +89,6 @@ def show_test():
         [(Screen_Width - (barrier_width * 3))/4 + 2 * (barrier_width + (Screen_Width - (barrier_width * 3))/4), barrier_y, barrier_health]
     ]
 
-    # General things, self explanatory
-    level = 1
-    clock = pygame.time.Clock()
-    last_time_check = pygame.time.get_ticks()
-    Time_Difficulty = 1
-    Difficulty = 0.75 # 1 default, +/-0.5 for easy/hard respectively
-    Frames = 180
-    Time_trial = 'false' # true or false for time trial
-    InvaderCount = 10 * level # max invaders that can spawn, max on screen for time trial
-    Max_Invaders_YN = 'false'
-    Current_Invaders = 0
 
     # UI stuff
     font = pygame.font.Font('freesansbold.ttf', 20)
@@ -387,9 +387,9 @@ def show_test():
         Accuracy = round((Hits_Landed / Shots_Taken) * 100)
         if (Difficulty <= 1):
             Screen.blit(DifEasy, (5, 25))
-        if (Difficulty >= 1):
+        elif (Difficulty >= 1):
             Screen.blit(DifNormal, (5, 25))
-        if (Difficulty >= 2):
+        elif (Difficulty >= 2):
             Screen.blit(DifHard, (5, 25))
 
         # Countdown before game start
@@ -410,7 +410,6 @@ def show_test():
                 Screen.blit(countdown_text, (Screen_Width // 2 - 32, Screen_Height // 2 - 32))
         # Game Start
         else:
-            # player input handling
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     Running = False
@@ -644,5 +643,5 @@ def show_test():
         Frames = 180 * Difficulty * Time_Difficulty
         pygame.display.update()
         clock.tick(Frames)
+        
     pygame.quit()
-    quit()
