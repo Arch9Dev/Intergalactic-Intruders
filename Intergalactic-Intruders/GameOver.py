@@ -1,8 +1,7 @@
 import pygame
 import constants
-import test
 import play
-
+import gameplay
 
 def show_GameOver():
     pygame.init()
@@ -10,7 +9,7 @@ def show_GameOver():
     pygame.display.set_caption("GAME OVER")
     
     Page_label = constants.TitleLable((screen.get_width()/2,screen.get_height()/3),130,"GAME OVER",constants.RED_DARKER,True,True)
-  #  Socore_label  = constants.Screen_Text((screen.get_width()/4,screen.get_height()/4),)
+
     offset  = screen.get_width()/15
     left_offset =  0 + offset
     Right_offset = screen.get_width() - (constants.BUTTON_WIDTH + offset*2)
@@ -37,7 +36,7 @@ def show_GameOver():
                         if QUIT_Button.clicked:
                             play.show_play()
                         elif ReTry_Button.clicked:
-                            test.show_test() # type: ignore
+                            gameplay.show_gameplay()
 
                 
     

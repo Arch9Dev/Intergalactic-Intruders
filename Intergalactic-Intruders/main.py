@@ -3,6 +3,7 @@ import constants
 import intro
 import settings
 import play
+import game_test
 import asyncio
 
 def main_menu():

@@ -38,20 +38,17 @@ def show_difficulty():
                 difficulty_running = False
                 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                for button in Difficulty_Buttons:
-                    button.handle_event(event)
-                
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    for button in Difficulty_Buttons:
-                        if button.clicked:
-                            if button.text == "EASY":
-                                test.show_test()
-                            elif button.text == "MEDIUM":
-                                test.show_test()
-                            elif button.text == "HARD":
-                                test.show_test()
-                        if Back_button.rect.collidepoint(event.pos):
-                            Back_button.ReturnTo()
+                if easy_button.rect.collidepoint(event.pos):
+                    gameplay.show_gameplay()
+                if medium_button.rect.collidepoint(event.pos):
+                    gameplay.show_gameplay() # MEDIUM
+                if hard_button.rect.collidepoint(event.pos):
+                    gameplay.show_gameplay() # HARD
+                if Back_button.rect.collidepoint(event.pos):
+                    Back_button.ReturnTo()                    
+
+
+        
         for button in Difficulty_Buttons:
             button.draw()
         

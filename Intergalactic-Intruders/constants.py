@@ -6,8 +6,18 @@ from PageList import pagelist
 import asyncio
 
 Coords = tuple[float,float]
+"""
+ float X & Y coordinates
+"""
 Colour = tuple[int,int,int]
-
+"""
+Colours are:
+    •WHITE •GREY •BLACK\n     
+    •RED_LIGHT •RED_DARK •RED_DARKER\n
+    •BLUE_LIGHT •BLUE_DARK •BLUE_DARKER\n
+    •GREEN_LIGHT •GREEN_DARK •GREEN_DARKER\n
+    •ORANGE_LIGHT •ORANGE_DARK •ORANGE_DARKER
+"""
 # Initialize Pygame
 pygame.init()
 
@@ -35,6 +45,14 @@ GREEN_LIGHT = (20, 230, 6)
 ORANGE_DARK = (255, 195, 0)
 ORANGE_DARKER = (255, 111, 0)
 ORANGE_LIGHT = (255, 235, 0)
+
+Sprite_GIF_Path = {
+    "Player_Ship" : r"Intergalactic-Intruders/images/Player_ship.gif",
+    "Alion_ONE": r"Intergalactic-Intruders/images/Alion_one.gif",
+    "Alion_TWO": r"Intergalactic-Intruders/images/Alion_two.gif",
+    "Alion_THREE": r"Intergalactic-Intruders/images/Alinon_three.gif",
+    "Mother_Ship": r"Intergalactic-Intruders/images/Mother_Ship.gif"
+}
 
 Volume_Type = {
     "GET":
@@ -100,6 +118,25 @@ BUTTON_W = BUTTON_WIDTH
 BUTTON_H = BUTTON_HEIGHT
 
 # Fonts
+def Font(FontSize =None,Font = None):
+    xolonium_font_path = "Intergalactic-Intruders\\Font\\Xolonium.ttf"
+    immermann_font_path = 'Intergalactic-Intruders\\Font\\Immermann.ttf'
+    FontSize = 36 if FontSize == None else FontSize
+    immerman_font = pygame.font.Font(immermann_font_path, FontSize)
+    xolonium_font = pygame.font.Font(xolonium_font_path, FontSize)
+    default_font = xolonium_font
+    if Font == None:
+        return default_font   
+    elif Font == "immermann":
+        return immerman_font
+    elif Font == "xolonium":  
+        return xolonium_font
+    else: return pygame.font.Font(None,36)
+
+
+FONT = Font()
+TITLE_FONT = Font(46)
+BUTTON_FONT = Font(36,"immermann")
 def FontResizable(FontSize):
     return pygame.font.Font("Intergalactic-Intruders/Font/immermann.ttf", FontSize)
 FONT = pygame.font.Font("Intergalactic-Intruders/Font/immermann.ttf", 36)
@@ -175,30 +212,20 @@ MUSIC_SLIDER_POS = (SCREEN_WIDTH // 2, 300)
 SOUND_EFFECTS_SLIDER_POS = (SCREEN_WIDTH // 2, 400)
 #Deprecated
 def draw_circle(screen, colour, position, radius):
+    """Deprecated DO NOT USE"""
     pygame.draw.circle(screen, colour, position, radius)
 
 
-#Deprecated
-def draw_button(screen, x, y, width, height, text):#Deprecated
-    pygame.draw.rect(screen, RED_DARK, (x, y, width, height))
-    pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
-    text_surface = FONT.render(text, True, BLACK)
-    text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
-    screen.blit(text_surface, text_rect)
-#Deprecated
-def draw_gunshot_button(screen, x, y, width, height, text):
-    pygame.draw.rect(screen, RED_DARK, (x, y, width, height))
-    pygame.draw.rect(screen, BLACK, (x, y, width, height), BUTTON_BORDER_WIDTH)  # Draw border
-    text_surface = FONT.render(text, True, BLACK)
-    text_rect = text_surface.get_rect(center=(x + width // 2, y + height // 2))
-    screen.blit(text_surface, text_rect)
+
 
 
 # Back button
 BACK_BUTTON = pygame.Rect(20, 20, 100, 40)
 
 class Button:
+
     def __init__(self, button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette):
+
         self.X = Offset_X if Offset_X != 0 else BUTTON_X
         self.Y = (Offset_Y + BUTTON_GAP) if Offset_Y != 0 else BUTTON_Y
         self.width = (BUTTON_WIDTH + width_Offset)
@@ -234,7 +261,7 @@ class Button:
             adjusted_rect = self.rect.inflate(-5, -5)  # Slightly smaller to indicate press
             pygame.draw.rect(self.screen, Hover_Back_Colour, adjusted_rect, border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Hover_Border_Colour, adjusted_rect, self.border_thickness, border_radius=self.border_radius)
-            text_surface = FONT.render(self.text, True, Hover_Text_Colour)
+            text_surface = BUTTON_FONT.render(self.text, True, Hover_Text_Colour)
         elif self.hovered:
             shadow_rect = self.rect.inflate(10, 10)  # Slightly larger for shadow effect
             shadow_rect.topleft = (self.rect.left + 5, self.rect.top + 5)
@@ -242,14 +269,14 @@ class Button:
             pygame.draw.rect(self.screen, Hover_Back_Colour, self.rect.inflate(5, 5), border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Hover_Border_Colour_Two, self.rect.inflate(10, 10), self.border_thickness, self.border_radius)
             pygame.draw.rect(self.screen, Hover_Border_Colour, self.rect.inflate(5, 5), self.border_thickness, self.border_radius)
-            text_surface = FONT.render(self.text, True, Hover_Text_Colour)
+            text_surface = BUTTON_FONT.render(self.text, True, Hover_Text_Colour)
         else:
             pygame.draw.rect(self.screen, Back_Colour, self.rect, border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Border_Colour_Two, self.rect.inflate(5,5), self.border_thickness, self.border_radius)
 
             pygame.draw.rect(self.screen, Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
 
-            text_surface = FONT.render(self.text, True, Text_Colour)
+            text_surface = BUTTON_FONT.render(self.text, True, Text_Colour)
 
         text_rect = text_surface.get_rect(center=(self.X + self.width // 2, self.Y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
@@ -285,6 +312,8 @@ class Slider :
     def __init__(self,Label_Text : str ,Slider_Pos_X : float,Slider_Pos_Y : float,Type_Name : str) :
         #Needed Var's
         self.screen = screen
+        self.Slider_Pos_X =Slider_Pos_X
+        self.Slider_Pos_Y =Slider_Pos_Y
         self.Volume_Value = Volume_Type["GET"][Type_Name]()
         self.Muted = False if self.Volume_Value > 0 else True 
         self.Dragging = False
@@ -319,16 +348,18 @@ class Slider :
         }
         #label
         self.Label = FONT.render(Label_Text,True,BLACK)
-        Label_Gap_X = self.Label.get_width()+50
-        Label_Gap_Y = self.Label.get_height() / 2
-        self.Label_POS = (Slider_Pos_X - Label_Gap_X, Slider_Pos_Y - Label_Gap_Y  ) 
+        self.Label_Gap_X = self.Label.get_width()
+        self.Label_Gap_Y = self.Label.get_height() / 2
+        self.Label_POS = (Slider_Pos_X - self.Label_Gap_X, Slider_Pos_Y - self.Label_Gap_Y  ) 
+        
         #background Box
-        BackgroundBox_TopLeft = (self.Label_POS[0],self.Label_POS[1])
-        BackgroundBox_WidthHeight =( self.Slider_Track_Length + 50 + self.Label.get_width() ,self.Label.get_height())
-        self.BackgroundBox  = pygame.Rect(BackgroundBox_TopLeft,BackgroundBox_WidthHeight).inflate(22,19)
+        self.BackgroundBox_TopLeft = (self.Label_POS[0]-75,self.Label_POS[1])
+        self.BackgroundBox_WidthHeight =( self.Slider_Track_Length + self.Label.get_width() +75 ,self.Label.get_height())
+        self.BackgroundBox  = pygame.Rect(self.BackgroundBox_TopLeft,self.BackgroundBox_WidthHeight).inflate(22,19)
+
         
         #Slider Track
-        Slider_Track_TopLeft  = (Slider_Pos_X - 15, self.BackgroundBox.centery - self.Slider_Track_Thickness  /2 )
+        Slider_Track_TopLeft  = (Slider_Pos_X -5, self.BackgroundBox.centery - self.Slider_Track_Thickness  /2 )
         Slider_Track_WidthHeight =( self.Slider_Track_Length, self.Slider_Track_Thickness)
         self.Slider_Track_Rect  = pygame.Rect(Slider_Track_TopLeft ,Slider_Track_WidthHeight)        
         self.SLIDER_Track_POS = [self.Slider_Track_Rect.x,self.Slider_Track_Rect.y] 
@@ -400,8 +431,7 @@ class Slider :
         Colour_Slider_Track = self.Slider_Colours["Colour_Slider_Track"]
         Colour_Background = self.Slider_Colours["Background_Box"]
         Colour_Mute_Checkbox = self.Slider_Colours["Mute_Checkbox"]
-        test1 = (self.Cross_1[0][0],self.Cross_1[0][1])
-        test2 = self.Cross_1[0][0]
+
 
         CrossCords = [[self.Cross_1[0],self.Cross_1[1]],[self.Cross_2[0],self.Cross_2[1]]]
         def Draw_Checkbox(Muted :bool,Hovered : bool):
@@ -457,14 +487,132 @@ class Slider :
         Draw_SliderBar(self.Muted,self.Hovering_Slider_Track)
         Draw_Slider_Thumb(self.Muted,self.Dragging)
 
-class TileLable:
-    def __init__(self, X_Y : Coords, Fontsize : int,Lable_Text : str,Text_Colour: Colour,Background_Colour : Colour,AA :bool):
-        Label_Font = load_immermann_font(Fontsize)
-        self.Lable = Label_Font.render(Lable_Text,AA,Text_Colour,Background_Colour)
-        self.X_Y = X_Y
+class sliderlist:
+    def __init__(self) :
+        self.Sliders = []
+    def __iter__(self):
+        for Slider in self.Sliders:
+            yield Slider
+    def  AddSlider(self,Text : str,Type: str):
+        Slider_X = 400
+        Slider_Y = 250
+        Slider_Gap = 75
+        if not self.Sliders:
+            self.Sliders.append(Slider(Text,Slider_X,Slider_Y,Type))
+        else:
+            Slider_count = self.Sliders.__len__()
+            Next_Slider_Y = self.Sliders[Slider_count-1].Slider_Pos_Y + Slider_Gap
+            self.Sliders.append(Slider(Text,Slider_X,Next_Slider_Y,Type))
+
+    def FormatSliders(self):
+        Labelwidths =[]
+        for Slider in self.Sliders:
+           Labelwidths.append( Slider.Label.get_width())
+        Slider.Label_Gap_X 
+        Labelwidths.sort()
+
+        Biggist_labelWidth = Labelwidths[0] 
+        Labelwidths.sort(reverse=True)
+        for Slider in self.Sliders:
+            Slider.Label_POS = (Slider.Slider_Pos_X - Biggist_labelWidth -75,Slider.Slider_Pos_Y- Slider.Label_Gap_Y)
+            Slider.BackgroundBox = (pygame.Rect(Slider.BackgroundBox_TopLeft,Slider.BackgroundBox_WidthHeight).inflate(22,19))
+            
+        sliderbox_x = []
+        sliderbox_width = []
+        for Sliders in self.Sliders:
+            sliderbox_x.append(Sliders.BackgroundBox.x)
+            sliderbox_width.append(Sliders.BackgroundBox.width) 
+        sliderbox_x.sort(reverse=True)
+        sliderbox_width.sort()
+        for Sliders in self.Sliders:
+            Sliders.BackgroundBox.width = sliderbox_width[0]
+            Sliders.BackgroundBox.x = sliderbox_x[0]
     def draw(self):
-        self.Lable.get_rect(center = self.X_Y)
-        screen.blit(self.Lable,self.X_Y)
+        for Sliders in self.Sliders:
+            Sliders.draw()
+
+
+        
+        
+
+def InvertColour(IN_Colour : Colour):
+    Out_Colour  = ((255 - IN_Colour[0]),(255 -IN_Colour[1]),(255 -IN_Colour[2]))
+    return Out_Colour
+class Screen_Text:
+    """
+    For righting Blocks of text to the screen
+    Separate lines of text by '*'
+    """
+    def __init__(self,Center_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour):
+        Text.strip()
+        self.lines = Text.split("\n")
+        self.lines
+        self.Label_Font = Font(Fontsize)
+        self.Text_Colour = Text_Colour
+        self.Center_XY =Center_XY
+    def draw(self):
+        start_y = self.Center_XY[1]
+        i =0
+        for line in self.lines:
+            line.strip
+            Lable = self.Label_Font.render(line,1,self.Text_Colour)
+            screen.blit(Lable,( screen.get_size()[0]//2 - Lable.get_width()//2, i*self.Label_Font.get_height()+start_y))
+            i = i+1
+TutorialText = """
+YOUR MISSION IS SIMPLE
+DEFEND YOUR BASE FROM 
+THE APPROACHING WAVES 
+OF ALIEN INTRUDERS,
+USE YOUR SHIP'S LASER BLASTERS
+TO SHOOT DOWN THE INTRUDERS
+BEFORE THEY CAN REACH YOU AND
+START DESTROYING YOUR DEFENSES,
+ALONG THE WAY YOU CAN GAIN UPGRADES
+WHICH MAY BE HELPFUL IN 
+SUCCEEDING THE MISSION, 
+GOOD LUCK SOLDIER.
+"""
+class TUTORIAL_Screen_Text(Screen_Text):
+    def __init__(self,  Fontsize: int,  Text_Colour: tuple[int, int, int]):
+        Center_XY = (screen.get_width()/2,screen.get_height()/5)
+        
+        super().__init__(Center_XY, Fontsize, TutorialText, Text_Colour)
+
+    
+class TitleLable:
+    
+    def __init__(self, Center_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour,AA :bool, Background :bool):
+        Label_Font = Font(Fontsize)
+        self.Lable = Label_Font.render(Text,AA,Text_Colour)
+        self.Text_Colour =Text_Colour
+        self.LableRect = self.Lable.get_rect(center = Center_XY)
+        self.Has_Background = Background
+    def Set_Background_Colour(self):
+
+        Lable_BackgroundBox_Rect = pygame.Rect(self.LableRect).inflate(50,25)
+        BackgroundBox_Border_Rect = pygame.Rect(Lable_BackgroundBox_Rect)
+        Border_Border_Rect = pygame.Rect(BackgroundBox_Border_Rect).inflate(10,10)
+
+        Background_Colour = InvertColour(self.Text_Colour)
+        Border_Colour = InvertColour(Background_Colour)
+        BorderBorder_Colour = InvertColour(Border_Colour)
+        self.BackgroundBox = {
+           "MainBox": {"Rect":Lable_BackgroundBox_Rect, "Colour": Background_Colour },
+           "Border": {"Rect":BackgroundBox_Border_Rect, "Colour": Border_Colour },
+           "BorderBorder": {"Rect":Border_Border_Rect, "Colour": BorderBorder_Colour }
+        }
+        self.Has_Background = True
+    def __BackgroundDraw__(self):
+        self.Set_Background_Colour()
+        pygame.draw.rect(screen,self.BackgroundBox["MainBox"]["Colour"],self.BackgroundBox["MainBox"]["Rect"])
+        pygame.draw.rect(screen,self.BackgroundBox["Border"]["Colour"],self.BackgroundBox["Border"]["Rect"],5)
+        pygame.draw.rect(screen,self.BackgroundBox["BorderBorder"]["Colour"],self.BackgroundBox["BorderBorder"]["Rect"],5)
+
+    def draw(self):
+       
+        if  self.Has_Background == True:
+            self.__BackgroundDraw__()
+        screen.blit(self.Lable, self.LableRect)
     
 
 
