@@ -1,7 +1,7 @@
 import pygame
 import constants
 import gameplay
-
+import test
 
 
 def show_difficulty():
@@ -41,11 +41,11 @@ def show_difficulty():
                 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if easy_button.rect.collidepoint(event.pos):
-                    gameplay.show_gameplay()
+                    test.show_test()  # type: ignore
                 if medium_button.rect.collidepoint(event.pos):
-                    gameplay.show_gameplay() # MEDIUM
+                    test.show_test()  # type: ignore
                 if hard_button.rect.collidepoint(event.pos):
-                    gameplay.show_gameplay() # HARD
+                    test.show_test()  # type: ignore
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()                    
 

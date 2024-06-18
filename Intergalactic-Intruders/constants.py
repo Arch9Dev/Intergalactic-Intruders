@@ -64,7 +64,7 @@ Volume_Type = {
     {
         "MAIN" : set_main_volume,
         "MUSIC" : set_space_sound_volume,
-        "SFX" : set_gunshot_sound_volume
+        "SFX" : set_soundfx
     },
 }
 
@@ -144,7 +144,8 @@ Logo_POS = (TITLE_IMAGE.get_rect(center=(SCREEN_WIDTH // 2, 170)))
 
 # Load controls image
 CONTROLS_IMAGE = images.load_controls_image()
-
+# Load intro image
+INTRO_IMAGE = images.load_intro_image()
 
 # Time Trial Text
 TIMETRIAL_TEXT = [
