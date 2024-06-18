@@ -3,6 +3,7 @@ import math
 import random
 import sounds
 import os
+import constants
 from PIL import Image, ImageSequence
 
 def show_test():
@@ -13,7 +14,14 @@ def show_test():
     Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
     
     background_image = pygame.image.load('Intergalactic-Intruders/images/gameback1.png')
-    
+    Pause_X = Screen_Width / 2 - 110
+    Pause_Y = Screen_Height / 3 
+
+    resume_button = constants.Button("Resume",Pause_X, Pause_Y-100,20,0,constants.Colour_Palettes["Red_Buttons"])
+    settings_button = constants.Button("Settings",Pause_X, Pause_Y,20,0,constants.Colour_Palettes["Red_Buttons"])
+    main_menu_button = constants.Button("Main Menu",Pause_X, Pause_Y+100,20,0,constants.Colour_Palettes["Red_Buttons"])
+    PauseButtons =[resume_button,settings_button,main_menu_button]
+
     level = 1
     clock = pygame.time.Clock()
     last_time_check = pygame.time.get_ticks()
@@ -352,23 +360,15 @@ def show_test():
 
 
     def show_pause_menu():
-        resume_button = pygame.Rect(Screen_Width / 2 - 100, Screen_Height / 2 - 100, 200, 50)
-        settings_button = pygame.Rect(Screen_Width / 2 - 100, Screen_Height / 2, 200, 50)
-        main_menu_button = pygame.Rect(Screen_Width / 2 - 100, Screen_Height / 2 + 100, 200, 50)
+        Pasue_BOX_Width = PauseButtons[0].width +40
+        Pasue_BOX_Height = PauseButtons[0].height*6
+        pygame.draw.rect(Screen,constants.WHITE,(Pause_X-20,Pause_Y-50,Pasue_BOX_Width,Pasue_BOX_Height) ,border_radius = 15 )
+        for buttons in PauseButtons:
+            buttons.draw()
 
-        pygame.draw.rect(Screen, (0, 0, 0), resume_button)
-        pygame.draw.rect(Screen, (0, 0, 0), settings_button)
-        pygame.draw.rect(Screen, (0, 0, 0), main_menu_button)
+        
 
-        resume_text = font.render("Resume", True, (255, 255, 255))
-        settings_text = font.render("Settings", True, (255, 255, 255))
-        main_menu_text = font.render("Main Menu", True, (255, 255, 255))
-
-        Screen.blit(resume_text, (resume_button.x + 50, resume_button.y + 10))
-        Screen.blit(settings_text, (settings_button.x + 50, settings_button.y + 10))
-        Screen.blit(main_menu_text, (main_menu_button.x + 30, main_menu_button.y + 10))
-
-        return resume_button, settings_button, main_menu_button
+        
 
     # ---------------------------------
     #            MAIN LOOP
@@ -397,12 +397,20 @@ def show_test():
             if time_elapsed >= countdown_duration + 1000:
                 countdown_active = False
             else:
+                countdown_text = ""
                 if time_elapsed >= countdown_duration:
                     countdown_text = countdown_font.render("GO!", True, (255, 255, 255))
                 else:
                     countdown_number = 3 - time_elapsed // 1000
+
                     countdown_text = countdown_font.render(str(countdown_number), True, (255, 255, 255))
-                Screen.blit(countdown_text, (Screen_Width // 2 - 32, Screen_Height // 2 - 32))
+                    
+                Textwidth = countdown_text.get_width()/2
+                Textheight = countdown_text.get_height()
+                countdownrect = pygame.rect.Rect(Screen_Width // 2 -(Textwidth/2 +20) ,Screen_Height // 2 ,Textwidth*2,Textheight)
+                pygame.draw.rect(Screen,constants.BLACK,countdownrect.inflate(40,40),border_radius=15)
+                pygame.draw.rect(Screen,constants.WHITE,countdownrect.inflate(40,40),5,border_radius=15)
+                Screen.blit(countdown_text, countdownrect)
         # Game Start
         else:
             for event in pygame.event.get():
@@ -438,16 +446,20 @@ def show_test():
                         Player_Ychange = 0
             # Pause menu stuff
             if paused:
-                resume_button, settings_button, main_menu_button = show_pause_menu()
+                show_pause_menu()
                 mouse_pos = pygame.mouse.get_pos()
                 mouse_click = pygame.mouse.get_pressed()
-
-                if resume_button.collidepoint(mouse_pos) and mouse_click[0]:
-                    paused = False
-                elif settings_button.collidepoint(mouse_pos) and mouse_click[0]:
-                    print("Settings button clicked")
-                elif main_menu_button.collidepoint(mouse_pos) and mouse_click[0]:
-                    print("Main Menu button clicked")
+                for Buttons in PauseButtons:
+                    if Buttons.rect.collidepoint(mouse_pos):
+                        Buttons.hovered = True
+                    else:
+                        Buttons.hovered = False
+                    if resume_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
+                        paused = False
+                    elif settings_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
+                        print("Settings button clicked")
+                    elif main_menu_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
+                        print("Main Menu button clicked")
 
             # Game logic and update stuff
             else:
