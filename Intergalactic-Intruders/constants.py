@@ -3,6 +3,7 @@ import pygame
 import images
 from sounds import *
 from PageList import pagelist
+import asyncio
 
 Coords = tuple[float,float]
 """
@@ -26,7 +27,7 @@ SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 BACKGROUND_IMAGE = images.load_background_image()
-
+NEWBG = images.load_background_image()
 
 #Colours
 WHITE = (250, 249, 246)
@@ -64,7 +65,7 @@ Volume_Type = {
     {
         "MAIN" : set_main_volume,
         "MUSIC" : set_space_sound_volume,
-        "SFX" : set_gunshot_sound_volume
+        "SFX" : get_gunshot_sound_volume
     },
 }
 
@@ -73,25 +74,25 @@ Colour_Palettes = {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": RED_DARK, "Hover": RED_LIGHT},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
+        "Border_Colour_two": {"Normal": BLACK, "Hover": BLACK}
     },
     "Green_Buttons": {
-        "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Background_Colour": {"Normal": GREEN_LIGHT, "Hover": GREEN_DARK},
+        "Text_Colour": {"Normal": BLACK, "Hover": BLACK},
+        "Background_Colour": {"Normal": GREEN_LIGHT, "Hover": GREEN_LIGHT},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
+        "Border_Colour_two": {"Normal": BLACK, "Hover": BLACK}
     },
     "Blue_Buttons": {
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": BLUE_LIGHT, "Hover": BLUE_DARK},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
+        "Border_Colour_two": {"Normal": BLACK, "Hover": WHITE}
     },
     "Orange_Buttons":{
         "Text_Colour": {"Normal": BLACK, "Hover": WHITE},
         "Background_Colour": {"Normal": ORANGE_LIGHT, "Hover": ORANGE_DARK},
         "Border_Colour": {"Normal": BLACK, "Hover": WHITE},
-        "Border_Colour_two": {"Normal": WHITE, "Hover": BLACK}
+        "Border_Colour_two": {"Normal": BLACK, "Hover": BLACK}
     },
     "Timer": {
         "Text_Colour": WHITE,
@@ -136,15 +137,63 @@ def Font(FontSize =None,Font = None):
 FONT = Font()
 TITLE_FONT = Font(46)
 BUTTON_FONT = Font(36,"immermann")
+def FontResizable(FontSize):
+    return pygame.font.Font("Intergalactic-Intruders/Font/immermann.ttf", FontSize)
+FONT = pygame.font.Font("Intergalactic-Intruders/Font/immermann.ttf", 36)
+TITLE_FONT = pygame.font.Font(None, 48)
+
+def load_xolonium_font(font_size):
+    # Load the custom font
+    xolonium_font_path = "Intergalactic-Intruders/Font/xolonium.ttf"
+    xolonium_font = pygame.font.Font(xolonium_font_path, font_size)
+    return xolonium_font
+
+def load_immermann_font(font_size):
+    immermann_font_path = 'Intergalactic-Intruders/Font/Immermann.ttf'
+    immerman_font = pygame.font.Font(immermann_font_path, font_size)
+    return immerman_font
+
 
 # Load title image
 TITLE_IMAGE = images.load_title_image()
 Logo_POS_Y = 170
 Logo_POS = (TITLE_IMAGE.get_rect(center=(SCREEN_WIDTH // 2, 170)))
 
+# Load intro image
+INTRO_IMAGE = images.load_intro_image()
+
 # Load controls image
 CONTROLS_IMAGE = images.load_controls_image()
 
+# Game text
+GAME_TEXT = [
+    "GAME PAGE PLACE HOLDER"
+]
+
+# Setting text
+SETTINGS_TEXT = [
+    "SETTINGS PAGE PLACE HOLDER"
+]
+
+# Audio text
+AUDIO_TEXT = [
+    "AUDIO SETTINGS PAGE PLACE HOLDER"
+]
+
+# Display text
+DISPLAY_TEXT = [
+    "DISPLAY SETTINGS PAGE PLACE HOLDER"
+]
+
+# Controls text
+CONTROLS_TEXT = [
+    "CONTROLS SETTINGS PAGE PLACE HOLDER"
+]
+
+# Levels text
+LEVELS_TEXT = [
+    "LEVELS PLACE HOLDER"
+]
 
 # Time Trial Text
 TIMETRIAL_TEXT = [
@@ -242,9 +291,6 @@ class QuitButton(Button):
         height_Offset =(BACK_BUTTON.height - BUTTON_HEIGHT)
         button_text = "QUIT"
         super().__init__(button_text, Offset_X, Offset_Y, width_Offset, height_Offset, colour_palette)
-    def Quit(self):
-        pygame.quit()
-        quit()
 
 class BackButton(Button):
     def __init__(self,  colour_palette, ReturnPage  ):
@@ -595,5 +641,4 @@ class Timer:
 
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
-
 

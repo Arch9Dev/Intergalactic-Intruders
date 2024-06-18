@@ -1,10 +1,10 @@
 import pygame
 import constants
-import tutorial
+import intro
 import settings
 import play
 import game_test
-
+import asyncio
 
 def main_menu():
     # Initialize Pygame
@@ -16,18 +16,18 @@ def main_menu():
 
     # Buttons
     play_button = constants.Button( "PLAY", 0, 0,0,0, constants.Colour_Palettes["Green_Buttons"])
-    tutorial_button = constants.Button( "TUTORIAL", 0,  play_button.rect.y,0,0, constants.Colour_Palettes["Green_Buttons"])
-    settings_button = constants.Button( "SETTINGS", 0, tutorial_button.rect.y,0,0, constants.Colour_Palettes["Green_Buttons"])
+    intro_button = constants.Button( "INTRO", 0,  play_button.rect.y,0,0, constants.Colour_Palettes["Green_Buttons"])
+    settings_button = constants.Button( "SETTINGS", 0, intro_button.rect.y,0,0, constants.Colour_Palettes["Green_Buttons"])
     quit_button = constants.QuitButton( constants.Colour_Palettes["Red_Buttons"])
     
-    Main_Buttons = [play_button, tutorial_button, settings_button, quit_button]
+    Main_Buttons = [play_button, intro_button, settings_button, quit_button]
 
     pygame.key.set_repeat(100)
     MainRunning = True
 
     # Main loop for the main menu
     while MainRunning:
-        screen.blit(constants.BACKGROUND_IMAGE, (0, 0))        
+        screen.blit(constants.NEWBG, (0, 0))        
         screen.blit(constants.TITLE_IMAGE, constants.Logo_POS)
 
         # Event handling
@@ -43,9 +43,8 @@ def main_menu():
                     if button.clicked:
                         if button.text == "PLAY":
                             play.show_play()
-                            #game_test.test()
-                        elif button.text == "TUTORIAL":
-                            tutorial.show_tutorial()
+                        elif button.text == "INTRO":
+                            intro.show_intro()
                         elif button.text == "SETTINGS":
                             settings.show_settings()
                         elif button.text == "QUIT":
@@ -58,6 +57,6 @@ def main_menu():
     
     pygame.quit()
     quit()
-
+    
 if __name__ == "__main__":
     main_menu()

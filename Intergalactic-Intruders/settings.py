@@ -10,9 +10,9 @@ def show_settings():
     screen = constants.screen
     pygame.display.set_caption("SETTINGS")
     
-    Audio_Button = constants.Button("Audio",0,0,0,0,constants.Colour_Palettes["Green_Buttons"])
-    Display_Button = constants.Button("Display",0,Audio_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
-    Controls_Button = constants.Button("Controls",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
+    Audio_Button = constants.Button("AUDIO",0,0,0,0,constants.Colour_Palettes["Green_Buttons"])
+    Display_Button = constants.Button("DISPLAY",0,Audio_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
+    Controls_Button = constants.Button("CONTROLS",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
     Back_Button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"Main")
     Title_cords =  (screen.get_width()/2, screen.get_height()/5 )
     Settings_Title = constants.TitleLable(Title_cords,72,"SETTINGS",constants.BLUE_DARK,True,True)
@@ -21,6 +21,7 @@ def show_settings():
 
     while settings_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
+        screen.blit(constants.TITLE_IMAGE, constants.Logo_POS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
