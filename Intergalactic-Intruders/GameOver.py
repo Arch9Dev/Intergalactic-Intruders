@@ -4,7 +4,7 @@ import main
 import test
 import random
 
-def show_GameOver():
+def show_GameOver(AccuracyIN,DifficultyIN,current_time,Intruders_killedin):
     pygame.init() 
     constants.SCREEN_WIDTH =1000
     constants.SCREEN_HEIGHT = 800
@@ -17,10 +17,10 @@ def show_GameOver():
     #these are just  Placeholder values
     Difficulty = {"Easy": 10,"Medium":20,"Hard":30}
     Level_Bonus = {"Easy" : 100  ,"Medium" : 200 ,"Hard" : 300 }
-    ENDED_GAME_DIFFICULTY = "Easy" # placeholder
-    Intruders_killed = 15  
-    Accuracy = 90  #  Ps: percent in int 
-    Time_Survived = 1250000 # PS: time in milliseconuds
+    ENDED_GAME_DIFFICULTY = "Medium" if DifficultyIN == 1 else "Easy" if  DifficultyIN <= 0.75 else "Hard"
+    Intruders_killed = Intruders_killedin  
+    Accuracy = AccuracyIN  #  Ps: percent in int 
+    Time_Survived = current_time # PS: time in milliseconuds
     BONUS = random.randint(1,100) 
     SCORE = (Intruders_killed*Difficulty[ENDED_GAME_DIFFICULTY]) + ((Accuracy/100)*10) + ((int(Time_Survived/1000)/30)*50)
     FINAL_SCORE =  int(SCORE + BONUS + Level_Bonus[ENDED_GAME_DIFFICULTY])
@@ -36,7 +36,7 @@ def show_GameOver():
 
     Score_Numbers =f"""
  {Intruders_killed} 
- {Accuracy}% 
+ {AccuracyIN}% 
  {int(Time_Survived/1000)} 
  {Level_Bonus[ENDED_GAME_DIFFICULTY]} 
  {BONUS} 
@@ -92,4 +92,4 @@ def show_GameOver():
 
 
 if __name__ == "__main__":
-   show_GameOver()
+   show_GameOver(90,0.75,515515,45)

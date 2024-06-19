@@ -245,9 +245,9 @@ def show_test():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-
-
-            GameOver.show_GameOver()
+                
+            Intruders_killed = InvaderCount-len(Invader_X)
+            GameOver.show_GameOver(Accuracy,Difficulty,current_time,Intruders_killed)
 
 
     def player_hit():
