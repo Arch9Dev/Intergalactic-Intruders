@@ -557,9 +557,9 @@ while Running:
                     Score_val += 1
                     Bullet_Y = Screen_Height
                     BulletStaet = "rest"
-                    Invader_Health[i] -= bullet_damage
+                    Invader_Health[i] -= bullet_damage * 10
                     if Invader_Health[i] <= 0:
-                        if random.randint(1, 5) == 1:
+                        if random.randint(1, 1) == 1:
                             spawn_powerup(Invader_X[i], Invader_Y[i])
                         Invader_X.pop(i)
                         Invader_Y.pop(i)
