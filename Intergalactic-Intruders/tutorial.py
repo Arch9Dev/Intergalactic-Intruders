@@ -20,7 +20,7 @@ def show_tutorial():
 
     # Calculate the starting horizontal position to center the text horizontally with margins
     Page_Title_Text = constants.TitleLable((screen.get_width()/2,screen.get_height()/7),72,"TUTORIAL",constants.BLUE_DARK,True,True)
-    tutorial_TEXT = constants.TUTORIAL_Screen_Text(36,constants.WHITE)
+    tutorial_TEXT = constants.TUTORIAL_Screen_Text(36,constants.ORANGE_LIGHT)
     tutorials_running = True
     while tutorials_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))

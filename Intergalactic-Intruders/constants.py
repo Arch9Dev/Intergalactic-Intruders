@@ -3,6 +3,7 @@ import pygame
 import images
 from sounds import *
 from PageList import pagelist
+from oulineText import textOutline
 
 Coords = tuple[float,float]
 """
@@ -58,7 +59,7 @@ Volume_Type = {
     {
         "MAIN" : get_main_volume,
         "MUSIC" : get_space_sound_volume,
-        "SFX" : get_gunshot_sound_volume
+        "SFX" : get_SFX_Volume
     },
     "SET":
     {
@@ -225,7 +226,6 @@ class Button:
         else:
             pygame.draw.rect(self.screen, Back_Colour, self.rect, border_radius=self.border_radius)
             pygame.draw.rect(self.screen, Border_Colour_Two, self.rect.inflate(5,5), self.border_thickness, self.border_radius)
-
             pygame.draw.rect(self.screen, Border_Colour, self.rect, self.border_thickness, border_radius=self.border_radius)
 
             text_surface = BUTTON_FONT.render(self.text, True, Text_Colour)
@@ -334,7 +334,7 @@ class Slider :
         self.Slider_Track_Fill_Rect = pygame.Rect(Slider_Track_Fill_TopLeft,Slider_Track_Fill_WidthHeight)
         
         #Mute_Checkbox
-        Mute_Checkbox_TopLeft = (self.BackgroundBox.topright[0]+self.BackgroundBox.height*0.7/2, self.BackgroundBox.topright[1] )
+        Mute_Checkbox_TopLeft = (self.BackgroundBox.topright[0]+int(self.BackgroundBox.height*0.7)/2, self.BackgroundBox.topright[1] )
         Mute_Checkbox_WidthHeight =(self.BackgroundBox.height,self.BackgroundBox.height)
         self.Mute_Checkbox_Rect = pygame.Rect(Mute_Checkbox_TopLeft,Mute_Checkbox_WidthHeight)
         self.Cross_1 =  (self.Mute_Checkbox_Rect.topleft[0]+7,self.Mute_Checkbox_Rect.topleft[1]+7),(self.Mute_Checkbox_Rect.bottomright[0]-7,self.Mute_Checkbox_Rect.bottomright[1]-7)
@@ -498,20 +498,25 @@ class Screen_Text:
     For righting Blocks of text to the screen
     Separate lines of text by '*'
     """
-    def __init__(self,Center_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour):
+    def __init__(self,Pos_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour,Centered : bool ):
         Text.strip()
         self.lines = Text.split("\n")
-        self.lines
+        self.Fontsize =Fontsize
+        self.Centered =Centered
         self.Label_Font = Font(Fontsize)
         self.Text_Colour = Text_Colour
-        self.Center_XY =Center_XY
+        self.POS_XY =Pos_XY
     def draw(self):
-        start_y = self.Center_XY[1]
+        start_y = self.POS_XY[1]
         i =0
         for line in self.lines:
             line.strip
-            Lable = self.Label_Font.render(line,1,self.Text_Colour)
-            screen.blit(Lable,( screen.get_size()[0]//2 - Lable.get_width()//2, i*self.Label_Font.get_height()+start_y))
+            Lable = self.Label_Font.render(line,1,self.Text_Colour).convert_alpha()
+            Lable_Outline = textOutline(line,self.Fontsize,5, self.Text_Colour,BLACK)
+            if self.Centered:
+                screen.blit(Lable_Outline,( self.POS_XY[0] - Lable_Outline.get_width()//2, i*self.Label_Font.get_height()+start_y))
+            else:
+                screen.blit(Lable_Outline,( self.POS_XY[0] , i*self.Label_Font.get_height()+start_y))              
             i = i+1
 TutorialText = """
 YOUR MISSION IS SIMPLE
@@ -522,7 +527,7 @@ USE YOUR SHIP'S LASER BLASTERS
 TO SHOOT DOWN THE INTRUDERS
 BEFORE THEY CAN REACH YOU AND
 START DESTROYING YOUR DEFENSES,
-ALONG THE WAY YOU CAN GAIN UPGRADES
+ALONG THE WAY YOU CAN GET UPGRADES 
 WHICH MAY BE HELPFUL IN 
 SUCCEEDING THE MISSION, 
 GOOD LUCK SOLDIER.
@@ -531,7 +536,7 @@ class TUTORIAL_Screen_Text(Screen_Text):
     def __init__(self,  Fontsize: int,  Text_Colour: tuple[int, int, int]):
         Center_XY = (screen.get_width()/2,screen.get_height()/5)
         
-        super().__init__(Center_XY, Fontsize, TutorialText, Text_Colour)
+        super().__init__(Center_XY, Fontsize, TutorialText, Text_Colour,True)
 
     
 class TitleLable:

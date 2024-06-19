@@ -73,7 +73,7 @@ def get_main_volume():
 def get_space_sound_volume():
     return music_volume
 
-def get_gunshot_sound_volume():
+def get_SFX_Volume():
     return sound_effects_volume
 
 

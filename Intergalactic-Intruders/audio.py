@@ -11,9 +11,8 @@ def Show_Audio():
     pygame.display.set_caption("Audio Settings")
 
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"settings")
-    Gunshot_Button = constants.Button("TEST FIRE",constants.SCREEN_WIDTH // 2 - constants.BUTTON_WIDTH // 2, 500,0,0,constants.Colour_Palettes["Red_Buttons"])
 
-    Audio_Buttons = [Back_button,Gunshot_Button]
+    Audio_Buttons = [Back_button]
     
     audio_running = True
 
@@ -49,8 +48,6 @@ def Show_Audio():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
-                if Gunshot_Button.rect.collidepoint(event.pos):
-                    sounds.play_gunshot()
                 for Sliders in Volume_Sliders_test:
                     if Sliders.Mute_Checkbox_Rect.collidepoint(event.pos):
                         Sliders.mute()

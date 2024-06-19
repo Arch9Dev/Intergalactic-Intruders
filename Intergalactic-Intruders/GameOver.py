@@ -8,12 +8,29 @@ def show_GameOver():
     screen = constants.screen
     pygame.display.set_caption("GAME OVER")
     
-    Page_label = constants.TitleLable((screen.get_width()/2,screen.get_height()/3),130,"GAME OVER",constants.RED_DARKER,True,True)
-
+    Page_label = constants.TitleLable((screen.get_width()/2,screen.get_height()/5),130,"GAME OVER",constants.RED_DARKER,True,True)
+    #these are just  Placeholder values
+    Intruders_killed = 15  
+    Accuracy = 90  #  Ps: percent in int 
+    Time_Survived = 1250000 # PS: time in milliseconuds
+    Level_Bonus = 16 
+    BONUS = 100  
+    FINAL_SCORE = int(round((Intruders_killed/Accuracy)*(Time_Survived/1000)*Level_Bonus,2) *100+BONUS) 
+   
+    Score_Text = f"""
+    Intruders killed : {Intruders_killed}
+    Accuracy : {Accuracy}%
+    Time  : {int(Time_Survived/1000)}
+    Level Bonus : {Level_Bonus}
+ 
+    BONUS : {BONUS}
+ 
+    FINAL SCORE : {FINAL_SCORE}"""
+    Score_Output = constants.Screen_Text((screen.get_width()/22,screen.get_height()/6*1.75),32,Score_Text,constants.WHITE,False)
     offset  = screen.get_width()/15
     left_offset =  0 + offset
     Right_offset = screen.get_width() - (constants.BUTTON_WIDTH + offset*2)
-    Height_Offset = screen.get_width()/6 *3
+    Height_Offset = screen.get_height()/6*4
     ReTry_Button = constants.Button("RETRY",left_offset,Height_Offset,offset,offset,constants.Colour_Palettes["Green_Buttons"])
     QUIT_Button = constants.Button("QUIT",Right_offset,Height_Offset,offset,offset,constants.Colour_Palettes["Red_Buttons"])
 
@@ -44,7 +61,7 @@ def show_GameOver():
             button.draw()        # Render display content
 
         Page_label.draw()
-
+        Score_Output.draw()
 
         pygame.display.update()
 
