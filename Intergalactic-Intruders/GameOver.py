@@ -6,8 +6,7 @@ import random
 
 def show_GameOver(AccuracyIN,DifficultyIN,current_time,Intruders_killedin):
     pygame.init() 
-    constants.SCREEN_WIDTH =1000
-    constants.SCREEN_HEIGHT = 800
+    constants.ResetScreen()
     constants.screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
     screen = constants.screen
    

@@ -5,6 +5,8 @@ import sounds
 import os
 import constants
 import GameOver
+import main
+import settings
 from PIL import Image, ImageSequence
 
 def show_test():
@@ -359,7 +361,7 @@ def show_test():
             Screen.blit(DifNormal, (5, 25))
         elif (Difficulty >= 2):
             Screen.blit(DifHard, (5, 25))
-
+         
         # Countdown before game start
         if countdown_active:
             for event in pygame.event.get():
@@ -409,9 +411,8 @@ def show_test():
                                 Bullet(Bullet_X, Bullet_Y)
                                 Shots_Taken += 1
                                 sounds.play_gunshot()
-                                
-                                
-                                
+                for button in PauseButtons:
+                    button.handle_event(event)        
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                         Player_Xchange = 0
@@ -420,19 +421,16 @@ def show_test():
             # Pause menu stuff
             if paused:
                 show_pause_menu()
-                mouse_pos = pygame.mouse.get_pos()
-                mouse_click = pygame.mouse.get_pressed()
-                for Buttons in PauseButtons:
-                    if Buttons.rect.collidepoint(mouse_pos):
-                        Buttons.hovered = True
-                    else:
-                        Buttons.hovered = False
-                    if resume_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
-                        paused = False
-                    elif settings_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
-                        print("Settings button clicked")
-                    elif main_menu_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
-                        print("Main Menu button clicked")
+                for button in PauseButtons:
+                    if button.clicked:
+                        if button.text == "Resume":
+                            paused = False
+                        elif button.text == "Settings":
+                            constants.ResetScreen()
+                            settings.show_settings()
+                        elif button.text == "Main Menu":
+                            constants.ResetScreen()
+                            main.main_menu()
 
             # Game logic and update stuff
             else:
@@ -599,6 +597,7 @@ def show_test():
                 # All done with collisino 
 
         # now just rendering stuff every frame
+        
         Player(Player_X, Player_Y)
         PlayerImag.draw(Screen)
         for i in range(len(Invader_X)):

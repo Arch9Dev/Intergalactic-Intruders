@@ -168,7 +168,10 @@ def draw_circle(screen, colour, position, radius):
     """Deprecated DO NOT USE"""
     pygame.draw.circle(screen, colour, position, radius)
 
-
+def ResetScreen():
+    SCREEN_WIDTH =1000
+    SCREEN_HEIGHT = 800
+    screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 
 
 
