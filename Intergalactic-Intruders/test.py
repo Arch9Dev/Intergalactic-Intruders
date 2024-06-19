@@ -4,6 +4,7 @@ import random
 import sounds
 import os
 import constants
+import GameOver
 from PIL import Image, ImageSequence
 
 def show_test():
@@ -245,37 +246,9 @@ def show_test():
                     pygame.quit()
                     quit()
 
-            game_over_text = game_over_font.render("GAME OVER", True, (255, 255, 255))
-            Screen.blit(game_over_text, (Screen_Width * 0.2375, Screen_Height * 0.25))
 
-            retry_text = font.render("Retry", True, (255, 255, 255))
-            main_menu_text = font.render("Main Menu", True, (255, 255, 255))
-            exit_text = font.render("Exit", True, (255, 255, 255))
-            Screen.blit(retry_text, (Screen_Width * 0.3, Screen_Height * 0.4))
-            Screen.blit(main_menu_text, (Screen_Width * 0.3, Screen_Height * 0.5))
-            Screen.blit(exit_text, (Screen_Width * 0.3, Screen_Height * 0.6))
+            GameOver.show_GameOver()
 
-            mouse_pos = pygame.mouse.get_pos()
-            mouse_click = pygame.mouse.get_pressed()
-
-            if Screen_Width * 0.3 <= mouse_pos[0] <= Screen_Width * 0.3 + retry_text.get_width() and \
-            Screen_Height * 0.4 <= mouse_pos[1] <= Screen_Height * 0.4 + retry_text.get_height():
-                if mouse_click[0]:
-                    return "retry"
-            
-            if Screen_Width * 0.3 <= mouse_pos[0] <= Screen_Width * 0.3 + main_menu_text.get_width() and \
-            Screen_Height * 0.5 <= mouse_pos[1] <= Screen_Height * 0.5 + main_menu_text.get_height():
-                if mouse_click[0]:
-                    return "main_menu"
-
-            if Screen_Width * 0.3 <= mouse_pos[0] <= Screen_Width * 0.3 + exit_text.get_width() and \
-            Screen_Height * 0.6 <= mouse_pos[1] <= Screen_Height * 0.6 + exit_text.get_height():
-                if mouse_click[0]:
-                    pygame.quit()
-                    quit()
-
-            pygame.display.update()
-            clock.tick(60)
 
     def player_hit():
         global Player_Health, Running
