@@ -78,12 +78,14 @@ barriers = [
 ]
 
 # General things, self explanatory
+level = 1
 clock = pygame.time.Clock()
 last_time_check = pygame.time.get_ticks()
 Time_Difficulty = 1
 Difficulty = 0.75 # 1 default, +/-0.5 for easy/hard respectively
 Frames = 180
 Time_trial = 'false' # true or false for time trial
+InvaderCount = 2 * level # max invaders that can spawn, max on screen for time trial
 Max_Invaders_YN = 'false'
 Current_Invaders = 0
 
@@ -140,7 +142,6 @@ Invader_X = []
 Invader_Y = []
 Invader_Xchange = []
 Invader_Ychange = Screen_Height * 0.05
-InvaderCount = 30 # max invaders that can spawn, max on screen for time trial
 RowHeight = Screen_Height * 0.05
 Invader_Rangom = []
 Invader_Health = []
