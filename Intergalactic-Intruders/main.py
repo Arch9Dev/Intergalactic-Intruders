@@ -3,7 +3,7 @@ import constants
 import intro
 import settings
 import play
-
+import asyncio
 
 def main_menu():
     # Initialize Pygame
@@ -56,6 +56,6 @@ def main_menu():
     
     pygame.quit()
     quit()
-
+    
 if __name__ == "__main__":
     main_menu()

@@ -3,6 +3,7 @@ import pygame
 import images
 from sounds import *
 from PageList import pagelist
+from outlineText import textOutline
 
 Coords = tuple[float,float]
 Colour = tuple[int,int,int]
@@ -40,13 +41,13 @@ Volume_Type = {
     {
         "MAIN" : get_main_volume,
         "MUSIC" : get_space_sound_volume,
-        "SFX" : get_gunshot_sound_volume
+        "SFX" : get_soundfx_volume
     },
     "SET":
     {
         "MAIN" : set_main_volume,
         "MUSIC" : set_space_sound_volume,
-        "SFX" : set_gunshot_sound_volume
+        "SFX" : get_soundfx_volume
     },
 }
 
@@ -99,7 +100,7 @@ BUTTON_W = BUTTON_WIDTH
 BUTTON_H = BUTTON_HEIGHT
 
 # Fonts
-def FontResizable(FontSize):
+def Font(FontSize):
     return pygame.font.Font("Intergalactic-Intruders/Font/immermann.ttf", FontSize)
 FONT = pygame.font.Font("Intergalactic-Intruders/Font/immermann.ttf", 36)
 TITLE_FONT = pygame.font.Font(None, 48)
@@ -123,6 +124,9 @@ Logo_POS = (TITLE_IMAGE.get_rect(center=(SCREEN_WIDTH // 2, 170)))
 
 # Load intro image
 INTRO_IMAGE = images.load_intro_image()
+
+# Load settings image
+SETTINGS_IMAGE = images.load_settings_image()
 
 # Load controls image
 CONTROLS_IMAGE = images.load_controls_image()
@@ -456,17 +460,109 @@ class Slider :
         Draw_SliderBar(self.Muted,self.Hovering_Slider_Track)
         Draw_Slider_Thumb(self.Muted,self.Dragging)
 
-class TileLable:
-    def __init__(self, X_Y : Coords, Fontsize : int,Lable_Text : str,Text_Colour: Colour,Background_Colour : Colour,AA :bool):
-        Label_Font = load_immermann_font(Fontsize)
-        self.Lable = Label_Font.render(Lable_Text,AA,Text_Colour,Background_Colour)
-        self.X_Y = X_Y
+class sliderlist:
+    def __init__(self):
+        self.Sliders = []
+
+    def __iter__(self):
+        for Slider in self.Sliders:
+            yield Slider
+
+    def AddSlider(self, Text: str, Type: str):
+        Slider_X = 400
+        Slider_Y = 250
+        Slider_Gap = 75
+        if not self.Sliders:
+            self.Sliders.append(Slider(Text, Slider_X, Slider_Y, Type))
+        else:
+            Slider_count = len(self.Sliders)
+            Next_Slider_Y = self.Sliders[Slider_count - 1].Slider_Track_Rect.centery + Slider_Gap
+            self.Sliders.append(Slider(Text, Slider_X, Next_Slider_Y, Type))
+
+    def FormatSliders(self):
+        Labelwidths = []
+        for Slider in self.Sliders:
+            Labelwidths.append(Slider.Label.get_width())
+        Labelwidths.sort()
+
+        Biggest_labelWidth = Labelwidths[-1]  # Use -1 to get the largest width
+        Labelwidths.sort(reverse=True)
+        for Slider in self.Sliders:
+            Slider.Label_POS = (Slider.Slider_Track_Rect.x - Biggest_labelWidth - 75, Slider.Slider_Track_Rect.centery - Slider.Label.get_height() // 2)
+            Slider.BackgroundBox = pygame.Rect(Slider.Label_POS, (Slider.Slider_Track_Rect.width + Biggest_labelWidth + 50, Slider.Label.get_height()))
+
     def draw(self):
-        self.Lable.get_rect(center = self.X_Y)
-        screen.blit(self.Lable,self.X_Y)
+        for Slider in self.Sliders:
+            Slider.draw()
+
+
+
+
+def InvertColour(IN_Colour : Colour):
+    Out_Colour  = ((255 - IN_Colour[0]),(255 -IN_Colour[1]),(255 -IN_Colour[2]))
+    return Out_Colour
+
+class TitleLabel:
+    def __init__(self, Center_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour,AA :bool, Background :bool):
+        Label_Font = load_immermann_font(Fontsize)
+        self.Label = Label_Font.render(Text,AA,Text_Colour)
+        self.Text_Colour = Text_Colour
+        self.LabelRect = self.Label.get_rect(center = Center_XY)
+        self.Has_Background = Background
+    def Set_Background_Colour(self):
+
+        Lable_BackgroundBox_Rect = pygame.Rect(self.LabelRect).inflate(50,25)
+        BackgroundBox_Border_Rect = pygame.Rect(Lable_BackgroundBox_Rect)
+        Border_Border_Rect = pygame.Rect(BackgroundBox_Border_Rect).inflate(10,10)
+
+        Background_Colour = InvertColour(self.Text_Colour)
+        Border_Colour = InvertColour(Background_Colour)
+        BorderBorder_Colour = InvertColour(Border_Colour)
+        self.BackgroundBox = {
+           "MainBox": {"Rect":Lable_BackgroundBox_Rect, "Colour": Background_Colour },
+           "Border": {"Rect":BackgroundBox_Border_Rect, "Colour": Border_Colour },
+           "BorderBorder": {"Rect":Border_Border_Rect, "Colour": BorderBorder_Colour }
+        }
+        self.Has_Background = True
+    def __BackgroundDraw__(self):
+        self.Set_Background_Colour()
+        pygame.draw.rect(screen,self.BackgroundBox["MainBox"]["Colour"],self.BackgroundBox["MainBox"]["Rect"])
+        pygame.draw.rect(screen,self.BackgroundBox["Border"]["Colour"],self.BackgroundBox["Border"]["Rect"],5)
+        pygame.draw.rect(screen,self.BackgroundBox["BorderBorder"]["Colour"],self.BackgroundBox["BorderBorder"]["Rect"],5)
+
+    def draw(self):
+       
+        if  self.Has_Background == True:
+            self.__BackgroundDraw__()
+        screen.blit(self.Label, self.LabelRect)
+        
     
-
-
+    
+class Screen_Text:
+    """
+    For righting Blocks of text to the screen
+    Separate lines of text by '*'
+    """
+    def __init__(self,Pos_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour,Centered : bool ):
+        Text.strip()
+        self.lines = Text.split("\n")
+        self.Fontsize =Fontsize
+        self.Centered =Centered
+        self.Label_Font = Font(Fontsize)
+        self.Text_Colour = Text_Colour
+        self.POS_XY =Pos_XY
+    def draw(self):
+        start_y = self.POS_XY[1]
+        i =0
+        for line in self.lines:
+            line.strip
+            Lable = self.Label_Font.render(line,1,self.Text_Colour).convert_alpha()
+            Lable_Outline = textOutline(line,self.Fontsize,5, self.Text_Colour,BLACK)
+            if self.Centered:
+                screen.blit(Lable_Outline,( self.POS_XY[0] - Lable_Outline.get_width()//2, i*self.Label_Font.get_height()+start_y))
+            else:
+                screen.blit(Lable_Outline,( self.POS_XY[0] , i*self.Label_Font.get_height()+start_y))              
+            i = i+1
 
 
 
@@ -492,5 +588,3 @@ class Timer:
 
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
-
-
