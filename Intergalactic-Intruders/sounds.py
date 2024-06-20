@@ -61,13 +61,13 @@ def set_main_volume(volume):
 def set_space_sound_volume(volume):
     global music_volume
     music_volume = volume
-    print(f"set_space_sound_volume called with volume: {volume}")  # Debug print
+    print(f"set_space_sound_volume called with volume: {volume}")
     Space_Sound.set_volume(MAIN_VOLUME * music_volume)
 
 def set_soundfx(volume):
     global sound_effects_volume
     sound_effects_volume = volume
-    print(f"set_soundfx called with volume: {volume}")  # Debug print
+    print(f"set_soundfx called with volume: {volume}") 
     gunshot_sound.set_volume(MAIN_VOLUME * sound_effects_volume)
     AlienDeath_sound.set_volume(MAIN_VOLUME * sound_effects_volume)
     BarrierDestroyed_sound.set_volume(MAIN_VOLUME * sound_effects_volume)
@@ -75,13 +75,13 @@ def set_soundfx(volume):
     PowerUp_sound.set_volume(MAIN_VOLUME * sound_effects_volume)
 
 def get_main_volume():
-    print("get_main_volume called")  # Debug print
+    print("get_main_volume called")
     return MAIN_VOLUME
 
 def get_space_sound_volume():
-    print("get_space_sound_volume called")  # Debug print
+    print("get_space_sound_volume called")  
     return music_volume
 
 def get_soundfx_volume():
-    print("get_soundfx_volume called")  # Debug print
+    print("get_soundfx_volume called")  
     return sound_effects_volume

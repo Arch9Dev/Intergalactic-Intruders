@@ -46,7 +46,6 @@ def Show_Audio():
     while audio_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0, 0))
         for event in pygame.event.get():
-            print(f"Event: {event}")  # Debug print for event tracing
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()

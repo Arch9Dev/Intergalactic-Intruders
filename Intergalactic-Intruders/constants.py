@@ -47,7 +47,7 @@ Volume_Type = {
     {
         "MAIN" : set_main_volume,
         "MUSIC" : set_space_sound_volume,
-        "SFX" : get_soundfx_volume
+        "SFX" : set_soundfx
     },
 }
 
