@@ -393,7 +393,7 @@ def show_test():
                     Running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        paused = not paused
+                        paused = False if paused else True
                     if paused == False:
                         if event.key == pygame.K_LEFT:
                             Player_Xchange = -1.7

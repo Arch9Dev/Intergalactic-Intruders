@@ -492,14 +492,13 @@ class sliderlist:
 
         
         
-
+#inverts colours 
 def InvertColour(IN_Colour : Colour):
     Out_Colour  = ((255 - IN_Colour[0]),(255 -IN_Colour[1]),(255 -IN_Colour[2]))
     return Out_Colour
 class Screen_Text:
     """
     For righting Blocks of text to the screen
-    Separate lines of text by '*'
     """
     def __init__(self,Pos_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour,Centered : bool ):
         Text.strip()
@@ -541,7 +540,7 @@ class TUTORIAL_Screen_Text(Screen_Text):
         
         super().__init__(Center_XY, Fontsize, TutorialText, Text_Colour,True)
 
-    
+# Creates Labels for the Title of a Page 
 class TitleLable:
     
     def __init__(self, Center_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour,AA :bool, Background :bool):
@@ -577,12 +576,7 @@ class TitleLable:
             self.__BackgroundDraw__()
         screen.blit(self.Lable, self.LableRect)
     
-
-
-
-
-
-class Timer:
+class Timer:# deprecated 
     def __init__(self, screen, time, x, y, width, height, fontsize):
         self.x, self.y, self.width, self.height = x, y, width, height
         self.border_coords = ((x, y), (x + width, y), (x + width, y + height), (x, y + height))
