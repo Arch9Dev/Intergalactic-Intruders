@@ -41,13 +41,13 @@ Volume_Type = {
     {
         "MAIN" : get_main_volume,
         "MUSIC" : get_space_sound_volume,
-        "SFX" : get_gunshot_sound_volume
+        "SFX" : get_soundfx_volume
     },
     "SET":
     {
         "MAIN" : set_main_volume,
         "MUSIC" : set_space_sound_volume,
-        "SFX" : get_gunshot_sound_volume
+        "SFX" : get_soundfx_volume
     },
 }
 
@@ -461,48 +461,39 @@ class Slider :
         Draw_Slider_Thumb(self.Muted,self.Dragging)
 
 class sliderlist:
-    def __init__(self) :
+    def __init__(self):
         self.Sliders = []
+
     def __iter__(self):
         for Slider in self.Sliders:
             yield Slider
-    def  AddSlider(self,Text : str,Type: str):
+
+    def AddSlider(self, Text: str, Type: str):
         Slider_X = 400
         Slider_Y = 250
         Slider_Gap = 75
         if not self.Sliders:
-            self.Sliders.append(Slider(Text,Slider_X,Slider_Y,Type))
+            self.Sliders.append(Slider(Text, Slider_X, Slider_Y, Type))
         else:
-            Slider_count = self.Sliders.__len__()
-            Next_Slider_Y = self.Sliders[Slider_count-1].Slider_Pos_Y + Slider_Gap
-            self.Sliders.append(Slider(Text,Slider_X,Next_Slider_Y,Type))
-            
+            Slider_count = len(self.Sliders)
+            Next_Slider_Y = self.Sliders[Slider_count - 1].Slider_Track_Rect.centery + Slider_Gap
+            self.Sliders.append(Slider(Text, Slider_X, Next_Slider_Y, Type))
+
     def FormatSliders(self):
-        Labelwidths =[]
+        Labelwidths = []
         for Slider in self.Sliders:
-           Labelwidths.append( Slider.Label.get_width())
-        Slider.Label_Gap_X 
+            Labelwidths.append(Slider.Label.get_width())
         Labelwidths.sort()
 
-        Biggist_labelWidth = Labelwidths[0] 
+        Biggest_labelWidth = Labelwidths[-1]  # Use -1 to get the largest width
         Labelwidths.sort(reverse=True)
         for Slider in self.Sliders:
-            Slider.Label_POS = (Slider.Slider_Pos_X - Biggist_labelWidth -75,Slider.Slider_Pos_Y- Slider.Label_Gap_Y)
-            Slider.BackgroundBox = (pygame.Rect(Slider.BackgroundBox_TopLeft,Slider.BackgroundBox_WidthHeight).inflate(22,19))
-            
-        sliderbox_x = []
-        sliderbox_width = []
-        for Sliders in self.Sliders:
-            sliderbox_x.append(Sliders.BackgroundBox.x)
-            sliderbox_width.append(Sliders.BackgroundBox.width) 
-        sliderbox_x.sort(reverse=True)
-        sliderbox_width.sort()
-        for Sliders in self.Sliders:
-            Sliders.BackgroundBox.width = sliderbox_width[0]
-            Sliders.BackgroundBox.x = sliderbox_x[0]
+            Slider.Label_POS = (Slider.Slider_Track_Rect.x - Biggest_labelWidth - 75, Slider.Slider_Track_Rect.centery - Slider.Label.get_height() // 2)
+            Slider.BackgroundBox = pygame.Rect(Slider.Label_POS, (Slider.Slider_Track_Rect.width + Biggest_labelWidth + 50, Slider.Label.get_height()))
+
     def draw(self):
-        for Sliders in self.Sliders:
-            Sliders.draw()
+        for Slider in self.Sliders:
+            Slider.draw()
 
 
 
@@ -597,4 +588,3 @@ class Timer:
 
         text_rect = text_surface.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         self.screen.blit(text_surface, text_rect)
-
