@@ -131,6 +131,10 @@ SETTINGS_IMAGE = images.load_settings_image()
 # Load controls image
 CONTROLS_IMAGE = images.load_controls_image()
 
+# Load Game win image
+GAMEWIN_IMAGE = images.load_gamewin_image()
+
+
 # Game text
 GAME_TEXT = [
     "GAME PAGE PLACE HOLDER"

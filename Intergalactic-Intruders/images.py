@@ -44,3 +44,9 @@ def load_intro_image():
     intro_image_path = os.path.join("Intergalactic-Intruders", "images", "intro.png")
     intro_image = pygame.image.load(intro_image_path)
     return pygame.transform.scale(intro_image, (1000, 800))
+
+
+def load_gamewin_image():
+    gamewin_image_path = os.path.join("Intergalactic-Intruders", "images", "Gamewin.png")
+    gamewin_image = pygame.image.load(gamewin_image_path)
+    return pygame.transform.scale(gamewin_image, (1000, 800))
