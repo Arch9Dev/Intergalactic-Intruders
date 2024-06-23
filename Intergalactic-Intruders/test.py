@@ -5,6 +5,8 @@ import sounds
 import os
 import GameOver
 import constants
+import settings
+import main
 from PIL import Image, ImageSequence
 
 def show_test():
@@ -417,9 +419,10 @@ def show_test():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     Running = False
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYUP:
                     if event.key == pygame.K_ESCAPE:
                         paused = not paused
+                if event.type == pygame.KEYDOWN:
                     if paused == False:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                             Player_Xchange = -1.7
@@ -459,9 +462,11 @@ def show_test():
                     if resume_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
                         paused = False
                     elif settings_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
-                        print("Settings button clicked")
+                        Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+                        main.main_menu()
                     elif main_menu_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
-                        print("Main Menu button clicked")
+                        Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+                        settings.show_settings()
 
             # Game logic and update stuff
             else:
