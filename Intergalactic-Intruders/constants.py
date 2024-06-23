@@ -128,6 +128,12 @@ INTRO_IMAGE = images.load_intro_image()
 # Load settings image
 SETTINGS_IMAGE = images.load_settings_image()
 
+# Load audio image 
+AUDIO_IMAGE = images.load_audio_title()
+
+# Load Gameplay Image
+GAMEPLAY_IMAGE = images.load_gameplay_image()
+
 # Load controls image
 CONTROLS_IMAGE = images.load_controls_image()
 
@@ -491,9 +497,12 @@ class sliderlist:
 
         Biggest_labelWidth = Labelwidths[-1]  # Use -1 to get the largest width
         Labelwidths.sort(reverse=True)
+        BoxPadding_X = 120
+        BoxPadding_Y = 20
         for Slider in self.Sliders:
             Slider.Label_POS = (Slider.Slider_Track_Rect.x - Biggest_labelWidth - 75, Slider.Slider_Track_Rect.centery - Slider.Label.get_height() // 2)
-            Slider.BackgroundBox = pygame.Rect(Slider.Label_POS, (Slider.Slider_Track_Rect.width + Biggest_labelWidth + 50, Slider.Label.get_height()))
+
+            Slider.BackgroundBox = pygame.Rect((Slider.Label_POS[0]-BoxPadding_X/7,Slider.Label_POS[1]-BoxPadding_Y/2), (Slider.Slider_Track_Rect.width + Biggest_labelWidth + BoxPadding_X, Slider.Label.get_height()+BoxPadding_Y))
 
     def draw(self):
         for Slider in self.Sliders:

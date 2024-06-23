@@ -12,9 +12,9 @@ def show_settings():
     
     Audio_Button = constants.Button("AUDIO",0,0,0,0,constants.Colour_Palettes["Green_Buttons"])
     Display_Button = constants.Button("DISPLAY",0,Audio_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
-    Controls_Button = constants.Button("CONTROLS",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
+    Tutorial_Button = constants.Button("TUTORIAL",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
     Back_Button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"Main")
-    Settings_Buttons = [Audio_Button,Display_Button,Controls_Button,Back_Button]
+    Settings_Buttons = [Audio_Button,Display_Button,Tutorial_Button,Back_Button]
     settings_running = True
 
     while settings_running:
@@ -32,7 +32,7 @@ def show_settings():
                     audio.Show_Audio()
                 elif Display_Button.rect.collidepoint(event.pos):
                     display.show_display()  # Open display settings
-                elif Controls_Button.rect.collidepoint(event.pos):
+                elif Tutorial_Button.rect.collidepoint(event.pos):
                     controls.show_controls()  # Open controls settings
                 elif Back_Button.rect.collidepoint(event.pos):
                     Back_Button.ReturnTo()
