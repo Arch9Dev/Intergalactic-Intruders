@@ -3,6 +3,7 @@ from play import show_play
 from main import main_menu
 from intro  import show_intro
 from levels import show_levels
+from controls import show_controls
 
 
 class pagelist():
@@ -20,6 +21,8 @@ class pagelist():
             show_intro()
         elif self.PageName == "LEVELS":
             show_levels()
+        elif self.PageName == "CONTROLS":
+            show_controls()
       
 
   

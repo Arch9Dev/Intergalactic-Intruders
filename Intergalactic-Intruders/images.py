@@ -23,7 +23,7 @@ def load_tutorial_image():
 def load_controls_image():
     controls_image_path = os.path.join("Intergalactic-Intruders", "images", "controls.png")
     controls_image = pygame.image.load(controls_image_path)
-    return pygame.transform.scale(controls_image, (600, 400))
+    return pygame.transform.scale(controls_image, (1000, 800))
 
 
 # Load settings image
@@ -31,13 +31,19 @@ def load_settings_image():
     settings_image_path = os.path.join("Intergalactic-Intruders", "images", "Settings.png")
     settings_image = pygame.image.load(settings_image_path)
     return pygame.transform.scale(settings_image, (1000, 800))
+# Load Gameplay Image 
+def load_gameplay_image():
+    Gameplay_image_path = os.path.join("Intergalactic-Intruders", "images", "GamePlay.png")
+    Gameplay_image = pygame.image.load(Gameplay_image_path)
+    return pygame.transform.scale(Gameplay_image, (1000, 800))
 
-# Load Audio Page 
+
 def load_audio_title():
     audio_title_path = os.path.join("Intergalactic-Intruders", "images", "AudioBG.png")
     audio_title = pygame.image.load(audio_title_path)
     return pygame.transform.scale(audio_title, (1000, 800))
 
+ 
 def load_background_image():
     newBG_path = os.path.join("Intergalactic-Intruders", "images", "NewBG.png")
     newBG_image = pygame.image.load(newBG_path)
@@ -48,3 +54,9 @@ def load_intro_image():
     intro_image_path = os.path.join("Intergalactic-Intruders", "images", "intro.png")
     intro_image = pygame.image.load(intro_image_path)
     return pygame.transform.scale(intro_image, (1000, 800))
+
+
+def load_gamewin_image():
+    gamewin_image_path = os.path.join("Intergalactic-Intruders", "images", "Gamewin.png")
+    gamewin_image = pygame.image.load(gamewin_image_path)
+    return pygame.transform.scale(gamewin_image, (1000, 800))
