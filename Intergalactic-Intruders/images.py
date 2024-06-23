@@ -37,7 +37,13 @@ def load_gameplay_image():
     Gameplay_image = pygame.image.load(Gameplay_image_path)
     return pygame.transform.scale(Gameplay_image, (1000, 800))
 
-# Load Background Image
+
+def load_audio_title():
+    audio_title_path = os.path.join("Intergalactic-Intruders", "images", "AudioBG.png")
+    audio_title = pygame.image.load(audio_title_path)
+    return pygame.transform.scale(audio_title, (1000, 800))
+
+ 
 def load_background_image():
     newBG_path = os.path.join("Intergalactic-Intruders", "images", "NewBG.png")
     newBG_image = pygame.image.load(newBG_path)
