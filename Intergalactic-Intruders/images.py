@@ -32,7 +32,11 @@ def load_settings_image():
     settings_image = pygame.image.load(settings_image_path)
     return pygame.transform.scale(settings_image, (1000, 800))
 
-
+# Load Audio Page 
+def load_audio_title():
+    audio_title_path = os.path.join("Intergalactic-Intruders", "images", "AudioBG.png")
+    audio_title = pygame.image.load(audio_title_path)
+    return pygame.transform.scale(audio_title, (1000, 800))
 
 def load_background_image():
     newBG_path = os.path.join("Intergalactic-Intruders", "images", "NewBG.png")
