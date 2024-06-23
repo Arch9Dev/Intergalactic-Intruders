@@ -127,7 +127,8 @@ INTRO_IMAGE = images.load_intro_image()
 
 # Load settings image
 SETTINGS_IMAGE = images.load_settings_image()
-
+# Load Gameplay Image
+GAMEPLAY_IMAGE = images.load_gameplay_image()
 # Load controls image
 CONTROLS_IMAGE = images.load_controls_image()
 
