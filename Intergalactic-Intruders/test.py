@@ -5,8 +5,10 @@ import sounds
 import os
 import GameOver
 import constants
+import Gamewin
 import settings
 import main
+
 from PIL import Image, ImageSequence
 
 def show_test():
@@ -631,6 +633,10 @@ def show_test():
                     if health > 0:
                         Screen.blit(barrier_image[health], (barrier[0], barrier[1]))
                 # All done with collisino 
+
+                if (len(Invader_X) <= 0):
+                    Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+                    Gamewin.show_GameWin(Accuracy, Frames, current_time, Score_val)
 
         # now just rendering stuff every frame
         Player(Player_X, Player_Y)
