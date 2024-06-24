@@ -1,7 +1,7 @@
 import pygame
 import constants
 import audio
-
+from test import show_test # type: ignore
 import display
 import controls
 
@@ -12,10 +12,13 @@ def show_settings():
     if constants.FULLSCREEN :
        if pygame.display.is_fullscreen() == False:
             pygame.display.toggle_fullscreen()
+    Return_Page = "main"
     Audio_Button = constants.Button("AUDIO",0,0,0,0,constants.Colour_Palettes["Green_Buttons"])
     Display_Button = constants.Button("DISPLAY",0,Audio_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
     Tutorial_Button = constants.Button("TUTORIAL",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
-    Back_Button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"Main")
+    if constants.paused:
+        Return_Page = "Paused"
+    Back_Button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],F"{Return_Page}")
     Settings_Buttons = [Audio_Button,Display_Button,Tutorial_Button,Back_Button]
     settings_running = True
 

@@ -36,8 +36,9 @@ def show_display():
                 if Slider.Slider_Thumb_Rect.collidepoint(event.pos):
                     Slider.Dragging =True
                 if fullscreen_Button.rect.collidepoint(event.pos):
-                    pygame.display.toggle_fullscreen()
-                    constants.FULLSCREEN = pygame.display.is_fullscreen()
+                   # pygame.display.toggle_fullscreen()
+                    #constants.FULLSCREEN = pygame.display.is_fullscreen()
+                    pass
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
             if event.type == pygame.MOUSEBUTTONUP:
