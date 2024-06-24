@@ -9,7 +9,9 @@ def show_settings():
     pygame.init()
     screen = constants.screen
     pygame.display.set_caption("SETTINGS")
-    
+    if constants.FULLSCREEN :
+       if pygame.display.is_fullscreen() == False:
+            pygame.display.toggle_fullscreen()
     Audio_Button = constants.Button("AUDIO",0,0,0,0,constants.Colour_Palettes["Green_Buttons"])
     Display_Button = constants.Button("DISPLAY",0,Audio_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])
     Tutorial_Button = constants.Button("TUTORIAL",0,Display_Button.rect.y,0,0,constants.Colour_Palettes["Green_Buttons"])

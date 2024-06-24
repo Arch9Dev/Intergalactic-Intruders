@@ -12,7 +12,9 @@ def main_menu():
     # Create the main menu screen
     screen = constants.screen
     pygame.display.set_caption("MAIN MENU")
-
+    if constants.FULLSCREEN :
+       if pygame.display.is_fullscreen() == False:
+            pygame.display.toggle_fullscreen()
     # Buttons
     play_button = constants.Button( "PLAY", 0, 0,0,0, constants.Colour_Palettes["Green_Buttons"])
     intro_button = constants.Button( "INTRO", 0,  play_button.rect.y,0,0, constants.Colour_Palettes["Green_Buttons"])

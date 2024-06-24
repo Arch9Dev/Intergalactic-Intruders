@@ -5,8 +5,10 @@ import sounds
 import os
 import GameOver
 import constants
+import Gamewin
 import settings
 import main
+
 from PIL import Image, ImageSequence
 
 def show_test():
@@ -14,7 +16,10 @@ def show_test():
     Screen_Width = 800
     Screen_Height = 1000
     os.environ['SDL_VIDEO_CENTERED'] = '1'
-    Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
+    Screen = pygame.display.set_mode((Screen_Width,Screen_Height),pygame.SCALED)
+    if constants.FULLSCREEN :
+       if pygame.display.is_fullscreen() == False:
+            pygame.display.toggle_fullscreen()
     
     background_image = pygame.image.load('Intergalactic-Intruders/images/gameback1.png')
     Pause_X = Screen_Width / 2 - 110
@@ -468,7 +473,7 @@ def show_test():
                     elif main_menu_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
                         Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
                         main.main_menu()
-                        
+
 
             # Game logic and update stuff
             else:
@@ -633,6 +638,10 @@ def show_test():
                     if health > 0:
                         Screen.blit(barrier_image[health], (barrier[0], barrier[1]))
                 # All done with collisino 
+
+                if (len(Invader_X) <= 0):
+                    Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+                    Gamewin.show_GameWin(Accuracy, Frames, current_time, Score_val)
 
         # now just rendering stuff every frame
         Player(Player_X, Player_Y)
