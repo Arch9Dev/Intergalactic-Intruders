@@ -305,27 +305,33 @@ def show_test():
         return player_rect.colliderect(powerup_rect)
 
     def apply_powerup(powerup_type):
-        global Player_Health, Bullet_Ychange, Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange, bullet_damage, barriers, Timer_ShotPower, Timer_BulletSpeed, Timer_MoveSpeed
+        global Player_Health, Bullet_Ychange, Player_Xchange, Player_Ychange, bullet_damage, barriers, Timer_ShotPower, Timer_BulletSpeed, Timer_MoveSpeed
         sounds.play_powerup
+        print('apply powerup')
         if powerup_type == "ShotPower":
+            print('shot power')
             bullet_damage = Original_Bullet_damage
             bullet_damage *= 2
             Timer_ShotPower = pygame.time.get_ticks() + 10000
         elif powerup_type == "ShieldRegen":
+            print('shield')
             barriers = [
                 [(Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
                 [(Screen_Width - (barrier_width * 3))/4 + barrier_width + (Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
                 [(Screen_Width - (barrier_width * 3))/4 + 2 * (barrier_width + (Screen_Width - (barrier_width * 3))/4), barrier_y, barrier_health]
             ]
         elif powerup_type == "MoveSpeed":
-            Original_Player_Xchange = Player_Xchange
-            Original_Player_Ychange = Player_Ychange
+            print('move speed')
+            Player_Xchange = Original_Player_Xchange
+            Player_Ychange = Original_Player_Ychange
             Player_Xchange *= 2
             Player_Ychange *= 2
             Timer_MoveSpeed = pygame.time.get_ticks() + 10000
         elif powerup_type == "HealthUp":
+            print('health')
             Player_Health += 3 - Player_Health
         elif powerup_type == "BulletSpeed":
+            print('bullet speed')
             Bullet_Ychange = Original_Bullet_Ychange
             Bullet_Ychange *= 2
             Timer_BulletSpeed = pygame.time.get_ticks() + 10000
@@ -333,9 +339,9 @@ def show_test():
     def draw_powerups():
         for powerup in active_powerups:
             Screen.blit(powerup[0], (powerup[1], powerup[2]))
-
+    
     def remove_powerup(powerup_type):
-        global Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange, Bullet_Ychange, Original_Bullet_Ychange, bullet_damage
+        global Player_Xchange, Player_Ychange, Bullet_Ychange, Original_Bullet_Ychange, bullet_damage
         if powerup_type == "MoveSpeed":
             Player_Xchange = Original_Player_Xchange
             Player_Ychange = Original_Player_Ychange
@@ -354,7 +360,7 @@ def show_test():
         if (hi == 'ShotPower'):
             if Timer_ShotPower <= pygame.time.get_ticks():
                 return True
-
+    
     def display_powerup_icons():
         if Timer_BulletSpeed >= pygame.time.get_ticks():
             Screen.blit(pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png'), (Screen_Width * 0.95, Screen_Height * 0.005))
@@ -530,7 +536,6 @@ def show_test():
                         bullet[1] += InvBullet_Ychange
                         if bullet[1] >= Screen_Height:
                             Invader_Bullets[i].remove(bullet)
-                            print('bullet removed ', i)
 
                 # Plyer bullet boundry
                 if Bullet_Y <= 0:
@@ -549,6 +554,7 @@ def show_test():
                     else:
                         powerup_rect = pygame.Rect(x, y, powerup_image.get_width(), powerup_image.get_height())
                         if isCollision_PlayerPowerup(player_rect, powerup_rect):
+                            print('powerup collision')
                             apply_powerup(powerup_type)
                             active_powerups.remove(powerup)
                         else:
@@ -558,6 +564,7 @@ def show_test():
                     if powerup_expired(powerup):
                         remove_powerup(powerup[3])
                         active_powerups.remove(powerup)
+                        print('powerup removed ', powerup)
 
                 # Collision stuff for a while
                 for i in range(len(Invader_X)):
@@ -570,7 +577,7 @@ def show_test():
                         BulletStaet = "rest"
                         Invader_Health[i] -= bullet_damage
                         if Invader_Health[i] <= 0:
-                            if random.randint(1, 5) == 1:
+                            if random.randint(1, 1) == 1:
                                 spawn_powerup(Invader_X[i], Invader_Y[i])
                             Invader_X.pop(i)
                             Invader_Y.pop(i)
@@ -615,7 +622,6 @@ def show_test():
                             if isCollision_Barrier(bullet[0], bullet[1], barrier_rect):
                                 Invader_Bullets[i].remove(bullet)
                                 barrier[2] -= 1
-                                print(barrier[2])
                                 if barrier[2] <= 0:
                                     barriers.remove(barrier)
                                     sounds.play_barrierdestroyed()
