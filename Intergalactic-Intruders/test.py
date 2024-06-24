@@ -175,15 +175,6 @@ Timer_ShotPower = 0
 Timer_MoveSpeed = 0
 Timer_BulletSpeed = 0
 
-# Sound stuff
-pygame.mixer.init()
-Sound_InvaderDie = pygame.mixer.Sound('Sounds\AlienDeath.wav')
-Sound_BarrierDestroy = pygame.mixer.Sound('Sounds\BarrierDestroyed.wav')
-Sound_PlayerShoot = pygame.mixer.Sound('Sounds\GunShot.wav')
-Sound_PlayerHit = pygame.mixer.Sound('Sounds\PlayerHit.wav')
-Sound_PowerUP = pygame.mixer.Sound('Sounds\PowerUP.wav')
-pygame.mixer.music.load('Sounds\SpaceAmbience.wav')
-pygame.mixer.music.play(loops = -1)
 
 # ---------------------------------
 #            FUNCTIONS
@@ -278,7 +269,6 @@ def game_over_menu():
 def player_hit():
     global Player_Health, Running
     Player_Health -= 1
-    Sound_PlayerHit.play()
     if Player_Health <= 0:
         action = game_over_menu()
         if action == "retry":
@@ -299,7 +289,6 @@ def isCollision_PlayerPowerup(player_rect, powerup_rect):
 
 def apply_powerup(powerup_type):
     global Player_Health, Bullet_Ychange, Player_Xchange, Player_Ychange, Original_Player_Xchange, Original_Player_Ychange, bullet_damage, barriers, Timer_ShotPower, Timer_BulletSpeed, Timer_MoveSpeed
-    Sound_PowerUP.play()
     if powerup_type == "ShotPower":
         bullet_damage = Original_Bullet_damage
         bullet_damage *= 2
@@ -433,7 +422,6 @@ while Running:
                             Bullet_Y = Player_Y
                             Bullet(Bullet_X, Bullet_Y)
                             Shots_Taken += 1
-                            Sound_PlayerShoot.play()
                         
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -567,7 +555,6 @@ while Running:
                         Invader_Xchange.pop(i)
                         Invader_Rangom.pop(i)
                         last_shot_times.pop(i)
-                        Sound_InvaderDie.play()
                         break
 
             for i in range(len(Invader_X) - 1, -1, -1):
@@ -576,7 +563,6 @@ while Running:
                     barrier_rect = pygame.Rect(barrier[0], barrier[1], barrier_width, barrier_height)
                     if invader_rect.colliderect(barrier_rect):
                         barriers.remove(barrier)
-                        Sound_BarrierDestroy.play()
                         Invader_Health[i] = 0
                         if Invader_Health[i] <= 0:
                             Invader_X.pop(i)
@@ -584,7 +570,6 @@ while Running:
                             Invader_Xchange.pop(i)
                             Invader_Rangom.pop(i)
                             last_shot_times.pop(i)
-                            Sound_InvaderDie.play()
                         break
 
             player_rect = pygame.Rect(Player_X, Player_Y, *player_hitbox)
@@ -607,7 +592,6 @@ while Running:
                             print(barrier[2])
                             if barrier[2] <= 0:
                                 barriers.remove(barrier)
-                                Sound_BarrierDestroy.play()
                             break
 
             for barrier in barriers:
