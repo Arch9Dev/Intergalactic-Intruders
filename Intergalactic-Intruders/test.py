@@ -14,7 +14,9 @@ def show_test():
     Screen_Width = 800
     Screen_Height = 1000
     os.environ['SDL_VIDEO_CENTERED'] = '1'
-    Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
+    Screen = pygame.display.set_mode((Screen_Width,Screen_Height),pygame.SCALED)
+    if constants.FULLSCREEN :
+        pygame.display.toggle_fullscreen()
     
     background_image = pygame.image.load('Intergalactic-Intruders/images/gameback1.png')
     Pause_X = Screen_Width / 2 - 110

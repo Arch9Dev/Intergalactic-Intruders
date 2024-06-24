@@ -14,7 +14,10 @@ pygame.init()
 # SCREEN
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 800
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+GAMMA = 1.0
+FULLSCREEN = False
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.SCALED)
+
 
 BACKGROUND_IMAGE = images.load_background_image()
 NEWBG = images.load_background_image()
@@ -509,7 +512,108 @@ class sliderlist:
             Slider.draw()
 
 
+class Gammer_Slider :
+    def __init__(self,Slider_Pos_X : float,Slider_Pos_Y : float) :
+        #Needed Var's
+        self.screen = screen
+        self.Dragging = False
+        self.Label_Text = "GAMMA"
+        self.Gamma_value = GAMMA
+        self.Hovering_Slider_Track = False
+        self.Slider_Track_Thickness = 12
+        self.Slider_Track_Length = 400
+        #Colours
+        self.Slider_Colours ={
+            "Colour_Slider_Track" : {
+                "NORMAL": {"FillTrack": GREY, "BackTrack":BLACK},
+                "HOVERING":{"FillTrack": WHITE, "BackTrack":BLACK},
+            },
+            "Colour_Slider_Thumb" : {
+                "NORMAL": {"Center":BLACK,"Ring":WHITE},
+                "DRAGGING":{"Center":WHITE,"Ring":BLACK},
+            },
+            "Background_Box":  BLUE_LIGHT,
+        }
+        #label
+        self.Label = FONT.render(self.Label_Text,True,BLACK)
+        Label_Gap_X = self.Label.get_width()+50
+        Label_Gap_Y = self.Label.get_height() / 2
+        self.Label_POS = (Slider_Pos_X - Label_Gap_X, Slider_Pos_Y - Label_Gap_Y  ) 
+        #background Box
+        BackgroundBox_TopLeft = (self.Label_POS[0],self.Label_POS[1])
+        BackgroundBox_WidthHeight =( self.Slider_Track_Length + 50 + self.Label.get_width() ,self.Label.get_height())
+        self.BackgroundBox  = pygame.Rect(BackgroundBox_TopLeft,BackgroundBox_WidthHeight).inflate(22,19)
+        
+        #Slider Track
+        Slider_Track_TopLeft  = (Slider_Pos_X - 15, self.BackgroundBox.centery - self.Slider_Track_Thickness  /2 )
+        Slider_Track_WidthHeight =( self.Slider_Track_Length, self.Slider_Track_Thickness)
+        self.Slider_Track_Rect  = pygame.Rect(Slider_Track_TopLeft ,Slider_Track_WidthHeight)        
+        self.SLIDER_Track_POS = [self.Slider_Track_Rect.x,self.Slider_Track_Rect.y] 
+        
+        #Slider_Thumb
+        self.Slider_Thumb_Radius =  self.Slider_Track_Thickness
+        Slider_Thumb_X =  Slider_Pos_X + self.Gamma_value * self.Slider_Track_Length
+        Slider_Thumb_Y =  self.Slider_Track_Rect.centery
+        Slider_Thumb_Rect_TopLeft =(Slider_Thumb_X-self.Slider_Thumb_Radius,Slider_Pos_Y-self.Slider_Thumb_Radius,)
+        Slider_Thumb_Rect_WidthHeight = (self.Slider_Thumb_Radius*2, self.Slider_Thumb_Radius*2)
+        self.Slider_Thumb_Rect = pygame.Rect(Slider_Thumb_Rect_TopLeft,Slider_Thumb_Rect_WidthHeight)        
+        self.Slider_Thumb_Pos = (Slider_Thumb_X,Slider_Thumb_Y)
+        #Slider Track Fill  
+        Slider_Track_Fill_TopLeft = self.SLIDER_Track_POS[0],self.SLIDER_Track_POS[1]
+        Slider_Track_Fill_WidthHeight = (self.Slider_Thumb_Rect.centerx-self.SLIDER_Track_POS[0], self.Slider_Track_Rect.height)
+        self.Slider_Track_Fill_Rect = pygame.Rect(Slider_Track_Fill_TopLeft,Slider_Track_Fill_WidthHeight)
+        
+    def Drag(self, POS):
+        
+        self.Drag_Pos = [POS[0],POS[1]]
+        # volume
+        self.Gamma_value = (self.Drag_Pos[0]-(self.SLIDER_Track_POS[0] )) / self.Slider_Track_Length
+        self.Gamma_value = max(0,min(1,self.Gamma_value))
+        # Slider_Thumb
+        self.Slider_Thumb_Pos = (int(self.SLIDER_Track_POS[0] +  self.Gamma_value/2 * self.Slider_Track_Length ), self.Slider_Track_Rect.centery)
+        Slider_Thumb_Rect_POSX = (self.Slider_Thumb_Pos[0]-self.Slider_Thumb_Radius,self.Slider_Thumb_Pos[1]-self.Slider_Thumb_Radius)
+        Slider_Thumb_Rect_POSY = (self.Slider_Thumb_Radius*2, self.Slider_Thumb_Radius*2)
+        self.Slider_Thumb_Rect = pygame.Rect(Slider_Thumb_Rect_POSX ,Slider_Thumb_Rect_POSY)
+        #Slider Track Fill  
+        Slider_Track_Fill_TopLeft = self.SLIDER_Track_POS[0],self.SLIDER_Track_POS[1]
+        Slider_Track_Fill_WidthHeight = (self.Slider_Thumb_Rect.centerx-self.SLIDER_Track_POS[0], self.Slider_Track_Rect.height)
+        self.Slider_Track_Fill_Rect = pygame.Rect(Slider_Track_Fill_TopLeft,Slider_Track_Fill_WidthHeight)
 
+        #sets the gamma 
+        pygame.display.set_gamma(self.Gamma_value)
+
+    def draw(self):
+
+        Colour_Slider_Thumb = self.Slider_Colours["Colour_Slider_Thumb"]
+        Colour_Slider_Track = self.Slider_Colours["Colour_Slider_Track"]
+        Colour_Background = self.Slider_Colours["Background_Box"]
+
+        def Draw_SliderBar(Hovered : bool):
+            if Hovered:
+                pygame.draw.rect(self.screen,Colour_Slider_Track["HOVERING"]["BackTrack"],self.Slider_Track_Rect,border_radius=10)
+                pygame.draw.rect(self.screen,Colour_Slider_Track["HOVERING"]["FillTrack"],self.Slider_Track_Fill_Rect,border_radius=10)
+            else:
+                pygame.draw.rect(self.screen,Colour_Slider_Track["NORMAL"]["BackTrack"],self.Slider_Track_Rect,border_radius=10)            
+                pygame.draw.rect(self.screen,Colour_Slider_Track["NORMAL"]["FillTrack"],self.Slider_Track_Fill_Rect,border_radius=10)
+        def Draw_Slider_Thumb(Dragging : bool,):
+            if Dragging:
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["DRAGGING"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["DRAGGING"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
+            else:
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["NORMAL"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["NORMAL"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
+        def Draw_BackgroundBox():
+                pygame.draw.rect(self.screen,Colour_Background,self.BackgroundBox,border_radius=7)
+        def Draw_Label():
+            self.screen.blit(self.Label,self.Label_POS)
+
+        Draw_BackgroundBox()
+        Draw_Label()
+        Draw_SliderBar(self.Hovering_Slider_Track)
+        Draw_Slider_Thumb(self.Dragging)
+
+
+        
 
 def InvertColour(IN_Colour : Colour):
     Out_Colour  = ((255 - IN_Colour[0]),(255 -IN_Colour[1]),(255 -IN_Colour[2]))
@@ -518,7 +622,7 @@ def InvertColour(IN_Colour : Colour):
 class TitleLabel:
     def __init__(self, Center_XY : Coords, Fontsize : int,Text : str,Text_Colour: Colour,AA :bool, Background :bool):
         Label_Font = load_immermann_font(Fontsize)
-        self.Label = Label_Font.render(Text,AA,Text_Colour)
+        self.Label = Label_Font.render(Text,1,Text_Colour)
         self.Text_Colour = Text_Colour
         self.LabelRect = self.Label.get_rect(center = Center_XY)
         self.Has_Background = Background
