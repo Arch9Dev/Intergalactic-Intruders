@@ -467,15 +467,13 @@ def show_test():
                     if resume_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
                         paused = False
                     elif settings_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
-                       # Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)) 
-                        constants.ResetScreen()
-                        main.main_menu()
-                       
-                    elif main_menu_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
-                        #Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-                        constants.ResetScreen()
-
+                        Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
                         settings.show_settings()
+                        paused = True
+                    elif main_menu_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
+                        Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+                        main.main_menu()
+
 
             # Game logic and update stuff
             else:
