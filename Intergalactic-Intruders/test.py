@@ -122,8 +122,7 @@ def show_test(Time_trial, level, Difficulty):
     Player_Health = 3
     Player_Xchange = 0
     Player_Ychange = 0
-    Original_Player_Xchange = Screen_Width * 0.002125
-    Original_Player_Ychange = Screen_Height * 0.0017
+    MoveUP = 1
 
     # Player Bullet stuff
     BulletImag = pygame.image.load('Intergalactic-Intruders/images/PlayerBullet.png')
@@ -332,12 +331,9 @@ def show_test(Time_trial, level, Difficulty):
         ]
         
     def MoveSpeed():
-        global Player_Xchange, Player_Ychange, Timer_MoveSpeed
+        global Timer_MoveSpeed
         print('move speed')
-        Player_Xchange = Original_Player_Xchange
-        Player_Ychange = Original_Player_Ychange
-        Player_Xchange *= 2
-        Player_Ychange *= 2
+        MoveUP = 2
         Timer_MoveSpeed = pygame.time.get_ticks() + 10000
         
     def Health():
@@ -355,12 +351,11 @@ def show_test(Time_trial, level, Difficulty):
     def draw_powerups():
         for powerup in active_powerups:
             Screen.blit(powerup[0], (powerup[1], powerup[2]))
-    
+    '''
     def remove_powerup(powerup_type):
-        global Player_Xchange, Player_Ychange, Bullet_Ychange, Original_Bullet_Ychange, bullet_damage
+        global Player_Xchange, Player_Ychange, Bullet_Ychange, Original_Bullet_Ychange, bullet_damage, MoveUP
         if powerup_type == "MoveSpeed":
-            Player_Xchange = Original_Player_Xchange
-            Player_Ychange = Original_Player_Ychange
+            MoveUP= 1
         if powerup_type == "BulletSpeed":
             Bullet_Ychange = Original_Bullet_Ychange
         if powerup_type == "ShotPower":
@@ -379,7 +374,7 @@ def show_test(Time_trial, level, Difficulty):
             if Timer_ShotPower <= pygame.time.get_ticks():
                 print('shotpower expired')
                 return True
-    
+    '''
     def display_powerup_icons():
         if Timer_BulletSpeed >= pygame.time.get_ticks():
             Screen.blit(pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png'), (Screen_Width * 0.95, Screen_Height * 0.005))
@@ -447,9 +442,9 @@ def show_test(Time_trial, level, Difficulty):
                         paused = not paused
                     if paused == False:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                            Player_Xchange = -1.7
+                            Player_Xchange = -1.7 * MoveUP
                         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                            Player_Xchange = 1.7
+                            Player_Xchange = 1.7 * MoveUP
                         if event.key == pygame.K_UP or event.key == pygame.K_w:
                             Player_Ychange = -1.7
                         if event.key == pygame.K_DOWN or event.key == pygame.K_s:
@@ -578,13 +573,13 @@ def show_test(Time_trial, level, Difficulty):
                             active_powerups.remove(powerup)
                         else:
                             active_powerups[active_powerups.index(powerup)] = (powerup_image, x, y, powerup_type)
-
+                '''
                 for powerup in active_powerups[:]:
                     if powerup_expired(powerup):
                         remove_powerup(powerup[3])
                         active_powerups.remove(powerup)
                         print('powerup removed ', powerup)
-
+                '''
                 # Collision stuff for a while
                 for i in range(len(Invader_X)):
                     collision = isCollision_PlayerBullet(Bullet_X, Invader_X[i], Bullet_Y, Invader_Y[i])
