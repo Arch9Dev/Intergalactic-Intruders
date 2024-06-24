@@ -17,7 +17,7 @@ SCREEN_HEIGHT = 800
 GAMMA = 1.0
 FULLSCREEN = False
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.SCALED)
-
+paused = False
 def ResetScreen():
     pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.SCALED)
 

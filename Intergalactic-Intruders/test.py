@@ -16,7 +16,7 @@ def show_test():
     Screen_Width = 800
     Screen_Height = 1000
     os.environ['SDL_VIDEO_CENTERED'] = '1'
-    Screen = pygame.display.set_mode((Screen_Width,Screen_Height),pygame.SCALED)
+    Screen = pygame.display.set_mode((Screen_Width,Screen_Height))
     if constants.FULLSCREEN :
        if pygame.display.is_fullscreen() == False:
             pygame.display.toggle_fullscreen()
@@ -424,6 +424,7 @@ def show_test():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     Running = False
+                    pygame.quit()
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_ESCAPE:
                         paused = not paused
@@ -468,12 +469,13 @@ def show_test():
                         paused = False
                     elif settings_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
                         Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+                        constants.paused = True
                         settings.show_settings()
                         paused = True
                     elif main_menu_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
                         Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
                         main.main_menu()
-
+            
 
             # Game logic and update stuff
             else:
