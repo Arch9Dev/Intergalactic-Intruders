@@ -7,7 +7,10 @@ import GameOver
 import constants
 from PIL import Image, ImageSequence
 
-def show_test(Time_trial, level, Difficulty):
+def show_test():
+    Time_trial = False
+    level = 1
+    Difficulty = 1
     pygame.init()
     Screen_Width = 800
     Screen_Height = 1000
@@ -88,6 +91,7 @@ def show_test(Time_trial, level, Difficulty):
     barrier_width = Screen_Width * 0.21875
     barrier_height = Screen_Height * 0.075
     barrier_y = Screen_Height * 0.65
+    global barriers
     barriers = [
         [(Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
         [(Screen_Width - (barrier_width * 3))/4 + barrier_width + (Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
@@ -133,9 +137,11 @@ def show_test(Time_trial, level, Difficulty):
     Bullet_Xchange = 0
     global Original_Bullet_Ychange
     Original_Bullet_Ychange = Screen_Height * 0.006
+    global Bullet_Ychange
     Bullet_Ychange = Screen_Height * 0.006
     BulletStaet = "rest"
     bullet_hitbox = (BulletImag.get_width(), BulletImag.get_height())
+    global bullet_damage
     bullet_damage = 1
     Original_Bullet_damage = 1
 
@@ -178,6 +184,9 @@ def show_test(Time_trial, level, Difficulty):
         "BulletSpeed": pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png')
     }
     active_powerups = []
+    global Timer_ShotPower
+    global Timer_MoveSpeed
+    global Timer_BulletSpeed
     Timer_ShotPower = 0
     Timer_MoveSpeed = 0
     Timer_BulletSpeed = 0
