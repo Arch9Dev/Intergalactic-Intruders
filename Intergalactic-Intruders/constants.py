@@ -18,6 +18,9 @@ GAMMA = 1.0
 FULLSCREEN = False
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.SCALED)
 
+def ResetScreen():
+    pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.SCALED)
+
 
 BACKGROUND_IMAGE = images.load_background_image()
 NEWBG = images.load_background_image()
@@ -451,14 +454,14 @@ class Slider :
 
         def Draw_Slider_Thumb(Muted : bool,Dragging : bool,):
             if Muted:
-                pygame.draw.circle(screen,Colour_Slider_Thumb["MUTED"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
-                pygame.draw.circle(screen,Colour_Slider_Thumb["MUTED"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["MUTED"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["MUTED"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
             elif Dragging:
-                pygame.draw.circle(screen,Colour_Slider_Thumb["DRAGGING"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
-                pygame.draw.circle(screen,Colour_Slider_Thumb["DRAGGING"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["DRAGGING"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["DRAGGING"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
             else:
-                pygame.draw.circle(screen,Colour_Slider_Thumb["NORMAL"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
-                pygame.draw.circle(screen,Colour_Slider_Thumb["NORMAL"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["NORMAL"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
+                pygame.draw.circle(self.screen,Colour_Slider_Thumb["NORMAL"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
         def Draw_BackgroundBox(Muted : bool):
             if Muted :
                 pygame.draw.rect(self.screen,Colour_Background["MUTED"],self.BackgroundBox,border_radius=7)
@@ -570,7 +573,7 @@ class Gammer_Slider :
         self.Gamma_value = (self.Drag_Pos[0]-(self.SLIDER_Track_POS[0] )) / self.Slider_Track_Length
         self.Gamma_value = max(0,min(1,self.Gamma_value))
         # Slider_Thumb
-        self.Slider_Thumb_Pos = (int(self.SLIDER_Track_POS[0] +  self.Gamma_value/2 * self.Slider_Track_Length ), self.Slider_Track_Rect.centery)
+        self.Slider_Thumb_Pos = (int(self.SLIDER_Track_POS[0] +  self.Gamma_value * self.Slider_Track_Length ), self.Slider_Track_Rect.centery)
         Slider_Thumb_Rect_POSX = (self.Slider_Thumb_Pos[0]-self.Slider_Thumb_Radius,self.Slider_Thumb_Pos[1]-self.Slider_Thumb_Radius)
         Slider_Thumb_Rect_POSY = (self.Slider_Thumb_Radius*2, self.Slider_Thumb_Radius*2)
         self.Slider_Thumb_Rect = pygame.Rect(Slider_Thumb_Rect_POSX ,Slider_Thumb_Rect_POSY)
@@ -603,7 +606,7 @@ class Gammer_Slider :
                 pygame.draw.circle(self.screen,Colour_Slider_Thumb["NORMAL"]["Ring"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius)
                 pygame.draw.circle(self.screen,Colour_Slider_Thumb["NORMAL"]["Center"],self.Slider_Thumb_Pos,self.Slider_Thumb_Radius*0.7)
         def Draw_BackgroundBox():
-                pygame.draw.rect(self.screen,Colour_Background,self.BackgroundBox,border_radius=7)
+                pygame.draw.rect(self.screen,Colour_Background,self.BackgroundBox.inflate(20,0),border_radius=7)
         def Draw_Label():
             self.screen.blit(self.Label,self.Label_POS)
 

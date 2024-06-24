@@ -5,13 +5,13 @@ def show_display():
     pygame.init()
     screen = constants.screen
     pygame.display.set_caption("DISPLAY")
-    fullscreen_Button = constants.Button("FULL SCREEN",screen.get_width()/7,screen.get_height()/7,0,0,constants.Colour_Palettes["Green_Buttons"])
+    fullscreen_Button = constants.Button("FULL SCREEN",screen.get_width()/2-100,screen.get_height()/7*5,0,0,constants.Colour_Palettes["Green_Buttons"])
 
     Back_button = constants.BackButton(constants.Colour_Palettes["Red_Buttons"],"Settings")
     Display_Buttons =[Back_button,fullscreen_Button]
     display_running = True
 
-    Slider= constants.Gammer_Slider(screen.get_width()/2,screen.get_height()/5)
+    Slider= constants.Gammer_Slider(screen.get_width()/2-100,screen.get_height()/5*3)
     while display_running:
         screen.blit(constants.BACKGROUND_IMAGE, (0,0))
                     
@@ -37,7 +37,7 @@ def show_display():
                     Slider.Dragging =True
                 if fullscreen_Button.rect.collidepoint(event.pos):
                     pygame.display.toggle_fullscreen()
-                    constants.FULLSCREEN = True
+                    constants.FULLSCREEN = pygame.display.is_fullscreen()
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
             if event.type == pygame.MOUSEBUTTONUP:
