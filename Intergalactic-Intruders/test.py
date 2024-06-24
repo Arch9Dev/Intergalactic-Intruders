@@ -7,7 +7,7 @@ import GameOver
 import constants
 from PIL import Image, ImageSequence
 
-def show_test():
+def show_test(Time_trial, level, Difficulty):
     pygame.init()
     Screen_Width = 800
     Screen_Height = 1000
@@ -23,17 +23,13 @@ def show_test():
     main_menu_button = constants.Button("Main Menu",Pause_X, Pause_Y+100,20,0,constants.Colour_Palettes["Red_Buttons"])
     PauseButtons =[resume_button,settings_button,main_menu_button]
     
-    level = 1
     clock = pygame.time.Clock()
     last_time_check = pygame.time.get_ticks()
     Time_Difficulty = 1
-    Difficulty = 0.75 # 1 default, +/-0.5 for easy/hard respectively
     Frames = 180
-    Time_trial = 'false' # true or false for time trial
-    InvaderCount = 10 * level # max invaders that can spawn, max on screen for time trial
-    Max_Invaders_YN = 'false'
+    InvaderCount = 10 * level * Time_Difficulty # max invaders that can spawn, max on screen for time trial
+    Max_Invaders_YN = False
     Current_Invaders = 0
-    
     
     
     # Animation stuff
@@ -188,6 +184,7 @@ def show_test():
     Timer_BulletSpeed = 0
 
 
+
     # ---------------------------------
     #            FUNCTIONS
     # ---------------------------------
@@ -305,36 +302,55 @@ def show_test():
         return player_rect.colliderect(powerup_rect)
 
     def apply_powerup(powerup_type):
-        global Player_Health, Bullet_Ychange, Player_Xchange, Player_Ychange, bullet_damage, barriers, Timer_ShotPower, Timer_BulletSpeed, Timer_MoveSpeed
         sounds.play_powerup
         print('apply powerup')
         if powerup_type == "ShotPower":
-            print('shot power')
-            bullet_damage = Original_Bullet_damage
-            bullet_damage *= 2
-            Timer_ShotPower = pygame.time.get_ticks() + 10000
+            ShotPower()
         elif powerup_type == "ShieldRegen":
-            print('shield')
-            barriers = [
-                [(Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
-                [(Screen_Width - (barrier_width * 3))/4 + barrier_width + (Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
-                [(Screen_Width - (barrier_width * 3))/4 + 2 * (barrier_width + (Screen_Width - (barrier_width * 3))/4), barrier_y, barrier_health]
-            ]
+            ShieldRegen()
         elif powerup_type == "MoveSpeed":
-            print('move speed')
-            Player_Xchange = Original_Player_Xchange
-            Player_Ychange = Original_Player_Ychange
-            Player_Xchange *= 2
-            Player_Ychange *= 2
-            Timer_MoveSpeed = pygame.time.get_ticks() + 10000
+            MoveSpeed()
         elif powerup_type == "HealthUp":
-            print('health')
-            Player_Health += 3 - Player_Health
+            Health()
         elif powerup_type == "BulletSpeed":
-            print('bullet speed')
-            Bullet_Ychange = Original_Bullet_Ychange
-            Bullet_Ychange *= 2
-            Timer_BulletSpeed = pygame.time.get_ticks() + 10000
+            BulletSpeed()
+
+    def ShotPower():
+        global Timer_ShotPower, bullet_damage
+        print('shot power')
+        bullet_damage = Original_Bullet_damage
+        bullet_damage *= 2
+        Timer_ShotPower = pygame.time.get_ticks() + 10000
+        
+    def ShieldRegen():
+        global barriers
+        print('shield')
+        barriers = [
+            [(Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
+            [(Screen_Width - (barrier_width * 3))/4 + barrier_width + (Screen_Width - (barrier_width * 3))/4, barrier_y, barrier_health],
+            [(Screen_Width - (barrier_width * 3))/4 + 2 * (barrier_width + (Screen_Width - (barrier_width * 3))/4), barrier_y, barrier_health]
+        ]
+        
+    def MoveSpeed():
+        global Player_Xchange, Player_Ychange, Timer_MoveSpeed
+        print('move speed')
+        Player_Xchange = Original_Player_Xchange
+        Player_Ychange = Original_Player_Ychange
+        Player_Xchange *= 2
+        Player_Ychange *= 2
+        Timer_MoveSpeed = pygame.time.get_ticks() + 10000
+        
+    def Health():
+        global Player_Health
+        print('health')
+        Player_Health += 3 - Player_Health
+        
+    def BulletSpeed():
+        global Bullet_Ychange, Timer_BulletSpeed
+        print('bullet speed')
+        Bullet_Ychange = Original_Bullet_Ychange
+        Bullet_Ychange *= 2
+        Timer_BulletSpeed = pygame.time.get_ticks() + 10000
 
     def draw_powerups():
         for powerup in active_powerups:
@@ -353,12 +369,15 @@ def show_test():
     def powerup_expired(hi):
         if (hi == 'MoveSpeed'):
             if Timer_MoveSpeed <= pygame.time.get_ticks():
+                print('move expired')
                 return True
         if (hi == 'BulletSpeed'):
             if Timer_BulletSpeed <= pygame.time.get_ticks():
+                print('bullet speed expired')
                 return True
         if (hi == 'ShotPower'):
             if Timer_ShotPower <= pygame.time.get_ticks():
+                print('shotpower expired')
                 return True
     
     def display_powerup_icons():
@@ -473,7 +492,7 @@ def show_test():
             else:
                 menu = False
                 # Time trial difficulty thing
-                if Time_trial == 'true':
+                if Time_trial == True:
                     if elapsed_time >= 1000:
                         if Frames < 300:
                             Time_Difficulty *= 1.005
@@ -497,7 +516,7 @@ def show_test():
 
                 # Invader spawning \o/
                 current_time = pygame.time.get_ticks()
-                if current_time - last_spawn_time > spawn_delay and len(Invader_X) < InvaderCount and Max_Invaders_YN == 'false':
+                if current_time - last_spawn_time > spawn_delay and len(Invader_X) < InvaderCount and Max_Invaders_YN == False:
                     rangom = random.randint(1, 4)
                     Invader_X.append(0)
                     Invader_Y.append(Screen_Height * 0.03)
@@ -507,8 +526,8 @@ def show_test():
                     last_shot_times.append(current_time + random.randint(-5000, 5000))
                     last_spawn_time = current_time
                     Current_Invaders += 1
-                    if Current_Invaders >= InvaderCount and Time_trial == 'false':
-                        Max_Invaders_YN = 'true'
+                    if Current_Invaders >= InvaderCount and Time_trial == False:
+                        Max_Invaders_YN = True
 
                 # Invader movement
                 for i in range(len(Invader_X)):
@@ -572,11 +591,11 @@ def show_test():
             
                     if collision:
                         Hits_Landed += 1
-                        Score_val += 1
                         Bullet_Y = Screen_Height
                         BulletStaet = "rest"
                         Invader_Health[i] -= bullet_damage
                         if Invader_Health[i] <= 0:
+                            Score_val += 1
                             if random.randint(1, 1) == 1:
                                 spawn_powerup(Invader_X[i], Invader_Y[i])
                             Invader_X.pop(i)
