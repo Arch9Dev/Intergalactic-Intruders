@@ -16,7 +16,10 @@ def show_test():
     Screen_Width = 800
     Screen_Height = 1000
     os.environ['SDL_VIDEO_CENTERED'] = '1'
-    Screen = pygame.display.set_mode((Screen_Width, Screen_Height))
+    Screen = pygame.display.set_mode((Screen_Width,Screen_Height),pygame.SCALED)
+    if constants.FULLSCREEN :
+       if pygame.display.is_fullscreen() == False:
+            pygame.display.toggle_fullscreen()
     
     background_image = pygame.image.load('Intergalactic-Intruders/images/gameback1.png')
     Pause_X = Screen_Width / 2 - 110
@@ -464,10 +467,14 @@ def show_test():
                     if resume_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
                         paused = False
                     elif settings_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
-                        Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+                       # Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)) 
+                        constants.ResetScreen()
                         main.main_menu()
+                       
                     elif main_menu_button.rect.collidepoint(mouse_pos) and mouse_click[0]:
-                        Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+                        #Screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+                        constants.ResetScreen()
+
                         settings.show_settings()
 
             # Game logic and update stuff

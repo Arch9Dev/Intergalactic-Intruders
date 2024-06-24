@@ -7,7 +7,7 @@ import levels
 
 def show_difficulty():
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = constants.screen
     pygame.display.set_caption("DIFFICULTY")
 
 
@@ -45,11 +45,11 @@ def show_difficulty():
                     for button in Difficulty_Buttons:
                         if button.clicked:
                             if button.text == "EASY":
-                                test.show_test()
+                                test.show_test() # type: ignore
                             elif button.text == "MEDIUM":
-                                test.show_test()
+                                test.show_test() # type: ignore
                             elif button.text == "HARD":
-                                test.show_test()
+                                test.show_test() # type: ignore
                         if Back_button.rect.collidepoint(event.pos):
                             Back_button.ReturnTo()
         for button in Difficulty_Buttons:
