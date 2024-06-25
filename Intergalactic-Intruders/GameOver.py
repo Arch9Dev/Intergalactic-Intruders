@@ -59,7 +59,7 @@ def show_GameOver(AccuracyIN, DifficultyIN, current_time, Intruders_killedin):
     Score_Output_Numbers = constants.Screen_Text((Right_offset,screen.get_height()/6*1.75),32,Score_Numbers,constants.WHITE,False)
     display_running = True
     while display_running:
-        screen.blit(constants.BACKGROUND_IMAGE, (0,0))
+        screen.blit(constants.GAMEOVER_IMAGE, (0,0))
                     
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:
@@ -84,7 +84,6 @@ def show_GameOver(AccuracyIN, DifficultyIN, current_time, Intruders_killedin):
         for button in GameOver_Buttons:
             button.draw()        # Render display content
 
-        Page_label.draw()
         Score_Output_Text.draw()
         Score_Output_Numbers.draw()
         pygame.display.update()

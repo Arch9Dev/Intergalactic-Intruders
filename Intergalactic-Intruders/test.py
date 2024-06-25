@@ -28,16 +28,16 @@ def show_test():
     Pause_X = Screen_Width / 2 - 110
     Pause_Y = Screen_Height / 3 
     
-    resume_button = constants.Button("Resume",Pause_X, Pause_Y-100,20,0,constants.Colour_Palettes["Red_Buttons"])
-    settings_button = constants.Button("Settings",Pause_X, Pause_Y,20,0,constants.Colour_Palettes["Red_Buttons"])
-    main_menu_button = constants.Button("Main Menu",Pause_X, Pause_Y+100,20,0,constants.Colour_Palettes["Red_Buttons"])
+    resume_button = constants.Button("RESUME",Pause_X, Pause_Y-100,20,0,constants.Colour_Palettes["Red_Buttons"])
+    settings_button = constants.Button("SETTINGS",Pause_X, Pause_Y,20,0,constants.Colour_Palettes["Red_Buttons"])
+    main_menu_button = constants.Button("MAIN MENU",Pause_X, Pause_Y+100,20,0,constants.Colour_Palettes["Red_Buttons"])
     PauseButtons =[resume_button,settings_button,main_menu_button]
     
     clock = pygame.time.Clock()
     last_time_check = pygame.time.get_ticks()
     Time_Difficulty = 1
     Frames = 180
-    InvaderCount = 10 * level * Time_Difficulty # max invaders that can spawn, max on screen for time trial
+    InvaderCount = 20 * level * Time_Difficulty # max invaders that can spawn, max on screen for time trial
     Max_Invaders_YN = False
     Current_Invaders = 0
     
@@ -143,7 +143,7 @@ def show_test():
     Bullet_Y = Screen_Height
     Bullet_Xchange = 0
     global Original_Bullet_Ychange
-    Original_Bullet_Ychange = Screen_Height * 0.006
+    Original_Bullet_Ychange = Screen_Height * 0.002
     global Bullet_Ychange
     Bullet_Ychange = Screen_Height * 0.006
     BulletStaet = "rest"
@@ -236,19 +236,16 @@ def show_test():
         Screen.blit(InvBulletImag, (x, y))
 
     def show_Score(x, y):
-        Score = font.render("Points: " + str(Score_val), True, (255, 255, 255))
+        Score = font.render("POINTS: " + str(Score_val), True, (255, 255, 255))
         Screen.blit(Score, (x, y))
 
-    def show_Difficulty(x, y, Frames):
-        Score = font.render("Difficulty: " + str(round(Frames)), True, (255, 255, 255))
-        Screen.blit(Score, (x, y))
 
     def show_Acc(x, y):
-        Score = font.render("Acc: " + str(Accuracy) + '%', True, (255, 255, 255))
+        Score = font.render("ACCURACY: " + str(Accuracy) + '%', True, (255, 255, 255))
         Screen.blit(Score, (x, y))
 
     def show_Health(x, y):
-        health_text = font.render("Health: " + str(Player_Health), True, (255, 255, 255))
+        health_text = font.render("HEALTH: " + str(Player_Health), True, (255, 255, 255))
         Screen.blit(health_text, (x, y))
 
     def game_over_menu():
@@ -550,8 +547,8 @@ def show_test():
                 # Invader movement
                 for i in range(len(Invader_X)):
                     Invader_X[i] += Invader_Xchange[i]
-                    if Invader_X[i] >= Screen_Width * 0.96:
-                        Invader_X[i] = Screen_Width * 0.96
+                    if Invader_X[i] >= Screen_Width * 0.76:
+                        Invader_X[i] = Screen_Width * 0.76
                         Invader_Y[i] += RowHeight
                         Invader_Xchange[i] *= -1
                     elif Invader_X[i] <= 0:
@@ -614,7 +611,7 @@ def show_test():
                         Invader_Health[i] -= bullet_damage
                         if Invader_Health[i] <= 0:
                             Score_val += 1
-                            if random.randint(1, 1) == 1:
+                            if random.randint(1, 5) == 1:
                                 spawn_powerup(Invader_X[i], Invader_Y[i])
                             Invader_X.pop(i)
                             Invader_Y.pop(i)
@@ -693,9 +690,8 @@ def show_test():
         # UI Activities
         draw_powerups()
         show_Score(Screen_Width * 0.00625, Screen_Height * 0.005)
-        show_Difficulty(Screen_Width * 0.1625, Screen_Height * 0.005, Frames)
         show_Acc(Screen_Width * 0.375, Screen_Height * 0.005)
-        show_Health(Screen_Width * 0.525, Screen_Height * 0.005)
+        show_Health(Screen_Width * 0.825, Screen_Height * 0.005)
         display_powerup_icons()
 
         Frames = 180 * Difficulty * Time_Difficulty
