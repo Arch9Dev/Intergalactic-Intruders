@@ -146,6 +146,9 @@ CONTROLS_IMAGE = images.load_controls_image()
 # Load Game win image
 GAMEWIN_IMAGE = images.load_gamewin_image()
 
+# Load Game Over image
+GAMEOVER_IMAGE = images.load_gameover_image()
+
 
 # Game text
 GAME_TEXT = [
