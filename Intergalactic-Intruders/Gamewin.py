@@ -1,10 +1,10 @@
 import pygame
 import constants
 import random
-import test
 import main
+import workin_game
 
-def show_GameWin(AccuracyIN, DifficultyIN, current_time, Intruders_killedin):
+def show_GameWin(AccuracyIN, DifficultyIN, current_time, Intruders_killedin, Time_trial, level, difficulty):
     pygame.init()
     screen = constants.screen
     pygame.display.set_caption("YOU WIN!!!")
@@ -72,7 +72,7 @@ FINAL SCORE :
                         elif Home_Button.clicked:
                             main.main_menu()
                         elif ReTry_Button.clicked:
-                            test.show_test() # type: ignore
+                            workin_game.show_test(Time_trial, level, Difficulty) # type: ignore
 
                 
     

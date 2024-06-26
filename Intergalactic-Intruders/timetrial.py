@@ -2,7 +2,7 @@ import pygame
 import constants
 
 
-def show_timetrial():
+def show_timetrial(Time_trial):
     pygame.init()
     screen = constants.screen
     pygame.display.set_caption("TIME TRIAL")

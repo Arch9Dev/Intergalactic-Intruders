@@ -253,7 +253,7 @@ def show_test(Time_trial, level, Difficulty):
                     quit()
                 
             Intruders_killed = InvaderCount-len(Invader_X)
-            GameOver.show_GameOver(Accuracy,Difficulty,current_time,Intruders_killed)
+            GameOver.show_GameOver(Accuracy,Difficulty,current_time,Intruders_killed, Time_trial, level, Difficulty)
 
 
             game_over_text = game_over_font.render("GAME OVER", True, (255, 255, 255))
@@ -387,11 +387,11 @@ def show_test(Time_trial, level, Difficulty):
 
     def display_powerup_icons():
         if Timer_BulletSpeed >= pygame.time.get_ticks():
-            Screen.blit(pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png'), (Screen_Width * 0.95, Screen_Height * 0.005))
+            Screen.blit(pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png'), (Screen_Width * 0.95, Screen_Height * 0.03))
         if Timer_MoveSpeed >= pygame.time.get_ticks():
-            Screen.blit(pygame.image.load('Intergalactic-Intruders/images/MoveSpeed.png'), (Screen_Width * 0.9, Screen_Height * 0.005))
+            Screen.blit(pygame.image.load('Intergalactic-Intruders/images/MoveSpeed.png'), (Screen_Width * 0.9, Screen_Height * 0.03))
         if Timer_ShotPower >= pygame.time.get_ticks():
-            Screen.blit(pygame.image.load('Intergalactic-Intruders/images/ShotPower.png'), (Screen_Width * 0.85, 5))
+            Screen.blit(pygame.image.load('Intergalactic-Intruders/images/ShotPower.png'), (Screen_Width * 0.85, Screen_Height * 0.03))
 
 
     def show_pause_menu():
@@ -413,9 +413,9 @@ def show_test(Time_trial, level, Difficulty):
         Accuracy = round((Hits_Landed / Shots_Taken) * 100)
         if (Difficulty <= 1):
             Screen.blit(DifEasy, (5, 25))
-        elif (Difficulty >= 1):
+        elif (Difficulty == 1):
             Screen.blit(DifNormal, (5, 25))
-        elif (Difficulty >= 2):
+        elif (Difficulty >= 1):
             Screen.blit(DifHard, (5, 25))
 
         # Countdown before game start

@@ -1,11 +1,11 @@
 import pygame
 import constants
-import test
+import workin_game
 import levels
 
 
 
-def show_difficulty():
+def show_difficulty(Time_trial, level):
     pygame.init()
     screen = constants.screen
     pygame.display.set_caption("DIFFICULTY")
@@ -45,11 +45,11 @@ def show_difficulty():
                     for button in Difficulty_Buttons:
                         if button.clicked:
                             if button.text == "EASY":
-                                test.show_test() # type: ignore
+                                workin_game.show_test(Time_trial, level, 0.75)
                             elif button.text == "MEDIUM":
-                                test.show_test() # type: ignore
+                                workin_game.show_test(Time_trial, level, 1)
                             elif button.text == "HARD":
-                                test.show_test() # type: ignore
+                                workin_game.show_test(Time_trial, level, 1.25)
                         if Back_button.rect.collidepoint(event.pos):
                             Back_button.ReturnTo()
         for button in Difficulty_Buttons:
