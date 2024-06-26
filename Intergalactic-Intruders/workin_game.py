@@ -17,6 +17,7 @@ def show_test(Time_trial, level, Difficulty):
     Screen_Height = 1000
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     Screen = pygame.display.set_mode((Screen_Width,Screen_Height))
+    # pygame.scaled - Scale gamescreen to full screen - Engine Error
     pygame.display.set_caption("GAME")
     if constants.FULLSCREEN :
        if pygame.display.is_fullscreen() == False:
