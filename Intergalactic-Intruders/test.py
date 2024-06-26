@@ -364,7 +364,7 @@ def show_test():
     def draw_powerups():
         for powerup in active_powerups:
             Screen.blit(powerup[0], (powerup[1], powerup[2]))
-    '''
+
     def remove_powerup(powerup_type):
         global Player_Xchange, Player_Ychange, Bullet_Ychange, Original_Bullet_Ychange, bullet_damage, MoveUP
         if powerup_type == "MoveSpeed":
@@ -387,7 +387,7 @@ def show_test():
             if Timer_ShotPower <= pygame.time.get_ticks():
                 print('shotpower expired')
                 return True
-    '''
+
     def display_powerup_icons():
         if Timer_BulletSpeed >= pygame.time.get_ticks():
             Screen.blit(pygame.image.load('Intergalactic-Intruders/images/BulletSpeed.png'), (Screen_Width * 0.95, Screen_Height * 0.005))
@@ -593,13 +593,13 @@ def show_test():
                             active_powerups.remove(powerup)
                         else:
                             active_powerups[active_powerups.index(powerup)] = (powerup_image, x, y, powerup_type)
-                '''
+
                 for powerup in active_powerups[:]:
                     if powerup_expired(powerup):
                         remove_powerup(powerup[3])
                         active_powerups.remove(powerup)
                         print('powerup removed ', powerup)
-                '''
+
                 # Collision stuff for a while
                 for i in range(len(Invader_X)):
                     collision = isCollision_PlayerBullet(Bullet_X, Invader_X[i], Bullet_Y, Invader_Y[i])
@@ -697,5 +697,6 @@ def show_test():
         Frames = 180 * Difficulty * Time_Difficulty
         pygame.display.update()
         clock.tick(Frames)
+        InvaderCount = 10 * level * Time_Difficulty
         
     pygame.quit()
