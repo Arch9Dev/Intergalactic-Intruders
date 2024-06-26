@@ -1,10 +1,10 @@
 import pygame
 import constants
 import main
-import test
 import random
+import workin_game
 
-def show_GameOver(AccuracyIN, DifficultyIN, current_time, Intruders_killedin):
+def show_GameOver(AccuracyIN, DifficultyIN, current_time, Intruders_killedin, Time_trial, level, difficulty):
     pygame.init() 
     constants.SCREEN_WIDTH =1000
     constants.SCREEN_HEIGHT = 800
@@ -77,7 +77,7 @@ def show_GameOver(AccuracyIN, DifficultyIN, current_time, Intruders_killedin):
                         elif Home_Button.clicked:
                             main.main_menu()
                         elif ReTry_Button.clicked:
-                            test.show_test() # type: ignore
+                            workin_game.show_test(Time_trial, level, difficulty) # type: ignore
 
                 
     

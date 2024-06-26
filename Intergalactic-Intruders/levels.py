@@ -3,7 +3,7 @@ import constants
 import difficulty
 
 
-def show_levels():
+def show_levels(Time_trial):
     pygame.init()
     screen = constants.screen
     pygame.display.set_caption("LEVELS")
@@ -38,9 +38,9 @@ def show_levels():
                 if Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
                 if Level1_Button.rect.collidepoint(event.pos):
-                    difficulty.show_difficulty()
+                    difficulty.show_difficulty(Time_trial, 1)
                 if Level2_Button.rect.collidepoint(event.pos):
-                    difficulty.show_difficulty()
+                    difficulty.show_difficulty(Time_trial, 2)
                     # Add change for higher levels
 
                     

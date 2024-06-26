@@ -4,7 +4,7 @@ from main import main_menu
 from intro  import show_intro
 from levels import show_levels
 from controls import show_controls
-from test import show_test # type: ignore 
+import workin_game
 
 
 class pagelist():
@@ -21,11 +21,11 @@ class pagelist():
         elif self.PageName == "TUTORIAL":
             show_intro()
         elif self.PageName == "LEVELS":
-            show_levels()
+            show_levels(False)
         elif self.PageName == "CONTROLS":
             show_controls()
         elif self.PageName == "PAUSED":
-            show_test()
+            workin_game.show_test(False, 1, 1)
       
 
   

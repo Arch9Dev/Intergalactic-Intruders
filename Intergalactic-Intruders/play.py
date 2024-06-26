@@ -2,6 +2,7 @@ import pygame
 import constants
 import levels
 import timetrial
+import difficulty
 
 def show_play():
     pygame.init()
@@ -35,9 +36,9 @@ def show_play():
                 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if levels_button.rect.collidepoint(event.pos):
-                    levels.show_levels()
+                    levels.show_levels(False)
                 elif timetrial_button.rect.collidepoint(event.pos):
-                    timetrial.show_timetrial()
+                    difficulty.show_difficulty(True, 2)
                 elif Back_button.rect.collidepoint(event.pos):
                     Back_button.ReturnTo()
 
