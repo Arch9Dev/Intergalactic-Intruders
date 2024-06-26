@@ -17,6 +17,7 @@ def show_test(Time_trial, level, Difficulty):
     Screen_Height = 1000
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     Screen = pygame.display.set_mode((Screen_Width,Screen_Height))
+    pygame.display.set_caption("GAME")
     if constants.FULLSCREEN :
        if pygame.display.is_fullscreen() == False:
             pygame.display.toggle_fullscreen()
@@ -411,12 +412,6 @@ def show_test(Time_trial, level, Difficulty):
         current_time = pygame.time.get_ticks()
         elapsed_time = current_time - last_time_check
         Accuracy = round((Hits_Landed / Shots_Taken) * 100)
-        if (Difficulty <= 1):
-            Screen.blit(DifEasy, (5, 25))
-        elif (Difficulty == 1):
-            Screen.blit(DifNormal, (5, 25))
-        elif (Difficulty >= 1):
-            Screen.blit(DifHard, (5, 25))
 
         # Countdown before game start
         if countdown_active:
