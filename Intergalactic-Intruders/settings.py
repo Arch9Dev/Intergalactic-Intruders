@@ -1,7 +1,6 @@
 import pygame
 import constants
 import audio
-from test import show_test # type: ignore
 import display
 import controls
 
